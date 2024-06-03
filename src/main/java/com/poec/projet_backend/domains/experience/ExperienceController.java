@@ -1,13 +1,39 @@
 package com.poec.projet_backend.domains.experience;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/experience")
+@Data
+@RequestMapping("/experience")
 public class ExperienceController {
 
-    @Autowired
-    private ExperienceService service;
+    private final ExperienceService service;
+
+    @PostMapping("/add")
+
+    public Experience addExperience (@RequestBody Experience experience){
+        return service.createExperience(experience);
+    }
+
+    @GetMapping("/{id}")
+    public Experience getExperienceById(@PathVariable Long id){
+        return service.getExperienceById(id);
+    }
+
+    @GetMapping("/all")
+    public List<Experience> getAllExperiences(){
+        return service.getAllExperiences();
+    }
+    @DeleteMapping("/delete/{id}")
+    public void deleteExperience(@PathVariable Long id){
+        service.deleteExperience(id);
+    }
+    @PutMapping("/update/{id}")
+    public Experience updateExperience(@RequestBody Experience experience, @PathVariable Long id){
+        return service.updateExperienceById(id,experience);
+    }
 }
