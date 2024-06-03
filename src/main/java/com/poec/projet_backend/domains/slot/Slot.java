@@ -1,4 +1,4 @@
-package com.poec.projet_backend.slot;
+package com.poec.projet_backend.domains.slot;
 
 import jakarta.persistence.*;
 import lombok.Data;

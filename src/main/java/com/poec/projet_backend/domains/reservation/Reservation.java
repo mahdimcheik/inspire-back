@@ -1,4 +1,4 @@
-package com.poec.projet_backend.reservation;
+package com.poec.projet_backend.domains.reservation;
 
 import jakarta.persistence.*;
 import lombok.Data;

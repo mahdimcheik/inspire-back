@@ -2,7 +2,7 @@ package com.poec.projet_backend.user_app;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.poec.projet_backend.experience.Experience;
+import com.poec.projet_backend.domains.experience.Experience;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
