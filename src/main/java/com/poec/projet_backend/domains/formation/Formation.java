@@ -28,4 +28,15 @@ public class Formation {
     @JsonIgnoreProperties("formation")
     @JoinColumn(name = "userId")
     private UserApp user;
+
+    public Formation(long id, String title, String company, LocalDate dateBegin, LocalDate datEnd, String city, String country, UserApp user) {
+        this.id = id;
+        this.title = title;
+        this.company = company;
+        this.dateBegin = dateBegin;
+        this.datEnd = datEnd;
+        this.city = city;
+        this.country = country;
+        this.user = user;
+    }
 }
