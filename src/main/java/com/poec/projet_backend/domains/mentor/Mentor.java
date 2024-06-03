@@ -1,4 +1,4 @@
-package com.poec.projet_backend.student;
+package com.poec.projet_backend.domains.mentor;
 
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
@@ -7,8 +7,9 @@ import org.apache.logging.log4j.message.LoggerNameAwareMessage;
 
 @Entity
 @Data
-@Table(name = "student")
-public class Student {
+@Table(name = "mentor")
+
+public class Mentor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

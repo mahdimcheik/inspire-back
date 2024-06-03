@@ -1,4 +1,4 @@
-package com.poec.projet_backend.experience;
+package com.poec.projet_backend.domains.experience;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
