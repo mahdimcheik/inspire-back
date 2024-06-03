@@ -1,6 +1,7 @@
 package com.poec.projet_backend.experience;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,6 @@ public class Experience {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonIgnoreProperties("experience")
     @JoinColumn(name = "userId")
-    private User user;
+    private UserApp user;
 
 }
