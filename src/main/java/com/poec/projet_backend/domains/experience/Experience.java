@@ -18,8 +18,10 @@ public class Experience {
 
     private String title;
     private String company;
+    @Column(name = "dateBegin")
     private LocalDate dateBegin;
-    private LocalDate datEnd;
+    @Column(name = "dateEnd")
+    private LocalDate dateEnd;
     private String city;
     private String country;
 
