@@ -1,4 +1,4 @@
-package com.poec.projet_backend.experience;
+package com.poec.projet_backend.domains.formation;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.user_app.UserApp;
@@ -11,7 +11,8 @@ import java.time.LocalDate;
 @Data
 @RequiredArgsConstructor
 @Entity
-public class Experience {
+public class Formation {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -24,8 +25,7 @@ public class Experience {
     private String country;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("experience")
+    @JsonIgnoreProperties("formation")
     @JoinColumn(name = "userId")
     private UserApp user;
-
 }

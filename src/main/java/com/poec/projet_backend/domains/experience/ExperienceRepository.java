@@ -1,4 +1,4 @@
-package com.poec.projet_backend.experience;
+package com.poec.projet_backend.domains.experience;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
