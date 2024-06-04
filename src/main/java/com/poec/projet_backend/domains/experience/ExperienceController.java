@@ -23,10 +23,7 @@ public class ExperienceController {
     public Experience getExperienceById(@PathVariable Long id){
         return service.getExperienceById(id);
     }
-    @GetMapping("/user/{userId}")
-    public List<Experience> getExperienceByUserId(@PathVariable Long userId){
-        return service.getAllExperienceByUserId(userId);
-    }
+
     @GetMapping("/all")
     public List<Experience> getAllExperiences(){
         return service.getAllExperiences();
@@ -40,8 +37,4 @@ public class ExperienceController {
         return service.updateExperienceById(id,experience);
     }
 
-    @GetMapping("/user/{userId}")
-    public List<Experience> getExperienceByUserId(@PathVariable Long userId){
-        return service.getExperienceByUserId(userId);
-    }
 }

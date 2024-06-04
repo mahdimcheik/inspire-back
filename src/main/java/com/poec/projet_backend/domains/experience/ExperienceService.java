@@ -45,8 +45,6 @@ public class ExperienceService {
         return repository.save(experienceToUpdate);
    }
 
-   public List<Experience> getExperienceByUserId(Long userId){
-        return repository.findByUserId(userId);
-   }
+//
 
 }
