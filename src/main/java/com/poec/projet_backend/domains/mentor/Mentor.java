@@ -1,9 +1,14 @@
 package com.poec.projet_backend.domains.mentor;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.apache.logging.log4j.message.LoggerNameAwareMessage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,4 +32,8 @@ public class Mentor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private UserApp user;
+
+    @ManyToMany(mappedBy = "mentor")
+    @JsonIgnoreProperties("mentor")
+    private List<Student> stores = new ArrayList<>();
 }

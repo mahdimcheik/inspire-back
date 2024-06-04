@@ -17,8 +17,10 @@ public class UserFormationService {
 
     public List<FormationDTO> addUserFormation(FormationDTO formation) {
         try {
-
+            System.out.println(" avant");
             UserApp userApp =  userRepository.findById(formation.getUserId()).orElseThrow(() ->  new RuntimeException() );
+            System.out.println(" apres");
+
             Formation newFormation = new Formation();
             newFormation.setTitle(formation.getTitle());
             newFormation.setCompany(formation.getCompany());
