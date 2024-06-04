@@ -11,15 +11,18 @@ import java.util.List;
 public class ExperienceService {
 
     private final ExperienceRepository repository;
-
-    public Experience createExperience(Experience experience){
-        return repository.save(experience);
-
-    }
+//
+//    public Experience createExperience(Experience experience){
+//        return repository.save(experience);
+//
+//    }
 
    public Experience getExperienceById(Long id){
         return repository.findById(id).orElse(null);
 
+   }
+   public List<Experience> getAllExperienceByUserId(Long userId){
+        return repository.findAllByUserId(userId);
    }
    public List<Experience> getAllExperiences(){
         return repository.findAll();
