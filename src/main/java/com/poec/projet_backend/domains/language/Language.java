@@ -1,11 +1,14 @@
 package com.poec.projet_backend.domains.language;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.user_app.UserApp;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
@@ -16,6 +19,9 @@ public class Language {
     private long id;
 
     private String name;
-
+    @ManyToMany( mappedBy = "languages")
+    @JsonIgnoreProperties("languages")
+    @JsonIgnore
+    private List<UserApp> users = new ArrayList<>();
     
 }

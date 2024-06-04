@@ -8,12 +8,15 @@ import com.poec.projet_backend.domains.experience.ResponseExperience;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @Data
 @RequestMapping("/experience/user")
 public class UserExperienceController {
     private final UserExperienceService userExperienceService;
+    private final ExperienceRepository experienceRepository;
     @PostMapping("/add")
     public ResponseExperience addUserExperience(@RequestBody ExperienceDTO experience) {
         try {
@@ -49,6 +52,12 @@ public class UserExperienceController {
                     .build();
         }
 
+
+    }
+
+    @GetMapping("/{userId}")
+    public List<ExperienceDTO> getUserExperience(@PathVariable Long userId) {
+        return experienceRepository.findAllByUserId(userId).stream().map(experience -> ExperienceDTO.from(experience)).toList();
 
     }
 
