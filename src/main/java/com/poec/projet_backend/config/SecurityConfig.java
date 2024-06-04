@@ -2,7 +2,9 @@ package com.poec.projet_backend.config;
 
 import com.poec.projet_backend.filter.JwtAuthenticationFilter;
 import com.poec.projet_backend.user_app.Role;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,8 +19,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Data
 public class SecurityConfig {
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationErrors jwtAuthenticationErrors;
@@ -39,8 +41,8 @@ public class SecurityConfig {
 
             // Liste des routes protégées / non protégées
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/api/v1/auth/**").permitAll() /* n'importe qui a accès à cet url */
-                .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
+                    .requestMatchers("/api/v1/auth/**", "/experience/**", "/experience/user/**").permitAll() /* n'importe qui a accès à cet url */
+                    .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
                 .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
                 .anyRequest().authenticated()
             )
