@@ -1,10 +1,7 @@
 package com.poec.projet_backend.domains.mentor;
 
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
@@ -16,5 +13,10 @@ public class MentorController {
     @GetMapping("/{userId}")
     public Mentor getMentorByUserId(@PathVariable Long userId){
         return service.getMentorByUserId(userId);
+    }
+
+    @PutMapping("/{userId}")
+    public Mentor updateMentorByUserId(@PathVariable Long userId, @RequestBody Mentor mentor){
+        return service.updateMentorByUserId(userId, mentor);
     }
 }

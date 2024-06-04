@@ -33,7 +33,7 @@ public class Mentor {
     @JoinColumn(name = "userId")
     private UserApp user;
 
-    @ManyToMany(mappedBy = "mentor")
-    @JsonIgnoreProperties("mentor")
-    private List<Student> stores = new ArrayList<>();
+    @ManyToMany(mappedBy = "mentors")
+    @JsonIgnoreProperties("mentors")
+    private List<Student> students = new ArrayList<>();
 }

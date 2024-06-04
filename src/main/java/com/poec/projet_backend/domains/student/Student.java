@@ -32,8 +32,10 @@ public class Student {
     @JoinColumn(name = "userId")
     private UserApp user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="favorite-student-mentor")
-    @JsonIgnoreProperties("student")
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "favorite_mentor_student"
+    )
+    @JsonIgnoreProperties("students")
     private List<Mentor> mentors = new ArrayList<>();
 }
