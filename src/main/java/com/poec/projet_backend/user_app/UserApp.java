@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.language.Language;
+import com.poec.projet_backend.domains.skill.Skill;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +41,10 @@ public class UserApp implements UserDetails {
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties("users")
     private List<Language> languages = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties("users")
+    private List<Skill> skills = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
