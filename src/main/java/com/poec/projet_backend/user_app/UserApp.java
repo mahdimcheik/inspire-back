@@ -3,6 +3,7 @@ package com.poec.projet_backend.user_app;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.experience.Experience;
+import com.poec.projet_backend.domains.language.Language;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +36,10 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnoreProperties("user")
     private List<Experience> experience = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties("users")
+    private List<Language> languages = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
