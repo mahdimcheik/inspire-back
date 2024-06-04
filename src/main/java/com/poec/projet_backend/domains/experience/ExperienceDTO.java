@@ -15,4 +15,14 @@ public class ExperienceDTO {
     private String city;
     private String country;
     private Long userId;
+
+    static public ExperienceDTO from(Experience experience) {
+        return ExperienceDTO.builder().city(experience.getCity())
+                .company(experience.getCompany())
+                .country(experience.getCountry())
+                .title(experience.getTitle())
+                .dateEnd(experience.getDateEnd())
+                .dateBegin(experience.getDateBegin())
+                .build();
+    }
 }

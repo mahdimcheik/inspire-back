@@ -15,5 +15,16 @@ public class UserLanguageService {
     private final LanguageRepository languageRepository;
 
 
+    public List<Language> getLanguagesByUserId(Long id) {
+        UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+        return user.getLanguages();
+    }
+
+    public List<Language> updateUseranguageList(Long id, List<Language> languages) {
+        UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+        user.setLanguages(languages);
+        return userRepository.save(user).getLanguages();
+    }
+
 
 }

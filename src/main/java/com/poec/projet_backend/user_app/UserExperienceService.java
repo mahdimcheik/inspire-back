@@ -28,7 +28,6 @@ public class UserExperienceService {
             newExperience.setCountry(experience.getCountry());
             newExperience.setUser(userApp);
 
-
             experienceRepository.save(newExperience);
             return experienceRepository.findAllByUserId(experience.getUserId()).stream()
                     .map((exp)-> ExperienceDTO.builder().userId(newExperience.getUser().getId())
