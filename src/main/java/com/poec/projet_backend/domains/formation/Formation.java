@@ -20,7 +20,7 @@ public class Formation {
     private String title;
     private String company;
     private LocalDate dateBegin;
-    private LocalDate datEnd;
+    private LocalDate dateEnd;
     private String city;
     private String country;
 
@@ -29,12 +29,12 @@ public class Formation {
     @JoinColumn(name = "userId")
     private UserApp user;
 
-    public Formation(long id, String title, String company, LocalDate dateBegin, LocalDate datEnd, String city, String country, UserApp user) {
+    public Formation(long id, String title, String company, LocalDate dateBegin, LocalDate dateEnd, String city, String country, UserApp user) {
         this.id = id;
         this.title = title;
         this.company = company;
         this.dateBegin = dateBegin;
-        this.datEnd = datEnd;
+        this.dateEnd = dateEnd;
         this.city = city;
         this.country = country;
         this.user = user;
