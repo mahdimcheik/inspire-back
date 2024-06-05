@@ -19,4 +19,8 @@ public class MentorController {
     public Mentor updateMentorByUserId(@PathVariable Long userId, @RequestBody Mentor mentor){
         return service.updateMentorByUserId(userId, mentor);
     }
+    @PostMapping("/add")
+    public MentorDTO addMentor(@RequestBody MentorDTO mentor){
+        return service.addMentorByUserId(mentor).toMentorDTO();
+    }
 }

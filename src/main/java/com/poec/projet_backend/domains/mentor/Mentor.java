@@ -5,7 +5,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.message.LoggerNameAwareMessage;
 
 import java.util.ArrayList;
@@ -13,6 +16,9 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "mentor")
 
 public class Mentor {
@@ -38,4 +44,8 @@ public class Mentor {
     @JsonIgnoreProperties("mentors")
     @JsonIgnore
     private List<Student> students = new ArrayList<>();
+
+    public MentorDTO toMentorDTO(){
+       return  new MentorDTO(this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId());
+    }
 }
