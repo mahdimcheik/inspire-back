@@ -38,7 +38,11 @@ public class FormationService {
         Formation existingFormation = getById(id);
 
         existingFormation.setTitle(formation.getTitle());
-
+        existingFormation.setCompany(formation.getCompany());
+        existingFormation.setDateBegin(formation.getDateBegin());
+        existingFormation.setDateEnd(formation.getDateEnd());
+        existingFormation.setCity(formation.getCity());
+        existingFormation.setCountry(formation.getCountry());
         return repository.save(existingFormation);
 
     }
