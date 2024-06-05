@@ -1,5 +1,7 @@
 package com.poec.projet_backend.util;
 
+import com.poec.projet_backend.domains.language.Language;
+import com.poec.projet_backend.domains.language.LanguageRepository;
 import com.poec.projet_backend.user_app.Role;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
@@ -14,6 +16,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private final UserAppRepository userAppRepository;
     private final PasswordEncoder passwordEncoder;
+    private final LanguageRepository languageRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -21,6 +24,12 @@ public class DatabaseInitializer implements CommandLineRunner {
             this.createAdmin();
             this.createUsers();
         }
+        createLanguage("francais");
+        createLanguage("deutsch");
+        createLanguage("arabe");
+        createLanguage("chinois");
+        createLanguage("japonais");
+
     }
 
     private void createAdmin() {
@@ -41,5 +50,11 @@ public class DatabaseInitializer implements CommandLineRunner {
                 .build();
 
         this.userAppRepository.save(user1);
+    }
+
+    private void createLanguage(String newName){
+        Language language = new Language();
+        language.setName(newName);
+        languageRepository.save(language);
     }
 }

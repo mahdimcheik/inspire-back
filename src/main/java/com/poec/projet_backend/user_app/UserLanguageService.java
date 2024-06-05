@@ -15,16 +15,15 @@ public class UserLanguageService {
     private final LanguageRepository languageRepository;
 
 
-    public List<Language> getLanguagesByUserId(Long id) {
+    public List<LanguageDTO> getLanguagesByUserId(Long id) {
         UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
-        return user.getLanguages();
+        return user.getLanguages().stream().map(LanguageDTO::fromLanguage).toList();
     }
 
-    public List<Language> updateUseranguageList(Long id, List<Language> languages) {
+    public List<LanguageDTO> updateUserLanguageList(Long id, List<Language> languages) {
         UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+
         user.setLanguages(languages);
-        return userRepository.save(user).getLanguages();
+        return userRepository.save(user).getLanguages().stream().map(LanguageDTO::fromLanguage).toList();
     }
-
-
 }
