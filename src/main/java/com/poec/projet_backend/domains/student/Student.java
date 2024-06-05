@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.student;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.user_app.UserApp;
@@ -37,5 +38,6 @@ public class Student {
             name = "favorite_mentor_student"
     )
     @JsonIgnoreProperties("students")
+    @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.mentor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.user_app.UserApp;
@@ -35,5 +36,6 @@ public class Mentor {
 
     @ManyToMany(mappedBy = "mentors")
     @JsonIgnoreProperties("mentors")
+    @JsonIgnore
     private List<Student> students = new ArrayList<>();
 }
