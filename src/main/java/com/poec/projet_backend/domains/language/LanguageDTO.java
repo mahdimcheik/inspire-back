@@ -2,6 +2,7 @@ package com.poec.projet_backend.domains.language;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 @Builder
 public record  LanguageDTO (
@@ -11,4 +12,5 @@ public record  LanguageDTO (
         public static LanguageDTO fromLanguage(Language language){
             return new LanguageDTO(language.getName(), language.getId());
         }
+
 }
