@@ -14,8 +14,7 @@ import java.time.LocalDate;
 public class Experience {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
+    private Long id;
     private String title;
     private String company;
     @Column(name = "dateBegin")

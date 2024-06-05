@@ -2,6 +2,8 @@ package com.poec.projet_backend.util;
 
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.language.LanguageRepository;
+import com.poec.projet_backend.domains.skill.Skill;
+import com.poec.projet_backend.domains.skill.SkillRepository;
 import com.poec.projet_backend.user_app.Role;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
@@ -17,6 +19,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final UserAppRepository userAppRepository;
     private final PasswordEncoder passwordEncoder;
     private final LanguageRepository languageRepository;
+    private final SkillRepository skillRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -29,6 +32,12 @@ public class DatabaseInitializer implements CommandLineRunner {
         createLanguage("arabe");
         createLanguage("chinois");
         createLanguage("japonais");
+
+        createSkill("Java");
+        createSkill("Python");
+        createSkill("C++");
+        createSkill("C#");
+        createSkill("Javascript");
 
     }
 
@@ -56,5 +65,11 @@ public class DatabaseInitializer implements CommandLineRunner {
         Language language = new Language();
         language.setName(newName);
         languageRepository.save(language);
+    }
+
+    private void createSkill(String newName){
+        Skill skill = new Skill();
+        skill.setName(newName);
+        skillRepository.save(skill);
     }
 }
