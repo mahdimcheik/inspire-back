@@ -16,4 +16,6 @@ public class UserSkillController {
     public List<Skill> update(@PathVariable Long userId, @RequestBody List<Skill> skills) {
         return userSkillService.updateUserSkillList(userId, skills);
     }
+
+
 }
