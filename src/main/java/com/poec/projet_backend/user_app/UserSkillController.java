@@ -1,6 +1,7 @@
 package com.poec.projet_backend.user_app;
 
 import com.poec.projet_backend.domains.skill.Skill;
+import com.poec.projet_backend.domains.skill.SkillDTO;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,8 +14,12 @@ public class UserSkillController {
     private final UserSkillService userSkillService;
 
     @PutMapping("/update/{userId}")
-    public List<Skill> update(@PathVariable Long userId, @RequestBody List<Skill> skills) {
+    public List<SkillDTO> update(@PathVariable Long userId, @RequestBody List<Skill> skills) {
         return userSkillService.updateUserSkillList(userId, skills);
+    }
+    @GetMapping("/{userId}")
+    public List<SkillDTO> getSkillByUserId(@PathVariable Long userId) {
+        return userSkillService.getSkillsByUserId(userId);
     }
 
 
