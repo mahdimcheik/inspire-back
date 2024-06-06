@@ -34,15 +34,15 @@ public class UserApp implements UserDetails {
     private String password;
     private String role;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")
     private List<Experience> experience = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("users")
     private List<Language> languages = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("users")
     private List<Skill> skills = new ArrayList<>();
 
