@@ -18,5 +18,8 @@ public List<Slot> addSlotMentor(@RequestBody Slot slot, @PathVariable int userId
     return userSlotService.addSlotMentor(slot);
 
 
-
-}}
+}
+@GetMapping ("/{userId}")
+public List<Slot> getSlotByUserId(@PathVariable int userId) {
+    return userSlotService.getSlotByUserId(userId);}
+}

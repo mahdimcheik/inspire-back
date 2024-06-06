@@ -30,4 +30,8 @@ public class UserSlotService {
 
         }
     }
+
+    public List<Slot> getSlotByUserId(int userId) {
+        return slotRepository.findAllByUserId((long) userId);
+    }
 }
