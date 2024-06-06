@@ -52,6 +52,11 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Map<String, String>> handleAccessDeniedException(AccessDeniedException ex) {
         return handleException(ex, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(RuntimeException ex) {
+        System.out.println(ex.getMessage());
+        return handleException(ex, HttpStatus.NOT_FOUND);
+    }
 
 
 }
