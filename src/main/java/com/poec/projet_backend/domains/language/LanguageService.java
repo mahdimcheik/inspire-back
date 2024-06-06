@@ -16,4 +16,10 @@ public class LanguageService {
     public List<LanguageDTO> getAllLanguages() {
         return repository.findAll().stream().map(LanguageDTO::fromLanguage).toList();
     }
-}
+
+    public Language addLanguage(Language language) {
+        System.out.println(language.toString());
+        return repository.save(language);
+    }
+
+    }
