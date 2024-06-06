@@ -2,7 +2,9 @@ package com.poec.projet_backend.domains.student;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.mentor.Mentor;
+import com.poec.projet_backend.domains.reservation.Reservation;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -42,4 +44,8 @@ public class Student {
     @JsonIgnoreProperties("students")
     @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("student")
+    private List<Reservation> reservation = new ArrayList<>();
 }
