@@ -24,8 +24,7 @@ public class Formation {
     private String city;
     private String country;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("formation")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private UserApp user;
 
