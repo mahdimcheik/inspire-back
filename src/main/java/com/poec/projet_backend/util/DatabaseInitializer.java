@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -25,8 +26,10 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final LanguageRepository languageRepository;
     private final SkillRepository skillRepository;
     private final MentorService mentorService;
+    private final MentorRepository mentorRepository;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         //if(this.userAppRepository.findByEmail("admin@admin.com").isEmpty()) {
             this.createUser("mentor1@gmail.com", "1234", Role.mentor);
@@ -56,12 +59,13 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("C#");
         createSkill("Javascript");
 
-  //  MentorDTO mentor = new MentorDTO("Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200", "github", "linkedin", 1L);
-  //   createMentor(mentor);
-//        createMentor(new MentorDTO("Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
-//        createMentor(new MentorDTO("Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
-//        createMentor(new MentorDTO("Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
-//        createMentor(new MentorDTO("Emma", "Leroy", "Product Manager", "Gestionnaire de Produit", "https://picsum.photos/200", "githubEmma", "linkedinEmma", 5L));
+
+        createMentor(new MentorDTO("Marie", "Delo", "super dev", "Super mentorette", "no fking image","git","link",1L));
+
+        createMentor(new MentorDTO("Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
+        createMentor(new MentorDTO("Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
+        createMentor(new MentorDTO("Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
+        createMentor(new MentorDTO("Emma", "Leroy", "Product Manager", "Gestionnaire de Produit", "https://picsum.photos/200", "githubEmma", "linkedinEmma", 5L));
 
 
        // createMentor(new MentorDTO("Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200", "github", "linkedin", 1L));
@@ -87,6 +91,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         this.userAppRepository.save(user1);
     }
+
     private void createUser(String email, String password, Role role) {
         UserApp user1 = UserApp.builder()
                 .email(email)

@@ -4,10 +4,10 @@ import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Data
-
 public class MentorService {
     private final MentorRepository repository;
     private final UserAppRepository userAppRepository;
@@ -28,8 +28,13 @@ public class MentorService {
         return repository.save(mentorToUpdate);
     }
 
+
     public Mentor addMentorByUserId(MentorDTO mentor){
+        System.out.println("mentor in service " + mentor.toString());
+        System.out.println("user Id " + mentor.userId());
         UserApp user = userAppRepository.findById(mentor.userId()).orElseThrow(() -> new RuntimeException("User not found"));
+        System.out.println("user in service " + user.toString());
+
         return repository.save(mentor.toMentor(user));
     }
 }

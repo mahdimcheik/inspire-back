@@ -12,5 +12,4 @@ public class Reservation {
     private Long id;
     private String subject;
     private String message;
-
 }
