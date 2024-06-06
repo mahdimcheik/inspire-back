@@ -38,7 +38,7 @@ public class UserApp implements UserDetails {
     @JsonIgnoreProperties("user")
     private List<Experience> experience = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JsonIgnoreProperties("users")
     private List<Language> languages = new ArrayList<>();
 

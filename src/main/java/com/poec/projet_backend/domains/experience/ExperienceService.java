@@ -17,9 +17,10 @@ public class ExperienceService {
 //
 //    }
 
-   public Experience getExperienceById(Long id){
-        return repository.findById(id).orElse(null);
+   public ExperienceDTO getExperienceById(Long id){
+       Experience experience = repository.findById(id).orElse(null);
 
+        return ExperienceDTO.from(experience);
    }
    public List<Experience> getAllExperienceByUserId(Long userId){
         return repository.findAllByUserId(userId);
