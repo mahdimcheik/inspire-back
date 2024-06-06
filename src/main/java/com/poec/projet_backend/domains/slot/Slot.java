@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -14,13 +15,13 @@ public class Slot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "dateBegin")
-    private LocalDate dateBegin;
+    private LocalDateTime dateBegin;
     @Column(name = "dateEnd")
-    private LocalDate dateEnd;
+    private LocalDateTime dateEnd;
     private boolean visio;
     @Column(name = "userId")
-    private int userId;
-    @JsonProperty("isBooked")
+    private Long userId;
+    @Column(name = "isBooked")
     private boolean isBooked;
 
 }

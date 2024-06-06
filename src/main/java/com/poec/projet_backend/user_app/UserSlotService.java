@@ -16,22 +16,19 @@ public class UserSlotService {
 
     public List <Slot> addSlotMentor(Slot slot) {
         try {
-            UserApp userApp = userRepository.findById((long) slot .getUserId()).orElseThrow(() -> new RuntimeException());
-            Slot newSlot = new Slot();
-            newSlot.setDateBegin(slot.getDateBegin());
-            newSlot.setDateEnd(slot.getDateEnd());
-            newSlot.setVisio(slot.isVisio());
-            newSlot.setUserId(slot.getUserId());
-            newSlot.setBooked(false);
-            slotRepository.save(newSlot);
-            return slotRepository.findAllByUserId((long) slot.getUserId());
+            UserApp userApp = userRepository.findById(slot .getUserId()).orElseThrow(() -> new RuntimeException());
+
+            slot.setBooked(false);
+
+            slotRepository.save(slot);
+            return slotRepository.findAllByUserId( slot.getUserId());
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
 
         }
     }
 
-    public List<Slot> getSlotByUserId(int userId) {
-        return slotRepository.findAllByUserId((long) userId);
+    public List<Slot> getSlotByUserId(Long userId) {
+        return slotRepository.findAllByUserId(userId);
     }
 }
