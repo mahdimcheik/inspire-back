@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import org.apache.logging.log4j.message.LoggerNameAwareMessage;
 
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @Table(name = "student")
 public class Student {
     @Id

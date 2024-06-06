@@ -1,5 +1,7 @@
 package com.poec.projet_backend.domains.formation;
 
+import com.poec.projet_backend.domains.experience.Experience;
+import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,4 +17,15 @@ public class FormationDTO {
     private String city;
     private String country;
     private Long userId;
+
+    static public FormationDTO from(Formation formation) {
+        return FormationDTO.builder()
+                .title(formation.getTitle())
+                .company(formation.getCompany())
+                .dateBegin(formation.getDateBegin())
+                .dateEnd(formation.getDateEnd())
+                .city(formation.getCity())
+                .country(formation.getCountry())
+                .build();
+    }
 }

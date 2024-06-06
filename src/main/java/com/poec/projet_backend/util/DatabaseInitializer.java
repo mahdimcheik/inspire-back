@@ -8,25 +8,32 @@ import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.mentor.MentorService;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillRepository;
+import com.poec.projet_backend.domains.student.Student;
+import com.poec.projet_backend.domains.student.StudentRepository;
 import com.poec.projet_backend.user_app.Role;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class DatabaseInitializer implements CommandLineRunner {
 
     private final UserAppRepository userAppRepository;
+    private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
     private final LanguageRepository languageRepository;
     private final SkillRepository skillRepository;
     private final MentorService mentorService;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
         //if(this.userAppRepository.findByEmail("admin@admin.com").isEmpty()) {
             this.createUser("mentor1@gmail.com", "1234", Role.mentor);
@@ -55,6 +62,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("C++");
         createSkill("C#");
         createSkill("Javascript");
+
+      //  createStudent("student1@gmail.com", "1234","Mathieu", "Chauchau", "Developpeur", "Un dev en puissance", "/assets/coucou", "www.linkedin.com", "www.github.com");
 
   //  MentorDTO mentor = new MentorDTO("Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200", "github", "linkedin", 1L);
   //   createMentor(mentor);
@@ -112,4 +121,20 @@ public class DatabaseInitializer implements CommandLineRunner {
     private void createMentor(MentorDTO newMentor){
          mentorService.addMentorByUserId(newMentor);
     }
+
+   /* private void createStudent(String email, String password, String firstname, String lastname, String title, String description, String imgUrl, String linkedinUrl, String githubUrl) {
+        UserApp userApp = createUser(email, password, Role.student);
+        Student student1 = Student.builder()
+                .firstname(firstname)
+                .lastname(lastname)
+                .title(title)
+                .description(description)
+                .imgUrl(imgUrl)
+                .linkedinUrl(linkedinUrl)
+                .githubUrl(githubUrl)
+                .user(userApp)
+                .build();
+
+        this.studentRepository.save(student1);
+    } */
 }
