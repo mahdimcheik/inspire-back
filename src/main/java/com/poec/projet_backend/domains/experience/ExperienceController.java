@@ -13,28 +13,8 @@ public class ExperienceController {
 
     private final ExperienceService service;
 
-//    @PostMapping("/add")
-//
-//    public Experience addExperience (@RequestBody Experience experience){
-//        return service.createExperience(experience);
-//    }
-
     @GetMapping("/{id}")
-    public Experience getExperienceById(@PathVariable Long id){
+    public ExperienceDTO  getExperienceById(@PathVariable Long id){
         return service.getExperienceById(id);
     }
-
-    @GetMapping("/all")
-    public List<Experience> getAllExperiences(){
-        return service.getAllExperiences();
-    }
-    @DeleteMapping("/delete/{id}")
-    public void deleteExperience(@PathVariable Long id){
-        service.deleteExperience(id);
-    }
-    @PutMapping("/update/{id}")
-    public Experience updateExperience(@RequestBody Experience experience, @PathVariable Long id){
-        return service.updateExperienceById(id,experience);
-    }
-
 }

@@ -1,5 +1,7 @@
 package com.poec.projet_backend.domains.mentor;
 
+import com.poec.projet_backend.user_app.UserApp;
+import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 public class MentorService {
     private final MentorRepository repository;
+    private final UserAppRepository userAppRepository;
 
     public Mentor getMentorByUserId(Long userId){
         return repository.findByUserId(userId);
@@ -25,4 +28,8 @@ public class MentorService {
         return repository.save(mentorToUpdate);
     }
 
+    public Mentor addMentorByUserId(MentorDTO mentor){
+        UserApp user = userAppRepository.findById(mentor.userId()).orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.save(mentor.toMentor(user));
+    }
 }

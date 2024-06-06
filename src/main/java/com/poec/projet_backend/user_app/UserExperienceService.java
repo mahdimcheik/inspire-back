@@ -17,27 +17,11 @@ public class UserExperienceService {
 
     public List<ExperienceDTO> addUserExperience(ExperienceDTO experience) {
         try {
-
             UserApp userApp =  userRepository.findById(experience.getUserId()).orElseThrow(() ->  new RuntimeException() );
-            Experience newExperience = new Experience();
-            newExperience.setTitle(experience.getTitle());
-            newExperience.setCompany(experience.getCompany());
-            newExperience.setDateBegin(experience.getDateBegin());
-            newExperience.setDateEnd(experience.getDateEnd());
-            newExperience.setCity(experience.getCity());
-            newExperience.setCountry(experience.getCountry());
-            newExperience.setUser(userApp);
-
+            Experience newExperience = Experience.from(experience,userApp);
             experienceRepository.save(newExperience);
             return experienceRepository.findAllByUserId(experience.getUserId()).stream()
-                    .map((exp)-> ExperienceDTO.builder().userId(newExperience.getUser().getId())
-                            .title(exp.getTitle())
-                            .company(exp.getCompany())
-                            .dateBegin(exp.getDateBegin())
-                            .dateEnd(exp.getDateEnd())
-                            .city(exp.getCity())
-                            .country(exp.getCountry())
-                            .build()).toList();
+                    .map(ExperienceDTO::from).toList();
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -48,26 +32,9 @@ public class UserExperienceService {
         try {
             UserApp userApp =  userRepository.findById(experience.getUserId()).orElseThrow(() ->  new RuntimeException() );
             Experience newExperience = experienceRepository.findById(id).orElseThrow(() ->  new RuntimeException() );
-
-            newExperience.setTitle(experience.getTitle());
-            newExperience.setCompany(experience.getCompany());
-            newExperience.setDateBegin(experience.getDateBegin());
-            newExperience.setDateEnd(experience.getDateEnd());
-            newExperience.setCity(experience.getCity());
-            newExperience.setCountry(experience.getCountry());
-            newExperience.setUser(userApp);
-
             experienceRepository.save(newExperience);
             return experienceRepository.findAllByUserId(experience.getUserId()).stream()
-                    .map((experience1 -> ExperienceDTO.builder().city(experience1.getCity())
-                            .country(experience1.getCountry())
-                            .dateEnd(experience1.getDateEnd())
-                            .title(experience1.getTitle())
-                            .dateBegin(experience1.getDateBegin())
-                            .company(experience1.getCompany())
-                            .userId(userApp.getId())
-                            .build()
-                    )).toList();
+                    .map(ExperienceDTO::from).toList();
         }
         catch (Exception e) {
             throw new RuntimeException(e.getMessage());
