@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.slot;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -19,6 +20,7 @@ public class Slot {
     private boolean visio;
     @Column(name = "userId")
     private int userId;
+    @JsonProperty("isBooked")
     private boolean isBooked;
 
 }
