@@ -13,13 +13,13 @@ public class UserSlotController {
 private final UserSlotService userSlotService;
 
 @PostMapping ("/add/{userId}")
-public List<Slot> addSlotMentor(@RequestBody Slot slot, @PathVariable int userId) {
+public List<Slot> addSlotMentor(@RequestBody Slot slot, @PathVariable Long userId) {
     slot.setUserId(userId);
     return userSlotService.addSlotMentor(slot);
 
 
 }
 @GetMapping ("/{userId}")
-public List<Slot> getSlotByUserId(@PathVariable int userId) {
+public List<Slot> getSlotByUserId(@PathVariable Long userId) {
     return userSlotService.getSlotByUserId(userId);}
 }
