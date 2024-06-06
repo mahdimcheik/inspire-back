@@ -17,7 +17,7 @@ import java.util.List;
 public class Language {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     @ManyToMany( mappedBy = "languages")
     @JsonIgnoreProperties("languages")

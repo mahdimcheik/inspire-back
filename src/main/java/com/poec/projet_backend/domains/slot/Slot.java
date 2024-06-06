@@ -19,5 +19,6 @@ public class Slot {
     private boolean visio;
     @Column(name = "userId")
     private int userId;
+    private boolean isBooked;
 
 }
