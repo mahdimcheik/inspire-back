@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findAllByUserId(Long id);
+//    Slot  findBySlotId (Long id);
 }

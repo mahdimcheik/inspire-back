@@ -2,6 +2,7 @@ package com.poec.projet_backend.domains.mentor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
@@ -39,6 +40,9 @@ public class Mentor {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userId")
     private UserApp user;
+
+    @OneToMany(mappedBy = "mentor")
+    private List<Slot> slots = new ArrayList<>();
 
     @ManyToMany(mappedBy = "mentors")
     @JsonIgnoreProperties("mentors")
