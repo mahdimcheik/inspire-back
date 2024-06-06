@@ -18,7 +18,6 @@ public class LanguageService {
     }
 
     public Language addLanguage(Language language) {
-        System.out.println(language.toString());
         return repository.save(language);
     }
 

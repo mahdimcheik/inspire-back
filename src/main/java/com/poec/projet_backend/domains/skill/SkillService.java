@@ -15,4 +15,10 @@ public class SkillService {
 
 public List<SkillDTO> getAllSkills() {
     return repository.findAll().stream().map(SkillDTO::fromSkill).toList();
-}}
+}
+public Skill addSkill(Skill skill) {
+    return repository.save(skill);
+
+
+};
+}

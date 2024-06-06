@@ -1,9 +1,7 @@
 package com.poec.projet_backend.domains.skill;
 
 import lombok.Data;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,5 +15,10 @@ public class SkillController {
     @GetMapping("/get/all")
     public List<SkillDTO> getAllSkills() {
         return service.getAllSkills();
+    }
+
+    @PostMapping("/add")
+    public Skill addSkill(@RequestBody Skill skill) {
+        return service.addSkill(skill);
     }
 }
