@@ -5,7 +5,10 @@ import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import com.poec.projet_backend.domains.experience.ExperienceRepository;
 import com.poec.projet_backend.domains.experience.ResponseExperience;
+import com.poec.projet_backend.domains.formation.FormationDTO;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,6 +62,12 @@ public class UserExperienceController {
     public List<ExperienceDTO> getUserExperience(@PathVariable Long userId) {
         return experienceRepository.findAllByUserId(userId).stream().map(experience -> ExperienceDTO.from(experience)).toList();
 
+    }
+
+    @DeleteMapping("/delete/{experienceId}")
+    public ResponseEntity<Void> delete(@PathVariable Long experienceId) {
+        userExperienceService.delete(experienceId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 

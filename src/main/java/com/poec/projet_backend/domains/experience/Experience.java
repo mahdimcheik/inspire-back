@@ -25,8 +25,7 @@ public class Experience {
     private String city;
     private String country;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("experience")
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
     private UserApp user;
 
