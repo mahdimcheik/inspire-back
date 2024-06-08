@@ -58,11 +58,11 @@ public class DatabaseInitializer implements CommandLineRunner {
         this.createUser("student5@gmail.com", "1234", Role.student);
 
 
-        createLanguage("francais");
-        createLanguage("deutsch");
-        createLanguage("arabe");
-        createLanguage("chinois");
-        createLanguage("japonais");
+        createLanguage("Francais");
+        createLanguage("Deutsch");
+        createLanguage("Arabe");
+        createLanguage("Chinois");
+        createLanguage("Japonais");
 
         createSkill("Java");
         createSkill("Python");
