@@ -44,8 +44,8 @@ public class AuthService {
             repository.save(user);
             var mentor = Mentor.builder()
                     .user(user)
-                    .firstname(request.getFirstname())
-                    .lastname(request.getLastname())
+                    .firstname(request.getFirstName())
+                    .lastname(request.getLastName())
                     .build();
 
             mentorRepository.save(mentor);
@@ -74,8 +74,8 @@ public class AuthService {
 
             var student = Student.builder()
                     .user(user)
-                    .firstname(request.getFirstname())
-                    .lastname(request.getLastname())
+                    .firstName(request.getFirstName())
+                    .lastName(request.getLastName())
                     .build();
 
             studentRepository.save(student);

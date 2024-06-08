@@ -33,7 +33,6 @@ public class UserAppController {
         }
 
 
-
     }
 
     @GetMapping("/all")
