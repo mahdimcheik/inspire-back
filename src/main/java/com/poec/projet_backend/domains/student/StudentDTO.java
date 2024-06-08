@@ -6,7 +6,6 @@ import com.poec.projet_backend.user_app.UserApp;
 import java.util.List;
 
 public record StudentDTO(
-        long id,
         String firstname,
         String lastname,
         String title,
@@ -19,18 +18,16 @@ public record StudentDTO(
 
 ) {
 
-        public static StudentDTO mapFromEntity(Student student) {
-        return new StudentDTO(
-                student.getId(),
-                student.getFirstname(),
-                student.getLastname(),
-                student.getTitle(),
-                student.getDescription(),
-                student.getImgUrl(),
-                student.getGithubUrl(),
-                student.getLinkedinUrl(),
-                student.getUser().getId(),
-                student.getMentors().stream().map(Mentor::getId).toList()
-        );
+    public Student toStudent ( UserApp userApp) {
+        return new Student().builder()
+                .firstname(this.firstname())
+                .lastname(this.lastname())
+                .title(this.title())
+                .description(this.description())
+                .imgUrl(this.imgUrl())
+                .githubUrl(this.githubUrl())
+                .linkedinUrl(this.linkedinUrl())
+                .user(userApp)
+                .build();
     }
 }

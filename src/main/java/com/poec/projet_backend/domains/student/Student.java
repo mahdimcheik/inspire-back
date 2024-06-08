@@ -2,13 +2,14 @@ package com.poec.projet_backend.domains.student;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.mentor.Mentor;
-import com.poec.projet_backend.domains.reservation.Reservation;
+import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.logging.log4j.message.LoggerNameAwareMessage;
 
 import java.util.ArrayList;
@@ -17,6 +18,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "student")
 public class Student {
     @Id
@@ -45,7 +48,11 @@ public class Student {
     @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("student")
-    private List<Reservation> reservation = new ArrayList<>();
+    public StudentDTO toStudentDTO(){
+        List<Long> mentorIds = new ArrayList<>();
+        if(mentors != null){
+            mentorIds = mentors.stream().map(Mentor::getId).toList();
+        }
+        return  new StudentDTO(this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
+    }
 }
