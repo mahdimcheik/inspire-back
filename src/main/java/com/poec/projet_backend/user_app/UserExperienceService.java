@@ -3,6 +3,8 @@ package com.poec.projet_backend.user_app;
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import com.poec.projet_backend.domains.experience.ExperienceRepository;
+import com.poec.projet_backend.domains.formation.Formation;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +42,14 @@ public class UserExperienceService {
             throw new RuntimeException(e.getMessage());
         }
 
+    }
+
+    public void delete(Long id) {
+        try {
+            Experience experience = experienceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with id " + id + " cannot be found"));
+            experienceRepository.delete(experience);
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

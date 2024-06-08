@@ -4,6 +4,9 @@ package com.poec.projet_backend.user_app;
 import com.poec.projet_backend.domains.formation.Formation;
 import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.formation.FormationRepository;
+import com.poec.projet_backend.domains.mentor.Mentor;
+import com.poec.projet_backend.domains.mentor.MentorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +17,7 @@ import java.util.List;
 public class UserFormationService {
     private final UserAppRepository userRepository;
     private final FormationRepository formationRepository;
+    private final MentorRepository mentorRepository;
 
     public List<FormationDTO> addUserFormation(FormationDTO formation) {
         try {
@@ -76,5 +80,14 @@ public class UserFormationService {
             throw new RuntimeException(e.getMessage());
         }
 
+    }
+
+    public void delete(Long id) {
+        try {
+            Formation formation = formationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with id " + id + " cannot be found"));
+            formationRepository.delete(formation);
+        } catch (EntityNotFoundException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

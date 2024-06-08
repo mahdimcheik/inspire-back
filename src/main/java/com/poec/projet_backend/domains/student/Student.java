@@ -2,9 +2,12 @@ package com.poec.projet_backend.domains.student;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.mentor.Mentor;
+import com.poec.projet_backend.domains.reservation.Reservation;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import org.apache.logging.log4j.message.LoggerNameAwareMessage;
 
@@ -13,6 +16,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @Table(name = "student")
 public class Student {
     @Id
@@ -40,4 +44,8 @@ public class Student {
     @JsonIgnoreProperties("students")
     @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
+
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("student")
+    private List<Reservation> reservation = new ArrayList<>();
 }
