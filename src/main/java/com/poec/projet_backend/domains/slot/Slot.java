@@ -18,17 +18,20 @@ public class Slot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "dateBegin")
     private LocalDateTime dateBegin;
+
+    private int userId;
+
     @Column(name = "dateEnd")
     private LocalDateTime dateEnd;
+
     private boolean visio;
+
     @Column(name = "isBooked")
     private boolean isBooked;
 
     @ManyToOne
-    @JoinColumn(name = "userId", referencedColumnName = "userId")
     private Mentor mentor;
-
-
 }

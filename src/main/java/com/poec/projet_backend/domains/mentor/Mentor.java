@@ -26,14 +26,21 @@ public class Mentor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String firstname;
+
     private String lastname;
+
     private String title;
+
     private String description;
+
     @Column(name = "imgUrl")
     private String imgUrl;
+
     @Column(name = "githubUrl")
     private String githubUrl;
+
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
