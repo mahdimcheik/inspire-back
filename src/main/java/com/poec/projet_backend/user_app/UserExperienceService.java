@@ -3,6 +3,7 @@ package com.poec.projet_backend.user_app;
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import com.poec.projet_backend.domains.experience.ExperienceRepository;
+import com.poec.projet_backend.domains.experience.ResponseExperience;
 import com.poec.projet_backend.domains.formation.Formation;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
@@ -34,6 +35,12 @@ public class UserExperienceService {
         try {
             UserApp userApp =  userRepository.findById(experience.getUserId()).orElseThrow(() ->  new RuntimeException() );
             Experience newExperience = experienceRepository.findById(id).orElseThrow(() ->  new RuntimeException() );
+            newExperience.setTitle(experience.getTitle());
+            newExperience.setCity(experience.getCity());
+            newExperience.setCountry(experience.getCountry());
+            newExperience.setCompany(experience.getCompany());
+            newExperience.setDateEnd(experience.getDateEnd());
+            newExperience.setDateBegin(experience.getDateBegin());
             experienceRepository.save(newExperience);
             return experienceRepository.findAllByUserId(experience.getUserId()).stream()
                     .map(ExperienceDTO::from).toList();
@@ -44,10 +51,15 @@ public class UserExperienceService {
 
     }
 
-    public void delete(Long id) {
+    public ResponseExperience delete(Long id) {
         try {
             Experience experience = experienceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with id " + id + " cannot be found"));
             experienceRepository.delete(experience);
+            List<ExperienceDTO> experiences = experienceRepository.findAllByUserId(id).stream().map(ExperienceDTO::from).toList();
+            return ResponseExperience.builder().experiences(experiences)
+                    .message("Experience deleted")
+                    .success(true)
+                    .build();
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e.getMessage());
         }
