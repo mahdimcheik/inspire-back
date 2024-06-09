@@ -122,6 +122,7 @@ public class AuthService {
             return AuthResponse.builder()
                     .token(jwtToken)
                     .message("Logged In")
+                    .role(user.getRole())
                     .build();
 
         } catch (BadCredentialsException ex) {
