@@ -1,5 +1,6 @@
 package com.poec.projet_backend.user_app;
 
+import com.poec.projet_backend.domains.skill.ResponseSkill;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillDTO;
 import lombok.Data;
@@ -14,13 +15,11 @@ public class UserSkillController {
     private final UserSkillService userSkillService;
 
     @PutMapping("/update/{userId}")
-    public List<SkillDTO> update(@PathVariable Long userId, @RequestBody List<Skill> skills) {
+    public ResponseSkill update(@PathVariable Long userId, @RequestBody List<Skill> skills) {
         return userSkillService.updateUserSkillList(userId, skills);
     }
     @GetMapping("/{userId}")
     public List<SkillDTO> getSkillByUserId(@PathVariable Long userId) {
         return userSkillService.getSkillsByUserId(userId);
     }
-
-
 }

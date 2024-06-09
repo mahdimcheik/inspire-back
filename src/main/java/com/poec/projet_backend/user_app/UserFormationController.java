@@ -42,6 +42,8 @@ public class UserFormationController {
     @PutMapping("/update/{formationId}")
     public ResponseFormation updateUserFormation(@RequestBody FormationDTO formation, @PathVariable Long formationId) {
         try {
+            System.out.println("formation id " + formationId);
+            System.out.println("formation " + formation);
             return ResponseFormation.builder().formations(userFormationService.updateUserFormation(formation, formationId))
                     .message("Formation updated Succefuly")
                     .success(true)
@@ -66,8 +68,8 @@ public class UserFormationController {
 
 
     @DeleteMapping("/delete/{formationId}")
-    public ResponseEntity<Void> delete(@PathVariable Long formationId) {
-        userFormationService.delete(formationId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseFormation delete(@PathVariable Long formationId) {
+
+        return userFormationService.delete(formationId);
     }
 }
