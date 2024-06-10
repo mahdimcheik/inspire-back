@@ -123,6 +123,7 @@ public class AuthService {
                     .token(jwtToken)
                     .message("Logged In")
                     .role(user.getRole())
+                    .id(user.getId())
                     .build();
 
         } catch (BadCredentialsException ex) {
