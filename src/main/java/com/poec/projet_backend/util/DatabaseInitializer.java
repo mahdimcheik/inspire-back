@@ -3,27 +3,25 @@ package com.poec.projet_backend.util;
 import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.language.Language;
-import com.poec.projet_backend.domains.language.LanguageDTO;
 import com.poec.projet_backend.domains.language.LanguageRepository;
-import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
-import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.mentor.MentorService;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillRepository;
-import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.domains.student.StudentDTO;
 import com.poec.projet_backend.domains.student.StudentService;
 import com.poec.projet_backend.user_app.*;
+import com.poec.projet_backend.user_app.Role;
+import com.poec.projet_backend.user_app.UserApp;
+import com.poec.projet_backend.user_app.UserAppRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Component
@@ -45,17 +43,17 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         //if(this.userAppRepository.findByEmail("admin@admin.com").isEmpty()) {
-        this.createUser("mentor1@gmail.com", "1234", Role.mentor);
-        this.createUser("mentor2@gmail.com", "1234", Role.mentor);
-        this.createUser("mentor3@gmail.com", "1234", Role.mentor);
-        this.createUser("mentor4@gmail.com", "1234", Role.mentor);
-        this.createUser("mentor5@gmail.com", "1234", Role.mentor);
+        this.createUser("mentor1@gmail.com", "1234", Role.MENTOR);
+        this.createUser("mentor2@gmail.com", "1234", Role.MENTOR);
+        this.createUser("mentor3@gmail.com", "1234", Role.MENTOR);
+        this.createUser("mentor4@gmail.com", "1234", Role.MENTOR);
+        this.createUser("mentor5@gmail.com", "1234", Role.MENTOR);
 
-        this.createUser("student1@gmail.com", "1234", Role.student);
-        this.createUser("student2@gmail.com", "1234", Role.student);
-        this.createUser("student3@gmail.com", "1234", Role.student);
-        this.createUser("student4@gmail.com", "1234", Role.student);
-        this.createUser("student5@gmail.com", "1234", Role.student);
+        this.createUser("student1@gmail.com", "1234", Role.STUDENT);
+        this.createUser("student2@gmail.com", "1234", Role.STUDENT);
+        this.createUser("student3@gmail.com", "1234", Role.STUDENT);
+        this.createUser("student4@gmail.com", "1234", Role.STUDENT);
+        this.createUser("student5@gmail.com", "1234", Role.STUDENT);
 
 
         createLanguage("Francais");
@@ -71,7 +69,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("Javascript");
 
 
-        createMentor(new MentorDTO("Marie", "Delo", "super dev", "Super mentorette", "no fking image","git","link",1L));
+        createMentor(new MentorDTO("Marie", "Delo", "super dev", "Super mentorette", "no fking image", "git", "link", 1L));
         createMentor(new MentorDTO("Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
         createMentor(new MentorDTO("Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
         createMentor(new MentorDTO("Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
@@ -86,8 +84,8 @@ public class DatabaseInitializer implements CommandLineRunner {
 
 
         // formation
-        for(int i = 0 ;i< 10 ;i++){
-            for(int j = 0 ;j < 3 ;j++){
+        for (int i = 0; i < 10; i++) {
+            for (int j = 0; j < 3; j++) {
                 String title = "formation " + j;
                 FormationDTO formation = FormationDTO.builder()
                         .title("formation " + j)
@@ -112,21 +110,21 @@ public class DatabaseInitializer implements CommandLineRunner {
             }
         }
         List<Language> languages = new ArrayList<>();
-        languages.add(new Language(1L,"Francais"));
-        languages.add(new Language(2L,"deutsch"));
-        languages.add(new Language(3L,"arabe"));
+        languages.add(new Language(1L, "Francais"));
+        languages.add(new Language(2L, "deutsch"));
+        languages.add(new Language(3L, "arabe"));
 
-        for(long i = 1 ;i<= 10 ;i++){
-            addUserLanguage(i,languages);
+        for (long i = 1; i <= 10; i++) {
+            addUserLanguage(i, languages);
         }
 
         List<Skill> skills = new ArrayList<>();
-        skills.add(new Skill(1L,"Java"));
-        skills.add(new Skill(2L,"Python"));
-        skills.add(new Skill(3L,"C++"));
+        skills.add(new Skill(1L, "Java"));
+        skills.add(new Skill(2L, "Python"));
+        skills.add(new Skill(3L, "C++"));
 
-        for(long i = 1 ;i<= 10 ;i++){
-            addUserSkill(i,skills);
+        for (long i = 1; i <= 10; i++) {
+            addUserSkill(i, skills);
         }
     }
 
@@ -150,7 +148,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         this.userAppRepository.save(user1);
     }
 
-    private void createUser(String email, String password, Role role) {
+    private UserApp createUser(String email, String password, Role role) {
         UserApp user1 = UserApp.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
@@ -158,26 +156,27 @@ public class DatabaseInitializer implements CommandLineRunner {
                 .build();
 
         this.userAppRepository.save(user1);
+        return user1;
     }
 
-    private void createLanguage(String newName){
+    private void createLanguage(String newName) {
         Language language = new Language();
         language.setName(newName);
         languageRepository.save(language);
     }
 
-    private void createSkill(String newName){
+    private void createSkill(String newName) {
         Skill skill = new Skill();
         skill.setName(newName);
         skillRepository.save(skill);
     }
 
-    private void createMentor(MentorDTO newMentor){
+    private void createMentor(MentorDTO newMentor) {
         mentorService.addMentorByUserId(newMentor);
     }
 
-    private void createStudent(StudentDTO student){
-        studentService.addStudentByUserId(student);
+    private void createStudent(StudentDTO newStudent) {
+        studentService.addStudentByUserId(newStudent);
     }
 
     private void createFormation(FormationDTO formation){

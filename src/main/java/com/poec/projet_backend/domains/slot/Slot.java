@@ -1,26 +1,38 @@
 package com.poec.projet_backend.domains.slot;
 
+import com.poec.projet_backend.domains.mentor.Mentor;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Table(name = "slot")
 public class Slot {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "dateBegin")
     private LocalDateTime dateBegin;
+
+    private int userId;
+
     @Column(name = "dateEnd")
     private LocalDateTime dateEnd;
+
     private boolean visio;
-    @Column(name = "userId")
-    private Long userId;
+
     @Column(name = "isBooked")
     private boolean isBooked;
 
+    @ManyToOne
+    private Mentor mentor;
 }

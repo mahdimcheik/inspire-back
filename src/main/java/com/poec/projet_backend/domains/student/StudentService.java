@@ -1,8 +1,6 @@
 package com.poec.projet_backend.domains.student;
 
 
-import com.poec.projet_backend.domains.mentor.Mentor;
-import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
@@ -20,8 +18,8 @@ public class StudentService {
 
     public Student updateStudentByUserId(Long userId, Student student){
         Student studentToUpdate = repository.findByUserId(userId);
-        studentToUpdate.setFirstname(student.getFirstname());
-        studentToUpdate.setLastname(student.getLastname());
+        studentToUpdate.setFirstName(student.getFirstName());
+        studentToUpdate.setLastName(student.getLastName());
         studentToUpdate.setDescription(student.getDescription());
         studentToUpdate.setTitle(student.getTitle());
         studentToUpdate.setImgUrl(student.getImgUrl());
@@ -32,6 +30,6 @@ public class StudentService {
 
     public Student addStudentByUserId(StudentDTO student){
         UserApp user = userAppRepository.findById(student.userId()).orElseThrow(() -> new RuntimeException("User not found"));
-        return repository.save(student.toStudent(user));
+        return repository.save(StudentDTO.toStudent(student, user));
     }
 }
