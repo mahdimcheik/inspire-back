@@ -18,9 +18,10 @@ public class UserAppController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getMe(HttpServletRequest request) {
-        System.out.println(request);
+        System.out.println("request " + request.getHeader("Authorization"));
         String username  = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(username);
+        System.out.println("autih " + username );
+
         return ResponseEntity.ok(userAppRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("email " + username +" not found"))
         );

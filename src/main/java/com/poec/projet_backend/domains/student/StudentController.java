@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Data
-@RequestMapping("/STUDENT")
+@RequestMapping("/student")
 public class StudentController {
     private final StudentService service;
 
