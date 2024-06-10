@@ -1,17 +1,18 @@
 package com.poec.projet_backend.domains.slot;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.poec.projet_backend.domains.mentor.Mentor;
-import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Table(name = "slot")
 public class Slot {

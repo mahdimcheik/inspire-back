@@ -4,12 +4,15 @@ package com.poec.projet_backend.user_app;
 import com.poec.projet_backend.domains.formation.Formation;
 import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.formation.FormationRepository;
+import com.poec.projet_backend.domains.formation.ResponseFormation;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.text.Format;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -82,10 +85,25 @@ public class UserFormationService {
 
     }
 
-    public void delete(Long id) {
+    public ResponseFormation delete(Long id) {
         try {
             Formation formation = formationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with id " + id + " cannot be found"));
+            Long userId = formation.getUser().getId();
             formationRepository.delete(formation);
+            if(formation != null){
+                formationRepository.delete(formation);
+                List<FormationDTO> formations = formationRepository.findAllByUserId(userId).stream().map(ele -> FormationDTO.from(ele)).toList();
+                return ResponseFormation.builder()
+                        .formations(formations)
+                        .message("done")
+                        .success(true)
+                        .build();
+            }
+            return ResponseFormation.builder()
+                    .formations(new ArrayList<>())
+                    .message("failed")
+                    .success(false)
+                    .build();
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e.getMessage());
         }

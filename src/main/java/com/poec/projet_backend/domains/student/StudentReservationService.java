@@ -16,8 +16,4 @@ public class StudentReservationService {
     private final StudentRepository studentRepository;
     private final ReservationRepository reservationRepository;
 
-    public List<ReservationDTO> getReservationsByUserId(Long id) {
-        Student student = studentRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
-        return student.getReservation().stream().map(ReservationDTO::fromReservation).toList();
-    }
 }

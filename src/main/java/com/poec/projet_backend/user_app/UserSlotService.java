@@ -1,12 +1,10 @@
 package com.poec.projet_backend.user_app;
 
-import com.poec.projet_backend.domains.slot.Slot;
-import com.poec.projet_backend.domains.slot.SlotDTO;
+
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 @Data
 @Service
