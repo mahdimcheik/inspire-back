@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @Data
-@RequestMapping("student/favorite")
+@RequestMapping("STUDENT/favorite")
 public class StudentFavoriteController {
 
     private final StudentFavoriteService studentFavoriteService;

@@ -17,15 +17,25 @@ public class AuthController {
 
     private final AuthService service;
 
-    @PostMapping("/register")
+
+    @PostMapping("/register/mentor")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
-        return ResponseEntity.ok(service.register(request, httpRequest));
+        System.out.println(request.toString());
+        return ResponseEntity.ok(service.registerMentor(request, httpRequest));
+    }
+
+    @PostMapping("/register/student")
+    public ResponseEntity<Map<String, String>> registerStudent(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
+        System.out.println(request.toString());
+        return ResponseEntity.ok(service.registerStudent(request, httpRequest));
     }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthRequest request, HttpServletRequest httpRequest) {
     AuthResponse authenticationResponse = service.authenticate(request, httpRequest);
     return ResponseEntity.ok(authenticationResponse);
+    
+
 
 
 

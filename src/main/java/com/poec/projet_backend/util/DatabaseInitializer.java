@@ -2,13 +2,11 @@ package com.poec.projet_backend.util;
 
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.language.LanguageRepository;
-import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.mentor.MentorService;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillRepository;
-import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.domains.student.StudentRepository;
 import com.poec.projet_backend.user_app.Role;
 import com.poec.projet_backend.user_app.UserApp;
@@ -18,8 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -37,17 +33,17 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) throws Exception {
         //if(this.userAppRepository.findByEmail("admin@admin.com").isEmpty()) {
-            this.createUser("mentor1@gmail.com", "1234", Role.mentor);
-            this.createUser("mentor2@gmail.com", "1234", Role.mentor);
-            this.createUser("mentor3@gmail.com", "1234", Role.mentor);
-            this.createUser("mentor4@gmail.com", "1234", Role.mentor);
-            this.createUser("mentor5@gmail.com", "1234", Role.mentor);
+            this.createUser("mentor1@gmail.com", "1234", Role.MENTOR);
+            this.createUser("mentor2@gmail.com", "1234", Role.MENTOR);
+            this.createUser("mentor3@gmail.com", "1234", Role.MENTOR);
+            this.createUser("mentor4@gmail.com", "1234", Role.MENTOR);
+            this.createUser("mentor5@gmail.com", "1234", Role.MENTOR);
 
-            this.createUser("student1@gmail.com", "1234", Role.student);
-            this.createUser("student2@gmail.com", "1234", Role.student);
-            this.createUser("student3@gmail.com", "1234", Role.student);
-            this.createUser("student4@gmail.com", "1234", Role.student);
-            this.createUser("student5@gmail.com", "1234", Role.student);
+            this.createUser("student1@gmail.com", "1234", Role.STUDENT);
+            this.createUser("student2@gmail.com", "1234", Role.STUDENT);
+            this.createUser("student3@gmail.com", "1234", Role.STUDENT);
+            this.createUser("student4@gmail.com", "1234", Role.STUDENT);
+            this.createUser("student5@gmail.com", "1234", Role.STUDENT);
 
 
 
@@ -124,7 +120,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     }
 
    /* private void createStudent(String email, String password, String firstname, String lastname, String title, String description, String imgUrl, String linkedinUrl, String githubUrl) {
-        UserApp userApp = createUser(email, password, Role.student);
+        UserApp userApp = createUser(email, password, Role.STUDENT);
         Student student1 = Student.builder()
                 .firstname(firstname)
                 .lastname(lastname)
