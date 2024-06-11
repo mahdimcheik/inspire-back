@@ -5,10 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +15,17 @@ import java.util.List;
 public class UserAppController {
 
     private final UserAppRepository userAppRepository;
+
+    @GetMapping("/me")
+    public ResponseEntity<?> getMe(HttpServletRequest request) {
+        System.out.println("request " + request.getHeader("Authorization"));
+        String username  = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("autih " + username );
+
+        return ResponseEntity.ok(userAppRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("email " + username +" not found"))
+        );
+    }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<UserApp> getUserByEmail(@PathVariable String email, HttpServletRequest request) throws AccessDeniedException {
@@ -31,7 +39,6 @@ public class UserAppController {
         } else {
             throw new AccessDeniedException("UserApp does not have the correct rights to access to this resource");
         }
-
 
 
     }

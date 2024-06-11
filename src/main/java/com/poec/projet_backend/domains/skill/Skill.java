@@ -23,4 +23,8 @@ public class Skill {
     @JsonIgnoreProperties("skills")
     @JsonIgnore
     private List<UserApp> users = new ArrayList<>();
+    public Skill(Long id,String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

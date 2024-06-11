@@ -1,18 +1,18 @@
-package com.poec.projet_backend.auth;
+package com.poec.projet_backend.domains.language;
 
-import com.poec.projet_backend.user_app.UserApp;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-    private String token;
+public class ResponseLanguage {
     private String message;
-    private String role;
-    private Long id;
+    private boolean success;
+    private List<LanguageDTO> languages;
 }

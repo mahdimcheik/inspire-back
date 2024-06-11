@@ -41,10 +41,14 @@ public class SecurityConfig {
 
             // Liste des routes protégées / non protégées
             .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers("/api/v1/auth/**", "/experience/**", "/experience/user/**", "/mentor/**", "/api/v1/users/**").permitAll() /* n'importe qui a accès à cet url */
+                    .requestMatchers("/api/v1/auth/**","/formation/user/**","/language/user/update/**","/formation/user/**","/language/user/**","/skill/user/update/**","/skill/user/**","skill/get/**","/language/get/all", "/experience/**", "/experience/user/**", "/mentor/**", "/api/v1/users/**").permitAll() /* n'importe qui a accès à cet url */
+                    .requestMatchers("/experience/user/**", "/experience/user/update/**").permitAll()
+                    .requestMatchers("/student/**").permitAll() /* n'importe qui a accès à cet url */
+//                    .requestMatchers("/api/v1/users/me").permitAll() /* n'importe qui a accès à cet url */
+
                     .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
-                .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
-                .anyRequest().authenticated()
+                    .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
+                    .anyRequest().authenticated()
             )
 
             // On configure les erreurs d'authentification

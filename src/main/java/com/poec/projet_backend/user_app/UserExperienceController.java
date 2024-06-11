@@ -24,9 +24,9 @@ public class UserExperienceController {
     public ResponseExperience addUserExperience(@RequestBody ExperienceDTO experience) {
         try {
         return ResponseExperience.builder().experiences(userExperienceService.addUserExperience(experience))
-                        .message("Expericence Added Succefuly")
-                                .success(true)
-                                        .build();
+                .message("Expericence Added Succefuly")
+                .success(true)
+                .build();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -65,9 +65,8 @@ public class UserExperienceController {
     }
 
     @DeleteMapping("/delete/{experienceId}")
-    public ResponseEntity<Void> delete(@PathVariable Long experienceId) {
-        userExperienceService.delete(experienceId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseExperience delete(@PathVariable Long experienceId) {
+        return userExperienceService.delete(experienceId);
     }
 
 

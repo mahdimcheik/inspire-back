@@ -8,6 +8,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ExperienceDTO {
+    private Long id;
     private String title;
     private String company;
     private LocalDate dateBegin;
@@ -23,6 +24,8 @@ public class ExperienceDTO {
                 .title(experience.getTitle())
                 .dateEnd(experience.getDateEnd())
                 .dateBegin(experience.getDateBegin())
+                .id(experience.getId())
+                .userId(experience.getUser().getId())
                 .build();
     }
 }

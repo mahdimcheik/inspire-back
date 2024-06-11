@@ -47,7 +47,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             request.setAttribute("no_jwt_provided", "No JWT provided");
             filterChain.doFilter(request, response);
 
-
             return;
         }
 
@@ -57,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userEmail = jwtService.extractUsername(jwt);
 
             /* Si le user n'est pas null & qu'il n'est pas déjà connecté */
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (userEmail != null) {
                 /* Je récupère en BDD l'utilisateur dont l'email correspond à "userEmail" */
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 

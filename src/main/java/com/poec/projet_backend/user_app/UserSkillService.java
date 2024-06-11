@@ -1,11 +1,13 @@
 package com.poec.projet_backend.user_app;
 
+import com.poec.projet_backend.domains.skill.ResponseSkill;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillDTO;
 import com.poec.projet_backend.domains.skill.SkillRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,10 +20,22 @@ public class UserSkillService {
         UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
         return user.getSkills().stream().map(SkillDTO::fromSkill).toList();}
 
-    public List<SkillDTO> updateUserSkillList(Long id, List<Skill> skills) {
+    public ResponseSkill updateUserSkillList(Long id, List<Skill> skills) {
         UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
-        user.setSkills(skills);
-        return userRepository.save(user).getSkills().stream().map(SkillDTO::fromSkill).toList();
+        if(user != null){
+            user.setSkills(skills);
+            var res =  userRepository.save(user).getSkills().stream().map(SkillDTO::fromSkill).toList();
+            return ResponseSkill.builder()
+                    .message("success")
+                    .success(true)
+                    .skills(res)
+                    .build();
+        }
+        return ResponseSkill.builder()
+                .message("failed")
+                .success(false)
+                .skills(new ArrayList<>())
+                .build();
     }
 
 

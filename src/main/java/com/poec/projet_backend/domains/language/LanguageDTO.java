@@ -2,7 +2,7 @@ package com.poec.projet_backend.domains.language;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
+
 
 @Builder
 public record  LanguageDTO (

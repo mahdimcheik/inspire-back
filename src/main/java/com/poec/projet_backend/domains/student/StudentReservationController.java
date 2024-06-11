@@ -16,8 +16,4 @@ public class StudentReservationController {
 
     private final StudentReservationService studentReservationService;
 
-    @GetMapping("/{userId}")
-    public List<ReservationDTO> getReservationByUserId(@PathVariable Long userId) {
-        return studentReservationService.getReservationsByUserId(userId);
-    }
 }
