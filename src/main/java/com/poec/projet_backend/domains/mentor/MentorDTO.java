@@ -28,4 +28,28 @@ public record MentorDTO (
             .user(userApp)
             .build();
     }
+    public static  MentorDTO fromEntity ( Mentor mentor) {
+        return new MentorDTO(mentor.getFirstname(),
+                mentor.getLastname(),
+                mentor.getTitle(),
+                mentor.getDescription(),
+                mentor.getImgUrl(),
+                mentor.getGithubUrl(),
+                mentor.getLinkedinUrl(),
+                mentor.getUser().getId());
+    }
+
+    public static Mentor fromDto (MentorDTO mentorDTO, UserApp user) {
+        return Mentor.builder()
+                .firstname(mentorDTO.firstname())
+                .lastname(mentorDTO.lastname())
+                .title(mentorDTO.title())
+                .description(mentorDTO.description())
+                .imgUrl(mentorDTO.imgUrl())
+                .githubUrl(mentorDTO.githubUrl())
+                .linkedinUrl(mentorDTO.linkedinUrl())
+                .user(user)
+                .build();
+         
+    }
 }

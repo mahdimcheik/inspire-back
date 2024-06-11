@@ -12,20 +12,23 @@ public class MentorService {
     private final MentorRepository repository;
     private final UserAppRepository userAppRepository;
 
-    public Mentor getMentorByUserId(Long userId){
-        return repository.findByUserId(userId);
+    public MentorDTO getMentorByUserId(Long userId){
+        Mentor mentor = repository.findByUserId(userId);
+
+        return MentorDTO.fromEntity(mentor);
     }
 
-    public Mentor updateMentorByUserId(Long userId, Mentor mentor){
+    public MentorDTO updateMentorByUserId(Long userId, MentorDTO mentor){
         Mentor mentorToUpdate = repository.findByUserId(userId);
-        mentorToUpdate.setFirstname(mentor.getFirstname());
-        mentorToUpdate.setLastname(mentor.getLastname());
-        mentorToUpdate.setTitle(mentor.getTitle());
-        mentorToUpdate.setDescription(mentor.getDescription());
-        mentorToUpdate.setImgUrl(mentor.getImgUrl());
-        mentorToUpdate.setGithubUrl(mentor.getGithubUrl());
-        mentorToUpdate.setLinkedinUrl(mentor.getLinkedinUrl());
-        return repository.save(mentorToUpdate);
+        mentorToUpdate.setFirstname(mentor.firstname());
+        mentorToUpdate.setLastname(mentor.lastname());
+        mentorToUpdate.setTitle(mentor.title());
+        mentorToUpdate.setDescription(mentor.description());
+        mentorToUpdate.setImgUrl(mentor.imgUrl());
+        mentorToUpdate.setGithubUrl(mentor.githubUrl());
+        mentorToUpdate.setLinkedinUrl(mentor.linkedinUrl());
+        Mentor savedMentor = repository.save(mentorToUpdate);
+        return MentorDTO.fromEntity(savedMentor);
     }
 
 
@@ -34,7 +37,6 @@ public class MentorService {
         System.out.println("user Id " + mentor.userId());
         UserApp user = userAppRepository.findById(mentor.userId()).orElseThrow(() -> new RuntimeException("User not found"));
         System.out.println("user in service " + user.toString());
-
         return repository.save(mentor.toMentor(user));
     }
 }

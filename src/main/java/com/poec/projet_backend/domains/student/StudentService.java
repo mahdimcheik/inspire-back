@@ -12,11 +12,11 @@ public class StudentService {
     private final StudentRepository repository;
     private final UserAppRepository userAppRepository;
 
-    public Student getStudentByUserId(Long userId){
-        return repository.findByUserId(userId);
+    public StudentDTO getStudentByUserId(Long userId){
+        return StudentDTO.mapFromEntity(repository.findByUserId(userId));
     }
 
-    public Student updateStudentByUserId(Long userId, Student student){
+    public StudentDTO updateStudentByUserId(Long userId, Student student){
         Student studentToUpdate = repository.findByUserId(userId);
         studentToUpdate.setFirstName(student.getFirstName());
         studentToUpdate.setLastName(student.getLastName());
@@ -25,7 +25,8 @@ public class StudentService {
         studentToUpdate.setImgUrl(student.getImgUrl());
         studentToUpdate.setGithubUrl(student.getGithubUrl());
         studentToUpdate.setLinkedinUrl(student.getLinkedinUrl());
-        return repository.save(studentToUpdate);
+
+        return StudentDTO.mapFromEntity(repository.save(studentToUpdate));
     }
 
     public Student addStudentByUserId(StudentDTO student){
