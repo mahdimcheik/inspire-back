@@ -21,7 +21,7 @@ public record StudentDTO(
 
         public static StudentDTO mapFromEntity(Student student) {
                 return new StudentDTO(
-                        student.getId(),
+                                student.getId(),
                                 student.getFirstName(),
                                 student.getLastName(),
                                 student.getTitle(),
