@@ -11,14 +11,15 @@ public class MentorController {
     private final MentorService service;
 
     @GetMapping("/{userId}")
-    public Mentor getMentorByUserId(@PathVariable Long userId){
+    public MentorDTO getMentorByUserId(@PathVariable Long userId){
         return service.getMentorByUserId(userId);
     }
 
     @PutMapping("/{userId}")
-    public Mentor updateMentorByUserId(@PathVariable Long userId, @RequestBody Mentor mentor){
+    public MentorDTO updateMentorByUserId(@PathVariable Long userId, @RequestBody MentorDTO mentor){
         return service.updateMentorByUserId(userId, mentor);
     }
+
     @PostMapping("/add")
     public MentorDTO addMentor(@RequestBody MentorDTO mentor){
         return service.addMentorByUserId(mentor).toMentorDTO();
