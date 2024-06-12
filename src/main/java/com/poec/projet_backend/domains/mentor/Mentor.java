@@ -48,6 +48,7 @@ public class Mentor {
     private UserApp user;
 
     @OneToMany(mappedBy = "mentor")
+    @JsonIgnoreProperties("mentor")
     private List<Slot> slots = new ArrayList<>();
 
     @ManyToMany(mappedBy = "mentors")
