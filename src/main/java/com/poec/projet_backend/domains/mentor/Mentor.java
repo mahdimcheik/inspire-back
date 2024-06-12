@@ -57,6 +57,6 @@ public class Mentor {
     private List<Student> students = new ArrayList<>();
 
     public MentorDTO toMentorDTO(){
-       return  new MentorDTO(this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId());
+       return  new MentorDTO(this.getId(), this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId());
     }
 }
