@@ -7,6 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
 public record MentorDTO (
+        Long id,
     String firstname,
     String lastname,
     String title,
@@ -27,5 +28,17 @@ public record MentorDTO (
             .linkedinUrl(this.linkedinUrl())
             .user(userApp)
             .build();
+    }
+
+    public static  MentorDTO fromEntity ( Mentor mentor) {
+        return new MentorDTO(mentor.getId(),
+                mentor.getFirstname(),
+                mentor.getLastname(),
+                mentor.getTitle(),
+                mentor.getDescription(),
+                mentor.getImgUrl(),
+                mentor.getGithubUrl(),
+                mentor.getLinkedinUrl(),
+                mentor.getUser().getId());
     }
 }

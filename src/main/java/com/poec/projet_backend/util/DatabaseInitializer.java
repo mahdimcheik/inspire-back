@@ -69,11 +69,11 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("Javascript");
 
 
-        createMentor(new MentorDTO("Marie", "Delo", "super dev", "Super mentorette", "no fking image", "git", "link", 1L));
-        createMentor(new MentorDTO("Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
-        createMentor(new MentorDTO("Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
-        createMentor(new MentorDTO("Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
-        createMentor(new MentorDTO("Emma", "Leroy", "Product Manager", "Gestionnaire de Produit", "https://picsum.photos/200", "githubEmma", "linkedinEmma", 5L));
+        createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette", "no fking image", "git", "link", 1L));
+        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
+        createMentor(new MentorDTO(3L, "Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
+        createMentor(new MentorDTO(4L, "Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
+        createMentor(new MentorDTO(5L, "Emma", "Leroy", "Product Manager", "Gestionnaire de Produit", "https://picsum.photos/200", "githubEmma", "linkedinEmma", 5L));
 
         List<Long> mentorids = new ArrayList<>();
         createStudent(new StudentDTO("Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200", "github/mariedelaire", "linkedin/mariedelaire", 6L, mentorids));
