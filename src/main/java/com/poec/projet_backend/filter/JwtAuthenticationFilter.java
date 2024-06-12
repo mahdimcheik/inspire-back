@@ -37,10 +37,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
-        if (request.getRequestURI().contains("/api/v1/auth") || request.getRequestURI().contains("/api/v1/public")) {
+        if (request.getRequestURI().contains("/api/v1/auth") ||
+                request.getRequestURI().contains("/api/v1/public") ||
+                request.getRequestURI().contains("/images")) {
+            System.out.println("uri: " + request.getRequestURI());
             filterChain.doFilter(request, response);
             return;
         }
+
 
         /* On vérifie si authHeader n'est pas null ET si la valeur de la clé "Authorization" commence par "Bearer " */
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

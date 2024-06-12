@@ -46,6 +46,7 @@ public class SecurityConfig {
                     .requestMatchers("/student/**").permitAll() /* n'importe qui a accès à cet url */
                     .requestMatchers("/student/favorite/**","/student/favorite/add/**" ).permitAll() /* n'importe qui a accès à cet url */
 //                    .requestMatchers("/api/v1/users/me").permitAll() /* n'importe qui a accès à cet url */
+                 .requestMatchers("/user/upload/image", "/uploads/images/**", "/images/**", "/static/images/**").permitAll() /* n'importe qui a accès à cet url */
 
                     .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
                     .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */

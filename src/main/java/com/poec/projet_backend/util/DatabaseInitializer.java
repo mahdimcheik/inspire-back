@@ -42,6 +42,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        /*
         //if(this.userAppRepository.findByEmail("admin@admin.com").isEmpty()) {
         this.createUser("mentor1@gmail.com", "1234", Role.MENTOR);
         this.createUser("mentor2@gmail.com", "1234", Role.MENTOR);
@@ -126,6 +127,10 @@ public class DatabaseInitializer implements CommandLineRunner {
         for (long i = 1; i <= 10; i++) {
             addUserSkill(i, skills);
         }
+
+
+         */
+
     }
 
     private void createAdmin() {
