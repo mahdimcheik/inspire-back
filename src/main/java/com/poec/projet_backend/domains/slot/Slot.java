@@ -37,8 +37,8 @@ public class Slot {
     @JoinColumn(name = "mentorId")
     private Mentor mentor;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "reservatioId")
+    @OneToOne
+    @JoinColumn(name = "reservationId")
     private Reservation reservation;
 
 }

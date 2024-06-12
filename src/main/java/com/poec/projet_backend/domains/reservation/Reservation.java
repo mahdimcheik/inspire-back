@@ -26,7 +26,6 @@ public class Reservation {
     private Student student;
 
     @OneToOne(mappedBy = "reservation")
-    @JoinColumn(name = "slotId")
     private Slot slot;
 
 
