@@ -3,8 +3,11 @@ package com.poec.projet_backend.user_app;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
-import com.poec.projet_backend.domains.mentor.MentorService;
+import jakarta.servlet.ServletContext;
 import lombok.Data;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,7 +15,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import java.io.File;
-import java.time.LocalDateTime;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.web.bind.annotation.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @RestController
 @Data
@@ -21,6 +31,9 @@ public class FileUploadController {
 
 
     private final MentorRepository mentorRepository;
+    private final ServletContext servletContext;
+    private static final String UPLOAD_DIR = "images/";
+
     @PostMapping("/image/{userId}")
     @Transactional
     public ResponseEntity<MentorDTO> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long userId) {
@@ -32,7 +45,8 @@ public class FileUploadController {
         try {
             String fileName = file.getOriginalFilename();
             String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-            fileName = (fileName + LocalDateTime.now().toString()).replaceAll("[^a-zA-Z0-9].", "") + "." + extension;
+            UUID uuid = UUID.randomUUID();
+            fileName = uuid.toString() + "." + extension;
             System.out.println("new name " + fileName);
             String workingDirectory = System.getProperty("user.dir");
             System.out.println("file details " + file.getResource());
@@ -44,6 +58,25 @@ public class FileUploadController {
             return ResponseEntity.status(HttpStatus.OK).body(res);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    // Serve image endpoint
+    @GetMapping("/serve/{filename}")
+    @ResponseBody
+    public Resource serveImage(@PathVariable String filename) {
+        try {
+            String workingDirectory = System.getProperty("user.dir");
+            System.out.println(Paths.get(UPLOAD_DIR));
+            Path file = Paths.get(workingDirectory + "/src/main/resources/static/images/").resolve(filename);
+            Resource resource = new UrlResource(file.toUri());
+            if (resource.exists() || resource.isReadable()) {
+                return resource;
+            } else {
+                throw new RuntimeException("Could not read the file!");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Could not read the file!", e);
         }
     }
 }
