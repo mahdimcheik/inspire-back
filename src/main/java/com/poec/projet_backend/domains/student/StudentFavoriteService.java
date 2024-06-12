@@ -16,6 +16,7 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -76,7 +77,7 @@ public class StudentFavoriteService {
         return student.getMentors();
     } */
 
-    public List<Mentor> deleteStudentFavorite(Long studentId, Long mentorId) {
+    public List<MentorDTO> deleteStudentFavorite(Long studentId, Long mentorId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         Mentor mentor = mentorRepository.findById(mentorId)
@@ -89,7 +90,9 @@ public class StudentFavoriteService {
         student.getMentors().remove(mentor);
         studentRepository.save(student);
 
-        return student.getMentors();
+        return student.getMentors().stream()
+                .map(MentorDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 
     public boolean isFavorite(Long studentId, Long mentorId) {

@@ -51,6 +51,6 @@ public class Student {
         if(mentors != null){
             mentorIds = mentors.stream().map(Mentor::getId).toList();
         }
-        return  new StudentDTO(this.getFirstName(), this.getLastName(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
+        return  new StudentDTO(this.getId(), this.getFirstName(), this.getLastName(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
     }
 }

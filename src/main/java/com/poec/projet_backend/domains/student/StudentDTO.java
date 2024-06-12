@@ -6,6 +6,7 @@ import com.poec.projet_backend.user_app.UserApp;
 import java.util.List;
 
 public record StudentDTO(
+                Long id,
                 String firstname,
                 String lastname,
                 String title,
@@ -20,6 +21,7 @@ public record StudentDTO(
 
         public static StudentDTO mapFromEntity(Student student) {
                 return new StudentDTO(
+                        student.getId(),
                                 student.getFirstName(),
                                 student.getLastName(),
                                 student.getTitle(),
@@ -33,6 +35,7 @@ public record StudentDTO(
 
         public static Student toStudent(StudentDTO student, UserApp userApp) {
                 return Student.builder()
+                        .id(student.id())
                         .description(student.description())
                         .firstName(student.firstname())
                         .lastName(student.lastname())

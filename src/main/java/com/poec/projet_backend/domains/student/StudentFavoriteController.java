@@ -4,6 +4,7 @@ import com.poec.projet_backend.domains.experience.ResponseExperience;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +22,17 @@ public class StudentFavoriteController {
     public List<Mentor> add(@PathVariable Long studentId, @PathVariable Long mentorId) {
         return studentFavoriteService.updateStudentFavoriteList(studentId, mentorId);
     }
- /*
-    @DeleteMapping("/delete/{studentId}/{mentorId}")
-    public List<Mentor> delete(@PathVariable Long studentId, @PathVariable Long mentorId) {
-        return studentFavoriteService.deleteStudentFavorite(studentId, mentorId);
-    }
 
+    @DeleteMapping("/delete/{studentId}/{mentorId}")
+    public ResponseEntity<?> delete(@PathVariable Long studentId, @PathVariable Long mentorId) {
+        try {
+            List<MentorDTO> mentors = studentFavoriteService.deleteStudentFavorite(studentId, mentorId);
+            return ResponseEntity.ok(mentors);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+/*
     @GetMapping("/list/{studentId}")
     public List<Mentor> getFavorites(@PathVariable Long studentId) {
         return studentFavoriteService.getStudentFavorites(studentId);
@@ -45,7 +51,7 @@ public class StudentFavoriteController {
             return ResponseEntity.status(401).body(null);
         }
     }
-*/
+
     @DeleteMapping("/delete/{studentId}/{mentorId}")
     public ResponseEntity<List<Mentor>> removeFavorite(@PathVariable Long studentId, @PathVariable Long mentorId) {
         try {
@@ -55,6 +61,8 @@ public class StudentFavoriteController {
             return ResponseEntity.status(401).body(null);
         }
     }
+
+  */
 
     @GetMapping("/{studentId}/{mentorId}")
     public ResponseEntity<Map<String, Boolean>> isFavorite(@PathVariable Long studentId, @PathVariable Long mentorId) {

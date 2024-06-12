@@ -43,7 +43,7 @@ public class MentorService {
         System.out.println("mentor in service " + mentor.toString());
         System.out.println("user Id " + mentor.userId());
         UserApp user = userAppRepository.findById(mentor.userId()).orElseThrow(() -> new RuntimeException("User not found"));
-        System.out.println("user in service " + user.toString());
+       // System.out.println("user in service " + user.toString());
         return repository.save(mentor.toMentor(user));
     }
 }
