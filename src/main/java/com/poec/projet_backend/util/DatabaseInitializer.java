@@ -42,6 +42,7 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+
         //if(this.userAppRepository.findByEmail("admin@admin.com").isEmpty()) {
         this.createUser("mentor1@gmail.com", "1234", Role.MENTOR);
         this.createUser("mentor2@gmail.com", "1234", Role.MENTOR);
@@ -69,18 +70,18 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("Javascript");
 
 
-        createMentor(new MentorDTO("Marie", "Delo", "super dev", "Super mentorette", "no fking image", "git", "link", 1L));
-        createMentor(new MentorDTO("Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
-        createMentor(new MentorDTO("Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
-        createMentor(new MentorDTO("Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
-        createMentor(new MentorDTO("Emma", "Leroy", "Product Manager", "Gestionnaire de Produit", "https://picsum.photos/200", "githubEmma", "linkedinEmma", 5L));
+        createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette", "no fking image", "git", "link", 1L));
+        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
+        createMentor(new MentorDTO(3L, "Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
+        createMentor(new MentorDTO(4L, "Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
+        createMentor(new MentorDTO(5L, "Emma", "Leroy", "Product Manager", "Gestionnaire de Produit", "https://picsum.photos/200", "githubEmma", "linkedinEmma", 5L));
 
         List<Long> mentorids = new ArrayList<>();
-        createStudent(new StudentDTO("Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200", "github/mariedelaire", "linkedin/mariedelaire", 6L, mentorids));
-        createStudent(new StudentDTO("Jean", "Dupont", "Data Scientist", "Expert en données", "https://picsum.photos/200", "github/jeandupont", "linkedin/jeandupont", 7L, mentorids));
-        createStudent(new StudentDTO("Alice", "Martin", "UX Designer", "Créatrice d'expériences", "https://picsum.photos/200", "github/alicemartin", "linkedin/alicemartin", 8L, mentorids));
-        createStudent(new StudentDTO("Luc", "Girard", "Backend Developer", "Maître du backend", "https://picsum.photos/200", "github/lucgirard", "linkedin/lucgirard", 9L, mentorids));
-        createStudent(new StudentDTO("Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack", "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 10L, mentorids));
+        createStudent(new StudentDTO(1L, "Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200", "github/mariedelaire", "linkedin/mariedelaire", 6L, mentorids));
+        createStudent(new StudentDTO(2L, "Jean", "Dupont", "Data Scientist", "Expert en données", "https://picsum.photos/200", "github/jeandupont", "linkedin/jeandupont", 7L, mentorids));
+        createStudent(new StudentDTO(3L, "Alice", "Martin", "UX Designer", "Créatrice d'expériences", "https://picsum.photos/200", "github/alicemartin", "linkedin/alicemartin", 8L, mentorids));
+        createStudent(new StudentDTO(4L, "Luc", "Girard", "Backend Developer", "Maître du backend", "https://picsum.photos/200", "github/lucgirard", "linkedin/lucgirard", 9L, mentorids));
+        createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack", "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 10L, mentorids));
 
 
         // formation
@@ -126,6 +127,10 @@ public class DatabaseInitializer implements CommandLineRunner {
         for (long i = 1; i <= 10; i++) {
             addUserSkill(i, skills);
         }
+
+
+
+
     }
 
     private void createAdmin() {
