@@ -7,7 +7,9 @@ import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -64,24 +66,40 @@ public class StudentReservationService {
         return reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
     }
 
-    public List<Map<String, Object>> getAllReservationByMentorIdInfosUpComing(Long mentorId, int perPage, int offset)
+    public Map<String, Object> getAllReservationByMentorIdInfosUpComing(Long mentorId, int perPage, int offset)
     {
         LocalDateTime time = LocalDateTime.now();
         System.out.println("time now " +time);
-        return reservationRepository.findReservationInfosByMentorIdUpComing(mentorId, time,offset, perPage );
+        var results = reservationRepository.findReservationInfosByMentorIdUpComing(mentorId, time,offset, perPage );
+        var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
+                .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
+                .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
+                .firstName((String) ele.get("firstName"))
+                .lastName((String) ele.get("lastName"))
+                .title((String) ele.get("title"))
+                .imgUrl((String) ele.get("imgUrl"))
+                .subject((String) ele.get("subject"))
+                .message((String) ele.get("message"))
+                .id((Long) ele.get("id"))
+                .reservationId((Long) ele.get("reservationId"))
+                .studentId((Long) ele.get("studentId"))
+                .slotId((Long) ele.get("slotId"))
+                .build()).toList();
+        Map<String, Object> result = new HashMap<>();
+        result.put("reservations",res);
+        result.put("total",(Long) results.get(0).get("totalCount"));
+        return result;
     }
 
     public List<Map<String, Object>> getAllReservationByMentorIdInfosHistory(Long mentorId, int perPage, int offset)
     {
         LocalDateTime time = LocalDateTime.now();
         System.out.println("time now " +time);
-        return reservationRepository.findReservationInfosByMentorIdUpComing(mentorId, time,offset, perPage );
+        return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
     }
 
     public List<Map<String, Object>> delete(Long reservationId, Long studentId) {
-
         reservationRepository.deleteById(reservationId);
-
         return reservationRepository.findReservationInfos(studentId);
     }
 

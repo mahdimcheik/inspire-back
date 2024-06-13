@@ -25,7 +25,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Map<String, Object>> findReservationInfos(Long studentId);
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, r.studentId, " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstName, st.lastName, " +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -40,7 +40,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, r.studentId, " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd,s.isBooked, s.isVisio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstName, st.lastName, " +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -54,7 +54,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Map<String, Object>> findReservationByStudentInfosHistory(Long studentId, LocalDateTime timeNow, int offset, int limit);
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, r.studentId, " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstName, st.lastName, " +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -69,7 +69,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, r.studentId, " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstName, st.lastName, " +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +

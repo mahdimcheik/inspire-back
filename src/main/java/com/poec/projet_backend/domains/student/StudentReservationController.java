@@ -1,8 +1,6 @@
 package com.poec.projet_backend.domains.student;
 
-import com.poec.projet_backend.domains.reservation.Reservation;
 import com.poec.projet_backend.domains.reservation.ReservationDTO;
-import com.poec.projet_backend.domains.reservation.ResponseReservation;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,7 +40,7 @@ public class StudentReservationController {
     }
 
     @GetMapping("/get/mentor/upcoming/{mentorId}/{perPage}/{offset}")
-    public ResponseEntity<List<Map<String, Object>>> getMentorUpComingReservation(@PathVariable final Long mentorId,@PathVariable  int perPage,@PathVariable int offset) {
+    public ResponseEntity<Map<String, Object>> getMentorUpComingReservation(@PathVariable final Long mentorId,@PathVariable  int perPage,@PathVariable int offset) {
         var result = studentReservationService.getAllReservationByMentorIdInfosUpComing(mentorId, perPage,  offset);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
