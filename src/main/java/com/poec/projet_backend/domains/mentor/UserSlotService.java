@@ -1,17 +1,17 @@
-package com.poec.projet_backend.user_app;
+package com.poec.projet_backend.domains.mentor;
 
 
-import com.poec.projet_backend.domains.mentor.Mentor;
-import com.poec.projet_backend.domains.mentor.MentorDTO;
-import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.reservation.Reservation;
+import com.poec.projet_backend.domains.reservation.WeekUtil;
 import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
+import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -25,10 +25,7 @@ public class UserSlotService {
     private final SlotRepository slotRepository;
     private final MentorRepository mentorRepository;
 
-    public static LocalDateTime convertDateToLocalDateTime(Date date) {
-        Instant instant = date.toInstant();
-        return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-    }
+
 
     public List<SlotDTO> getSlotByMentorId(Long mentorId) {
         return slotRepository.findAllByMentorId(mentorId).stream().map(SlotDTO::fromEntity).toList();
@@ -38,32 +35,44 @@ public class UserSlotService {
         Mentor mentor = mentorRepository.findById(mentorId).get();
         Reservation reservation = new Reservation();
         Slot slot = SlotDTO.toEntity(slotDTO,mentor, reservation);
+        var start =WeekUtil.convertLocalDateToDate( WeekUtil.getStartOfWeek(LocalDate.from(slotDTO.getDateBegin())));
+        var end = WeekUtil.convertLocalDateToDate(WeekUtil.getEndOfWeek(LocalDate.from(slotDTO.getDateEnd())));
+        System.out.println(start);
+        System.out.println(end);
 
+        //return getSlotByUserIdStartToEnd(mentorId,start,end).stream().map(SlotDTO::fromEntity).toList();
         return SlotDTO.fromEntity(slotRepository.save(slot));
+//        return slotRepository.findAllActiveUsersSlotsNative(mentorId ,
+//                        WeekUtil.convertLocalDateToLocalDateTime(start),
+//                        WeekUtil.convertLocalDateToLocalDateTime(end))
+//                .stream().map(SlotDTO::fromEntity).toList();
     }
 
-    public List<Slot> getSlotByUserIdStartToEnd(Date startDate, Date endDate) {
-        LocalDateTime startDateTime = convertDateToLocalDateTime(startDate);
-        LocalDateTime endDateTime = convertDateToLocalDateTime(endDate);
-        return slotRepository.findAllActiveSlotNative(startDateTime, endDateTime);
+    public List<Slot> getSlotByUserIdStartToEnd(Long mentorId, Date startDate, Date endDate) {
+        LocalDateTime startDateTime =WeekUtil.convertDateToLocalDateTime(startDate);
+        LocalDateTime endDateTime = WeekUtil.convertDateToLocalDateTime(endDate);
+        System.out.println(mentorId);
+        return slotRepository.findAllActiveUsersSlotsNative(mentorId ,startDateTime, endDateTime);
+        //return slotRepository.findAllActiveSlotNative(startDateTime, endDateTime);
     }
 
     public SlotDTO updateSlot(SlotDTO slotDTO) {
-        Slot slot = slotRepository.findById(slotDTO.getId()).get();
-        if(slot != null) {
+        var slot = slotRepository.findById(slotDTO.getId());
+        if(slot.isPresent()) {
             Slot newSlot = Slot.builder()
                     .id(slotDTO.getId())
                     .dateBegin(slotDTO.getDateBegin())
                     .dateEnd(slotDTO.getDateEnd())
                     .visio(slotDTO.isVisio())
-                    .mentor(slot.getMentor())
+                    .mentor(slot.get().getMentor())
                     .build();
-            if (slot.getReservation() != null) {
-                newSlot.setReservation(slot.getReservation());
-            }
+            if (slot.get().getReservation() != null) {
+                newSlot.setReservation(slot.get().getReservation());
+            }else
+                newSlot.setReservation(null);
+            return SlotDTO.fromEntity(slotRepository.save(newSlot));
         }
-        return SlotDTO.fromEntity(slotRepository.save(slot));
-
+        return null;
     }
 //
 //    public List <SlotDTO> addSlotMentor(SlotDTO slot) {

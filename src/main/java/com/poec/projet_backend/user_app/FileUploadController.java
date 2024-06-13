@@ -51,7 +51,7 @@ public class FileUploadController {
             String workingDirectory = System.getProperty("user.dir");
             System.out.println("file details " + file.getResource());
             Mentor updatedMentor = mentorRepository.findByUserId(userId);
-            updatedMentor.setImgUrl("http://localhost:8080/images/" + fileName);
+            updatedMentor.setImgUrl("http://localhost:8080/user/upload/serve/" + fileName);
             MentorDTO res = MentorDTO.fromEntity(mentorRepository.save(updatedMentor));
             file.transferTo(new File(workingDirectory + "/src/main/resources/static/images/" + fileName));
 
@@ -75,7 +75,7 @@ public class FileUploadController {
                 String contentType = Files.probeContentType(file);
                 return ResponseEntity.ok()
                         // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                        .header(HttpHeaders.CONTENT_TYPE, contentType)
+                        .header(HttpHeaders.CONTENT_TYPE, "image/jpg")
                         .body(resource);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);

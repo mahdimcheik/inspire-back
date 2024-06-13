@@ -1,5 +1,7 @@
 package com.poec.projet_backend.domains.reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.student.Student;
 import jakarta.persistence.*;
@@ -23,9 +25,12 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentId")
+    @JsonIgnoreProperties("mentors")
+    @JsonIgnore
     private Student student;
 
-    @OneToOne(mappedBy = "reservation")
+    @OneToOne
+    @JoinColumn(name = "slotId")
     private Slot slot;
 
 

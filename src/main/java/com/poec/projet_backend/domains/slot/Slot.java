@@ -38,7 +38,6 @@ public class Slot {
     private Mentor mentor;
 
     @OneToOne
-    @JoinColumn(name = "reservationId")
     private Reservation reservation;
 
 }

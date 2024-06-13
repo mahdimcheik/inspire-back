@@ -2,10 +2,16 @@ package com.poec.projet_backend.domains.reservation;
 
 import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.student.Student;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
+import jakarta.persistence.SqlResultSetMapping;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+
 
 
 @Builder
@@ -27,7 +33,6 @@ public class ReservationDTO {
                 .slotId(reservation.getSlot().getId())
                 .studentId(reservation.getStudent().getId())
                 .build();
-
     }
 
     public static Reservation toEntity(ReservationDTO reservationDTO, Student student, Slot slot) {
