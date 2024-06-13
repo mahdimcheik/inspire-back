@@ -7,6 +7,7 @@ import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -42,8 +43,46 @@ public class StudentReservationService {
         return reservationRepository.findReservationsByStudentId(studentId).stream().map(ReservationDTO::toDTO).toList();
     }
 
-    public List<Map<String, Object>> test(Long studentId)
+//    public List<Map<String, Object>> getAllReservationInfosHistory(Long studentId, int perPage, int offset)
+//    {
+//        LocalDateTime time = LocalDateTime.now();
+//        System.out.println("time now " +time);
+//        return reservationRepository.findReservationInfosHistory(studentId, time,offset, perPage );
+//    }
+
+    public List<Map<String, Object>> getAllReservationByStudentIdInfosUpcoming(Long studentId, int perPage, int offset)
     {
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println("time now " +time);
+        return reservationRepository.findReservationByStudentIdInfosUpComing(studentId, time,offset, perPage );
+    }
+
+    public List<Map<String, Object>> getAllReservationByStudentIdInfosHistory(Long studentId, int perPage, int offset)
+    {
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println("time now " +time);
+        return reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
+    }
+
+    public List<Map<String, Object>> getAllReservationByMentorIdInfosUpComing(Long mentorId, int perPage, int offset)
+    {
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println("time now " +time);
+        return reservationRepository.findReservationInfosByMentorIdUpComing(mentorId, time,offset, perPage );
+    }
+
+    public List<Map<String, Object>> getAllReservationByMentorIdInfosHistory(Long mentorId, int perPage, int offset)
+    {
+        LocalDateTime time = LocalDateTime.now();
+        System.out.println("time now " +time);
+        return reservationRepository.findReservationInfosByMentorIdUpComing(mentorId, time,offset, perPage );
+    }
+
+    public List<Map<String, Object>> delete(Long reservationId, Long studentId) {
+
+        reservationRepository.deleteById(reservationId);
+
         return reservationRepository.findReservationInfos(studentId);
     }
+
 }
