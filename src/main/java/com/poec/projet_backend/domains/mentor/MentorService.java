@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Data
@@ -45,5 +47,30 @@ public class MentorService {
         UserApp user = userAppRepository.findById(mentor.userId()).orElseThrow(() -> new RuntimeException("User not found"));
        // System.out.println("user in service " + user.toString());
         return repository.save(mentor.toMentor(user));
+    }
+
+
+    public List<MentorDTO> getMentorsBySkills(List<String> skillNames) {
+        List<Mentor> mentors = repository.findAll();
+
+        Set<Long> userIdsWithAllSkills = mentors.stream()
+                .filter(mentor -> hasAllSkills(mentor, skillNames))
+                .map(mentor -> mentor.getUser().getId())
+                .collect(Collectors.toSet());
+
+        List<Mentor> filteredMentors = mentors.stream()
+                .filter(mentor -> userIdsWithAllSkills.contains(mentor.getUser().getId()))
+                .collect(Collectors.toList());
+
+        return filteredMentors.stream()
+                .map(MentorDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    private boolean hasAllSkills(Mentor mentor, List<String> skillNames) {
+        List<String> mentorSkills = mentor.getUser().getSkills().stream()
+                .map(skill -> skill.getName())
+                .collect(Collectors.toList());
+        return mentorSkills.containsAll(skillNames);
     }
 }

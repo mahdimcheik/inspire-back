@@ -36,4 +36,11 @@ public class MentorController {
     public MentorDTO addMentor(@RequestBody MentorDTO mentor){
         return service.addMentorByUserId(mentor).toMentorDTO();
     }
+
+    @GetMapping("/by-skills")
+    public ResponseEntity<List<MentorDTO>> getMentorsBySkills(@RequestParam List<String> skills) {
+        System.out.println("Skills: " + skills);
+        List<MentorDTO> mentors = service.getMentorsBySkills(skills);
+        return new ResponseEntity<>(mentors, HttpStatus.OK);
+    }
 }

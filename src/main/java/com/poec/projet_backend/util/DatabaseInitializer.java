@@ -70,7 +70,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("Javascript");
 
 
-        createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette", "no fking image", "git", "link", 1L));
+        createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette", "https://picsum.photos/200", "git", "link", 1L));
         createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data", "https://picsum.photos/200", "githubJean", "linkedinJean", 2L));
         createMentor(new MentorDTO(3L, "Mahdi", "Martin", "UX Designer", "Créateur d'Expérience", "https://picsum.photos/200", "githubAlice", "linkedinAlice", 3L));
         createMentor(new MentorDTO(4L, "Lucas", "Moreau", "DevOps", "Spécialiste en Infrastructure", "https://picsum.photos/200", "githubLucas", "linkedinLucas", 4L));
