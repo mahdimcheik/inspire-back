@@ -3,6 +3,7 @@ package com.poec.projet_backend.domains.mentor;
 import com.poec.projet_backend.domains.language.LanguageDTO;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
+import com.poec.projet_backend.user_app.UserExperienceService;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class MentorService {
     private final MentorRepository repository;
     private final UserAppRepository userAppRepository;
+    private final UserExperienceService userExperienceService;
 
     public List<Mentor> getAll() {
         return repository.findAll();
@@ -72,5 +74,16 @@ public class MentorService {
                 .map(skill -> skill.getName())
                 .collect(Collectors.toList());
         return mentorSkills.containsAll(skillNames);
+    }
+
+    public List<MentorDTO> getMentorsByExperienceYears(int minYears, int maxYears) {
+        List<Mentor> mentors = repository.findAll();
+        return mentors.stream()
+                .filter(mentor -> {
+                    long totalExperienceYears = userExperienceService.calculateTotalExperienceYears(mentor.getUser().getId());
+                    return totalExperienceYears >= minYears && totalExperienceYears <= maxYears;
+                })
+                .map(MentorDTO::fromEntity)
+                .collect(Collectors.toList());
     }
 }

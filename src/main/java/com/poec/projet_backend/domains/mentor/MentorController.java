@@ -39,8 +39,15 @@ public class MentorController {
 
     @GetMapping("/by-skills")
     public ResponseEntity<List<MentorDTO>> getMentorsBySkills(@RequestParam List<String> skills) {
-        System.out.println("Skills: " + skills);
         List<MentorDTO> mentors = service.getMentorsBySkills(skills);
         return new ResponseEntity<>(mentors, HttpStatus.OK);
     }
+
+    @GetMapping("/by-experience")
+    public ResponseEntity<List<MentorDTO>> getMentorsByExperienceYears(@RequestParam int minYears, @RequestParam int maxYears) {
+        List<MentorDTO> mentors = service.getMentorsByExperienceYears(minYears, maxYears);
+        return new ResponseEntity<>(mentors, HttpStatus.OK);
+    }
+
+
 }
