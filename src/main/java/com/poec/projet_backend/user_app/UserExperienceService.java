@@ -9,6 +9,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Data
@@ -63,5 +65,12 @@ public class UserExperienceService {
         } catch (EntityNotFoundException e) {
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public long calculateTotalExperienceYears(Long userId) {
+        List<Experience> experiences = experienceRepository.findAllByUserId(userId);
+        return experiences.stream()
+                .mapToLong(exp -> ChronoUnit.YEARS.between(exp.getDateBegin(), exp.getDateEnd() != null ? exp.getDateEnd() : LocalDate.now()))
+                .sum();
     }
 }
