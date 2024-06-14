@@ -1,12 +1,20 @@
 package com.poec.projet_backend.domains.reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.student.Student;
-import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "reservation")
 public class Reservation {
     @Id
@@ -17,5 +25,13 @@ public class Reservation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentId")
+    @JsonIgnoreProperties("mentors")
+    @JsonIgnore
     private Student student;
+
+    @OneToOne
+    @JoinColumn(name = "slotId")
+    private Slot slot;
+
+
 }
