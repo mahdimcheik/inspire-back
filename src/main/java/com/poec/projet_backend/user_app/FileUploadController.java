@@ -5,6 +5,7 @@ import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
 import jakarta.servlet.ServletContext;
 import lombok.Data;
+import org.apache.commons.io.FileUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -17,6 +18,9 @@ import org.springframework.http.HttpStatus;
 
 import java.io.File;
 import java.nio.file.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -64,19 +68,25 @@ public class FileUploadController {
 
     @GetMapping("/serve/{filename}")
     @ResponseBody
-    public ResponseEntity< Resource> serveImage(@PathVariable String filename) {
+    public ResponseEntity< Map<String, String> > serveImage(@PathVariable String filename) {
         try {
             String workingDirectory = System.getProperty("user.dir");
             System.out.println(Paths.get(UPLOAD_DIR));
             Path file = Paths.get(workingDirectory + "/src/main/resources/static/images/").resolve(filename);
             Resource resource = new UrlResource(file.toUri());
 
+            byte[] fileContent = FileUtils.readFileToByteArray(new File(workingDirectory + "/src/main/resources/static/images/" + filename));
+            String encodedString = Base64.getEncoder().encodeToString(fileContent);
+            System.out.println(encodedString);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("image", encodedString);
             if (resource.exists() || resource.isReadable()) {
                 String contentType = Files.probeContentType(file);
                 return ResponseEntity.ok()
                         // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                        .header(HttpHeaders.CONTENT_TYPE, "image/jpg")
-                        .body(resource);
+                        // .header(HttpHeaders.CONTENT_TYPE, "application/json")
+                        .body(response);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
