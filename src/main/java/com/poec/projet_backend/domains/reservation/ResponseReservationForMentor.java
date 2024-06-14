@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class ResponseReservationForMentor {
     private Long id;
+    private Long userId;
     private Long studentId;
     private Long slotId;
     private Long reservationId;

@@ -28,13 +28,14 @@ public class StudentReservationController {
 //    }
 
     @GetMapping("/get/student/history/{studentId}/{perPage}/{offset}")
-    public ResponseEntity<List<Map<String, Object>>> getStudentUpcomingReservation(@PathVariable final Long studentId,@PathVariable  int perPage,@PathVariable int offset) {
+    public ResponseEntity<Map<String, Object
+            >> getStudentUpcomingReservation(@PathVariable final Long studentId,@PathVariable  int perPage,@PathVariable int offset) {
         var result = studentReservationService.getAllReservationByStudentIdInfosHistory(studentId, perPage,  offset);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/get/student/upcoming/{studentId}/{perPage}/{offset}")
-    public ResponseEntity<List<Map<String, Object>>> getStudentHistoryReservation(@PathVariable final Long studentId,@PathVariable  int perPage,@PathVariable int offset) {
+    public ResponseEntity<Map<String, Object>> getStudentHistoryReservation(@PathVariable final Long studentId,@PathVariable  int perPage,@PathVariable int offset) {
         var result = studentReservationService.getAllReservationByStudentIdInfosUpcoming(studentId, perPage,  offset);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -46,7 +47,7 @@ public class StudentReservationController {
     }
 
     @GetMapping("/get/mentor/history/{mentorId}/{perPage}/{offset}")
-    public ResponseEntity<List<Map<String, Object>>> getMentorHistoryReservation(@PathVariable final Long mentorId,@PathVariable  int perPage,@PathVariable int offset) {
+    public ResponseEntity<Map<String, Object>> getMentorHistoryReservation(@PathVariable final Long mentorId,@PathVariable  int perPage,@PathVariable int offset) {
         var result = studentReservationService.getAllReservationByMentorIdInfosHistory(mentorId, perPage,  offset);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

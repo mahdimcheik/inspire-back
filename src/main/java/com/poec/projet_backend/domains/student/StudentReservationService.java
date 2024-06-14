@@ -52,18 +52,60 @@ public class StudentReservationService {
 //        return reservationRepository.findReservationInfosHistory(studentId, time,offset, perPage );
 //    }
 
-    public List<Map<String, Object>> getAllReservationByStudentIdInfosUpcoming(Long studentId, int perPage, int offset)
+    public Map<String, Object> getAllReservationByStudentIdInfosUpcoming(Long studentId, int perPage, int offset)
     {
         LocalDateTime time = LocalDateTime.now();
         System.out.println("time now " +time);
-        return reservationRepository.findReservationByStudentIdInfosUpComing(studentId, time,offset, perPage );
+        var results = reservationRepository.findReservationByStudentIdInfosUpComing(studentId, time,offset, perPage );
+
+        var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
+                .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
+                .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
+                .firstName((String) ele.get("firstName"))
+                .lastName((String) ele.get("lastName"))
+                .title((String) ele.get("title"))
+                .imgUrl((String) ele.get("imgUrl"))
+                .subject((String) ele.get("subject"))
+                .message((String) ele.get("message"))
+                .id((Long) ele.get("id"))
+                .userId((Long) ele.get("userId"))
+                .reservationId((Long) ele.get("reservationId"))
+                .studentId((Long) ele.get("studentId"))
+                .slotId((Long) ele.get("slotId"))
+                .build()).toList();
+        Map<String, Object> result = new HashMap<>();
+        result.put("reservations",res);
+        result.put("total",(Long) results.get(0).get("totalCount"));
+        return result;
+
+        // return reservationRepository.findReservationByStudentIdInfosUpComing(studentId, time,offset, perPage );
     }
 
-    public List<Map<String, Object>> getAllReservationByStudentIdInfosHistory(Long studentId, int perPage, int offset)
+    public Map<String, Object> getAllReservationByStudentIdInfosHistory(Long studentId, int perPage, int offset)
     {
         LocalDateTime time = LocalDateTime.now();
         System.out.println("time now " +time);
-        return reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
+        var results = reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
+        var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
+                .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
+                .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
+                .firstName((String) ele.get("firstName"))
+                .lastName((String) ele.get("lastName"))
+                .title((String) ele.get("title"))
+                .imgUrl((String) ele.get("imgUrl"))
+                .subject((String) ele.get("subject"))
+                .message((String) ele.get("message"))
+                .id((Long) ele.get("id"))
+                .userId((Long) ele.get("userId"))
+                .reservationId((Long) ele.get("reservationId"))
+                .studentId((Long) ele.get("studentId"))
+                .slotId((Long) ele.get("slotId"))
+                .build()).toList();
+        Map<String, Object> result = new HashMap<>();
+        result.put("reservations",res);
+        result.put("total",(Long) results.get(0).get("totalCount"));
+        return result;
+        //return reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
     }
 
     public Map<String, Object> getAllReservationByMentorIdInfosUpComing(Long mentorId, int perPage, int offset)
@@ -81,6 +123,7 @@ public class StudentReservationService {
                 .subject((String) ele.get("subject"))
                 .message((String) ele.get("message"))
                 .id((Long) ele.get("id"))
+                .userId((Long) ele.get("userId"))
                 .reservationId((Long) ele.get("reservationId"))
                 .studentId((Long) ele.get("studentId"))
                 .slotId((Long) ele.get("slotId"))
@@ -91,11 +134,30 @@ public class StudentReservationService {
         return result;
     }
 
-    public List<Map<String, Object>> getAllReservationByMentorIdInfosHistory(Long mentorId, int perPage, int offset)
+    public Map<String, Object> getAllReservationByMentorIdInfosHistory(Long mentorId, int perPage, int offset)
     {
         LocalDateTime time = LocalDateTime.now();
-        System.out.println("time now " +time);
-        return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
+        var results = reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
+        var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
+                .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
+                .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
+                .firstName((String) ele.get("firstName"))
+                .lastName((String) ele.get("lastName"))
+                .title((String) ele.get("title"))
+                .imgUrl((String) ele.get("imgUrl"))
+                .subject((String) ele.get("subject"))
+                .message((String) ele.get("message"))
+                .id((Long) ele.get("id"))
+                .userId((Long) ele.get("userId"))
+                .reservationId((Long) ele.get("reservationId"))
+                .studentId((Long) ele.get("studentId"))
+                .slotId((Long) ele.get("slotId"))
+                .build()).toList();
+        Map<String, Object> result = new HashMap<>();
+        result.put("reservations",res);
+        result.put("total",(Long) results.get(0).get("totalCount"));
+        return result;
+        // return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
     }
 
     public List<Map<String, Object>> delete(Long reservationId, Long studentId) {

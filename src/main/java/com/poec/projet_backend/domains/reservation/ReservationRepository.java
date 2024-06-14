@@ -26,11 +26,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
-                    "st.title, st.imgUrl, st.firstName, st.lastName, " +
+                    "mt.title, mt.imgUrl, mt.firstName, mt.lastName, " +
+                    "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
                     "JOIN slot s ON s.id = r.slotId " +
                     "JOIN student st ON st.id = r.studentId " +
+                    "JOIN mentor mt on mt.id = s.mentorId " +
                     "WHERE r.studentId = ?1 AND s.dateBegin >= ?2 " +
                     "ORDER BY s.dateBegin ASC " +
                     "LIMIT ?4 OFFSET ?3",
@@ -41,11 +43,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd,s.isBooked, s.isVisio, r.studentId, " +
-                    "st.title, st.imgUrl, st.firstName, st.lastName, " +
+                    "mt.title, mt.imgUrl, mt.firstName, mt.lastName, " +
+                    "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
                     "JOIN slot s ON s.id = r.slotId " +
                     "JOIN student st ON st.id = r.studentId " +
+                    "JOIN mentor mt on mt.id = s.mentorId " +
                     "WHERE r.studentId = ?1 AND s.dateBegin <= ?2 " +
                     "ORDER BY s.dateBegin DESC " +
                     "LIMIT ?4 OFFSET ?3",
@@ -56,10 +60,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstName, st.lastName, " +
+                    "mt.userId as userId , " +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
                     "JOIN slot s ON s.id = r.slotId " +
                     "JOIN student st ON st.id = r.studentId " +
+                    "JOIN mentor mt on mt.id = s.mentorId " +
                     "WHERE s.mentorId = ?1 AND s.dateBegin >= ?2 " +
                     "ORDER BY s.dateBegin ASC " +
                     "LIMIT ?4 OFFSET ?3",
@@ -71,9 +77,11 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstName, st.lastName, " +
+                    "mt.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
                     "JOIN slot s ON s.id = r.slotId " +
+                    "JOIN mentor mt on mt.id = s.mentorId " +
                     "JOIN student st ON st.id = r.studentId " +
                     "WHERE s.mentorId = ?1 AND s.dateBegin <= ?2 " +
                     "ORDER BY s.dateBegin DESC " +
