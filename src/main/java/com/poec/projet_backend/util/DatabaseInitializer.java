@@ -79,8 +79,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
         createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data",
                 "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
-        createMentor(new MentorDTO(3L, "Mahdi", "Martin", "UX Designer", "Créateur d'Expérience",
-                "http://localhost:8080/images/mahdi.jpg", "githubAlice", "linkedinAlice", 3L));
+        createMentor(new MentorDTO(3L, "Adam", "Martin", "UX Designer", "Créateur d'Expérience",
+                "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
         createMentor(new MentorDTO(4L, "Raph", "Moreau", "DevOps", "Spécialiste en Infrastructure",
                 "http://localhost:8080/images/raph.jpeg", "githubLucas", "linkedinLucas", 4L));
         createMentor(new MentorDTO(5L, "Fred", "Leroy", "Product Manager", "Gestionnaire de Produit",
@@ -95,7 +95,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 9L));
 
         List<Long> mentorids = new ArrayList<>();
-        createStudent(new StudentDTO(1L, "Marie", "Delaire", "Dev", "Super Mentorette", "https://picsum.photos/200",
+        createStudent(new StudentDTO(1L, "Mahdi", "Mcheik", "Developpeur Junior", "J'ai envie d'apprendre !", "http://localhost:8080/images/mahdi.jpg",
                 "github/mariedelaire", "linkedin/mariedelaire", 10L, mentorids));
         createStudent(new StudentDTO(2L, "Jean", "Dupont", "Data Scientist", "Expert en données",
                 "https://picsum.photos/200", "github/jeandupont", "linkedin/jeandupont", 11L, mentorids));
