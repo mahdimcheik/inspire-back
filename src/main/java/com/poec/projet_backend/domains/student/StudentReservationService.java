@@ -165,4 +165,13 @@ public class StudentReservationService {
         return reservationRepository.findReservationInfos(studentId);
     }
 
+    public Reservation update(Long reservationId, String message){
+        var reservation = reservationRepository.findById(reservationId);
+        if(reservation.isPresent()){
+            reservation.get().setMessage(message);
+            return reservationRepository.save(reservation.get());
+        }
+        return null;
+    }
+
 }
