@@ -77,7 +77,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette",
                 "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
-        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data",
+        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Developpeur Web Java / Angular", "Expert en Java, je suis également compétent en Angular et j'ai un interet particulier pour le front ! ",
                 "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
         createMentor(new MentorDTO(3L, "Adam", "Martin", "UX Designer", "Créateur d'Expérience",
                 "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
