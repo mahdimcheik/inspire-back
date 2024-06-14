@@ -37,11 +37,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
 
+        if (request.getRequestURI().contains("/api/v1/auth") ||
+                request.getRequestURI().contains("/api/v1/public") ||
+                request.getRequestURI().contains("/images")) {
+            System.out.println("uri: " + request.getRequestURI());
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+
         /* On vérifie si authHeader n'est pas null ET si la valeur de la clé "Authorization" commence par "Bearer " */
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             request.setAttribute("no_jwt_provided", "No JWT provided");
             filterChain.doFilter(request, response);
-
 
             return;
         }
@@ -52,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userEmail = jwtService.extractUsername(jwt);
 
             /* Si le user n'est pas null & qu'il n'est pas déjà connecté */
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (userEmail != null) {
                 /* Je récupère en BDD l'utilisateur dont l'email correspond à "userEmail" */
                 UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
 

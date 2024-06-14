@@ -2,7 +2,9 @@ package com.poec.projet_backend.config;
 
 import com.poec.projet_backend.filter.JwtAuthenticationFilter;
 import com.poec.projet_backend.user_app.Role;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,8 +19,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@Data
 public class SecurityConfig {
-
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final JwtAuthenticationErrors jwtAuthenticationErrors;
@@ -39,10 +41,17 @@ public class SecurityConfig {
 
             // Liste des routes protégées / non protégées
             .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/api/v1/auth/**").permitAll() /* n'importe qui a accès à cet url */
-                .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
-                .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
-                .anyRequest().authenticated()
+                    .requestMatchers("/api/v1/auth/**","/formation/user/**","/language/user/update/**","/formation/user/**","/language/user/**","/skill/user/update/**","/skill/user/**","skill/get/**","/language/get/all", "/experience/**", "/experience/user/**", "/mentor/**", "/api/v1/users/**").permitAll() /* n'importe qui a accès à cet url */
+                    .requestMatchers("/experience/user/**", "/experience/user/update/**").permitAll()
+                    .requestMatchers("/student/**").permitAll() /* n'importe qui a accès à cet url */
+                            .requestMatchers("/user/slot/update").permitAll()
+                            .requestMatchers("/student/favorite/**","/student/favorite/add/**", "/student/favorite/delete/**").permitAll() /* n'importe qui a accès à cet url */
+//                    .requestMatchers("/api/v1/users/me").permitAll() /* n'importe qui a accès à cet url */
+                 .requestMatchers("/user/upload/image", "/uploads/images/**", "/images/**", "/static/images/**").permitAll() /* n'importe qui a accès à cet url */
+
+                    .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
+                    .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
+                    .anyRequest().authenticated()
             )
 
             // On configure les erreurs d'authentification
