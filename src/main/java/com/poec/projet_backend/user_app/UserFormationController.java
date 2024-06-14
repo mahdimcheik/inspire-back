@@ -20,6 +20,7 @@ import java.util.List;
 public class UserFormationController {
     private final UserFormationService userFormationService;
     private final FormationRepository formationRepository;
+
     @PostMapping("/add")
     public ResponseFormation addUserFormation(@RequestBody FormationDTO formation) {
         try {

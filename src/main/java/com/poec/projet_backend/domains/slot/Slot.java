@@ -1,6 +1,7 @@
 package com.poec.projet_backend.domains.slot;
 
 import com.poec.projet_backend.domains.mentor.Mentor;
+import com.poec.projet_backend.domains.reservation.Reservation;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,16 +24,20 @@ public class Slot {
     @Column(name = "dateBegin")
     private LocalDateTime dateBegin;
 
-    private int userId;
-
     @Column(name = "dateEnd")
     private LocalDateTime dateEnd;
 
+    @Column(name="isVisio" )
     private boolean visio;
 
     @Column(name = "isBooked")
     private boolean isBooked;
 
     @ManyToOne
+    @JoinColumn(name = "mentorId")
     private Mentor mentor;
+
+    @OneToOne
+    private Reservation reservation;
+
 }
