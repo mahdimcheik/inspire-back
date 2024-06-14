@@ -138,8 +138,8 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
         List<Language> languages = new ArrayList<>();
         languages.add(new Language(1L, "Francais"));
-        languages.add(new Language(2L, "deutsch"));
-        languages.add(new Language(3L, "arabe"));
+        languages.add(new Language(2L, "Deutsch"));
+        languages.add(new Language(3L, "Arabe"));
 
         for (long i = 1; i <= 10; i++) {
             addUserLanguage(i, languages);

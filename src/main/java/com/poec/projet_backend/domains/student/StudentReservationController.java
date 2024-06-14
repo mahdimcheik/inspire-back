@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.student;
 
+import com.poec.projet_backend.domains.reservation.Reservation;
 import com.poec.projet_backend.domains.reservation.ReservationDTO;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -55,6 +56,11 @@ public class StudentReservationController {
     @DeleteMapping("/delete/{reservationId}/{studentId}")
     public ResponseEntity<List<Map<String, Object>>> delete(@PathVariable final Long reservationId, @PathVariable final Long studentId) {
         return new ResponseEntity<>( studentReservationService.delete(reservationId, studentId), HttpStatus.OK);
+    }
+
+    @PutMapping("/update/{reservationId}")
+    public ResponseEntity<Reservation> update(@PathVariable final Long reservationId, @RequestBody final Map<String, String> message) {
+        return new  ResponseEntity(studentReservationService.update(reservationId, message.get("message")), HttpStatus.OK);
     }
 
 }

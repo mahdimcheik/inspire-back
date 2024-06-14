@@ -90,5 +90,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     )
     List<Map<String, Object>> findReservationInfosByMentorIdHistory(Long mentorId, LocalDateTime timeNow, int offset, int limit);
 
+
 }
 
