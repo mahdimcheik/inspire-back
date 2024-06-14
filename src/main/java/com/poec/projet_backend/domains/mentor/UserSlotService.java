@@ -74,6 +74,13 @@ public class UserSlotService {
         }
         return null;
     }
+
+    public void deleteSlot(Long id) {
+        Slot slot = slotRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Slot not found with id " + id));
+
+        slotRepository.delete(slot);
+    }
 //
 //    public List <SlotDTO> addSlotMentor(SlotDTO slot) {
 ////        try {

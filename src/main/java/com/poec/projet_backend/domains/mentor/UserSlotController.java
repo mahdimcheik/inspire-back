@@ -31,6 +31,11 @@ public class UserSlotController {
         return userSlotService.addSlot(slotDTO.getMentorId(), slotDTO);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public void deleteUserSlot(@PathVariable Long id) {
+        userSlotService.deleteSlot(id);
+    }
+
     @PutMapping("/update")
     public SlotDTO updateUserSlot(@RequestBody SlotDTO slotDTO) {
         return userSlotService.updateSlot(slotDTO);
