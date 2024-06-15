@@ -1,6 +1,8 @@
 package com.poec.projet_backend.domains.student;
 
 import com.poec.projet_backend.domains.reservation.*;
+import com.poec.projet_backend.domains.slot.Slot;
+import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
@@ -26,18 +28,21 @@ public class StudentReservationService {
         if(reservationDTO.getStudentId() != null) {
             var student = studentRepository.findById(reservationDTO.getStudentId());
             var slot = slotRepository.findById(reservationDTO.getSlotId());
-            if(student.isPresent() && slot.isPresent()) {
+            if(student.isPresent() && slot.isPresent() && !slot.get().isBooked()) {
                 Reservation reservation = Reservation.builder()
                         .slot(slot.get())
                         .subject(reservationDTO.getSubject())
                         .message("")
                         .student(student.get())
                         .build();
+                slot.get().setBooked(true);
+                slotRepository.save(slot.get());
                 return ReservationDTO.toDTO(reservationRepository.save(reservation));
             }
         }
         return null;
     }
+
 
     public List<ReservationDTO> getAllReservations() {
         return reservationRepository.findAll().stream().map(ReservationDTO::toDTO).toList();
@@ -45,13 +50,6 @@ public class StudentReservationService {
     public List<ReservationDTO> getReservationsByStudentId(Long studentId) {
         return reservationRepository.findReservationsByStudentId(studentId).stream().map(ReservationDTO::toDTO).toList();
     }
-
-//    public List<Map<String, Object>> getAllReservationInfosHistory(Long studentId, int perPage, int offset)
-//    {
-//        LocalDateTime time = LocalDateTime.now();
-//        System.out.println("time now " +time);
-//        return reservationRepository.findReservationInfosHistory(studentId, time,offset, perPage );
-//    }
 
     public Map<String, Object> getAllReservationByStudentIdInfosUpcoming(Long studentId, int perPage, int offset)
     {
@@ -229,12 +227,17 @@ public class StudentReservationService {
         return reservationRepository.findReservationInfos(studentId);
     }
 
-    public Reservation update(Long reservationId, String message){
+    public Reservation update(Long reservationId, String message) {
         var reservation = reservationRepository.findById(reservationId);
-        if(reservation.isPresent()){
+        if (reservation.isPresent()) {
             reservation.get().setMessage(message);
             return reservationRepository.save(reservation.get());
         }
+        return null;
+    }
+
+    public SlotDTO BookSlot(Long studentId, Long slotId, String subject) {
+
         return null;
     }
 
