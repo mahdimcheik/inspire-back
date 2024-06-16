@@ -4,9 +4,12 @@ package com.poec.projet_backend.domains.mentor;
 import com.poec.projet_backend.domains.reservation.RangeDate;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -26,11 +29,6 @@ public class UserSlotController {
         return userSlotService.getSlotByUserIdStartToEnd(mentorId,range.getStart() ,range.getEnd()).stream().map(SlotDTO::fromEntity).toList();
     }
 
-    @GetMapping("/test/{mentorId}/{studentId}")
-    public List<SlotDTO> getUserSlotsInRang(@PathVariable Long mentorId, @PathVariable Long studentId ) {
-        return userSlotService.getSlotByStudentId(mentorId,studentId).stream().map(SlotDTO::fromEntity).toList();
-    }
-
     @PostMapping("/add")
     public SlotDTO addUserSlot(@RequestBody SlotDTO slotDTO) {
         return userSlotService.addSlot(slotDTO.getMentorId(), slotDTO);
@@ -45,19 +43,10 @@ public class UserSlotController {
     public SlotDTO updateUserSlot(@RequestBody SlotDTO slotDTO) {
         return userSlotService.updateSlot(slotDTO);
     }
-//    @PostMapping("/add/{userId}")
-//    public List<Slot> addSlotMentor(@RequestBody Slot slot, @PathVariable Long userId) {
-//        Slot.builder().dateBegin(slot);
-//        return userSlotService.addSlotMentor(slot);
-//    }
 
-//@GetMapping ("/{userId}")
-//public List<Slot> getSlotByUserId(@PathVariable Long userId) {
-//    return userSlotService.getSlotByUserId(userId);}
-
-//@DeleteMapping ("/delete/{slotId}")
-//public Slot deleteSlot(@PathVariable Long slotId) {
-//    return userSlotService.deleteSlot(slotId);}
-
+    @PostMapping("/test/{mentorId}")
+    public ResponseEntity<List<Map<String, Object>>> test(@PathVariable Long mentorId, @RequestBody RangeDate date) {
+        return new ResponseEntity<>(userSlotService.test(mentorId,date.getStart(), date.getEnd()), HttpStatus.ACCEPTED);
+    }
 
 }

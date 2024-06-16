@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 
 public interface SlotRepository extends JpaRepository<Slot, Long> {
@@ -24,12 +25,12 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
             nativeQuery = true
     )
     List<Slot> findAllActiveUsersSlotsNative(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
-    // to be complete
+
     @Query(
-            value = "SELECT r.studentId  FROM slot s " +
+            value = "SELECT * FROM slot s " +
                     "JOIN reservation r ON r.id = s.reservation_id " +
-                    "WHERE s.mentorId = :mentorId AND  (s.isBooked = false OR r.studentId = :studentId)",
+                    "WHERE s.dateEnd BETWEEN :start AND :end AND r.mentor_id = :mentorId",
             nativeQuery = true
     )
-    List<Slot> findAllActiveSlotsInfoForStudent(@Param("mentorId") Long mentorId,@Param("studentId") Long studentId);
+    List<Map<String, Object>> test(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
