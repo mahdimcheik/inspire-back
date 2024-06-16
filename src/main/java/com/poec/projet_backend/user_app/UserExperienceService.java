@@ -6,6 +6,7 @@ import com.poec.projet_backend.domains.experience.ExperienceRepository;
 import com.poec.projet_backend.domains.experience.ResponseExperience;
 import com.poec.projet_backend.domains.formation.Formation;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
@@ -53,11 +54,14 @@ public class UserExperienceService {
 
     }
 
+    @Transactional
     public ResponseExperience delete(Long id) {
         try {
             Experience experience = experienceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity with id " + id + " cannot be found"));
             experienceRepository.delete(experience);
-            List<ExperienceDTO> experiences = experienceRepository.findAllByUserId(id).stream().map(ExperienceDTO::from).toList();
+            System.out.println("id " + id );
+            List<ExperienceDTO> experiences = experienceRepository.findAllByUserId(experience.getUser().getId()).stream().map(ExperienceDTO::from).toList();
+            System.out.println(experiences);
             return ResponseExperience.builder().experiences(experiences)
                     .message("Experience deleted")
                     .success(true)
