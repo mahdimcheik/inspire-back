@@ -26,6 +26,11 @@ public class UserSlotController {
         return userSlotService.getSlotByUserIdStartToEnd(mentorId,range.getStart() ,range.getEnd()).stream().map(SlotDTO::fromEntity).toList();
     }
 
+    @GetMapping("/test/{mentorId}/{studentId}")
+    public List<SlotDTO> getUserSlotsInRang(@PathVariable Long mentorId, @PathVariable Long studentId ) {
+        return userSlotService.getSlotByStudentId(mentorId,studentId).stream().map(SlotDTO::fromEntity).toList();
+    }
+
     @PostMapping("/add")
     public SlotDTO addUserSlot(@RequestBody SlotDTO slotDTO) {
         return userSlotService.addSlot(slotDTO.getMentorId(), slotDTO);

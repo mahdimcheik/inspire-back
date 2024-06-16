@@ -56,6 +56,12 @@ public class UserSlotService {
         //return slotRepository.findAllActiveSlotNative(startDateTime, endDateTime);
     }
 
+    public List<Slot> getSlotByStudentId(Long mentorId, Long studentId) {
+        System.out.println(mentorId);
+        return slotRepository.findAllActiveSlotsInfoForStudent(  mentorId, studentId);
+    }
+
+
     public SlotDTO updateSlot(SlotDTO slotDTO) {
         var slot = slotRepository.findById(slotDTO.getId());
         if(slot.isPresent()) {

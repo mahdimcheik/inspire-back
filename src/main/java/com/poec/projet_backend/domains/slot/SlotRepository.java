@@ -24,4 +24,12 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
             nativeQuery = true
     )
     List<Slot> findAllActiveUsersSlotsNative(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    // to be complete
+    @Query(
+            value = "SELECT r.studentId  FROM slot s " +
+                    "JOIN reservation r ON r.id = s.reservation_id " +
+                    "WHERE s.mentorId = :mentorId AND  (s.isBooked = false OR r.studentId = :studentId)",
+            nativeQuery = true
+    )
+    List<Slot> findAllActiveSlotsInfoForStudent(@Param("mentorId") Long mentorId,@Param("studentId") Long studentId);
 }
