@@ -44,9 +44,8 @@ public class UserSlotController {
         return userSlotService.updateSlot(slotDTO);
     }
 
-    @PostMapping("/test/{mentorId}")
-    public ResponseEntity<List<Map<String, Object>>> test(@PathVariable Long mentorId, @RequestBody RangeDate date) {
-        return new ResponseEntity<>(userSlotService.test(mentorId,date.getStart(), date.getEnd()), HttpStatus.ACCEPTED);
+    @PostMapping("/slots/{mentorId}/{studentId}")
+    public ResponseEntity<List<Map<String, Object>>> test(@PathVariable Long mentorId,@PathVariable Long studentId, @RequestBody RangeDate date) {
+        return new ResponseEntity<>(userSlotService.getSlotsforStudentByMentorId(mentorId, studentId, date.getStart(), date.getEnd()), HttpStatus.ACCEPTED);
     }
-
 }

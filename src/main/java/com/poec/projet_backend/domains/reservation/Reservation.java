@@ -32,6 +32,4 @@ public class Reservation {
     @OneToOne
     @JoinColumn(name = "slotId")
     private Slot slot;
-
-
 }

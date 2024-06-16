@@ -27,10 +27,11 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findAllActiveUsersSlotsNative(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Query(
-            value = "SELECT * FROM slot s " +
-                    "JOIN reservation r ON r.id = s.reservation_id " +
-                    "WHERE s.dateEnd BETWEEN :start AND :end AND r.mentor_id = :mentorId",
+            value = "SELECT s.* FROM slot s " +
+                    "LEFT JOIN reservation r ON r.slotId = s.id " +
+                    "WHERE s.dateEnd >= :start AND s.dateEnd <= :end AND s.mentorId = :mentorId AND (s.isBooked = false OR r.studentId = :studentId)",
             nativeQuery = true
     )
-    List<Map<String, Object>> test(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    List<Map<String, Object>> getSlotsforStudentByMentorId(@Param("mentorId") Long mentorId,@Param("studentId") Long studentId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
+//@Param("studentId") Long studentId,
