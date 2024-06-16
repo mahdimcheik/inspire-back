@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.student;
 
+import com.poec.projet_backend.domains.mentor.UserSlotService;
 import com.poec.projet_backend.domains.reservation.*;
 import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
@@ -23,6 +24,7 @@ public class StudentReservationService {
     private final StudentRepository studentRepository;
     private final ReservationRepository reservationRepository;
     private final SlotRepository slotRepository;
+    private final UserSlotService userSlotService;
 
     public ReservationDTO create(ReservationDTO reservationDTO) {
         if(reservationDTO.getStudentId() != null) {
@@ -57,7 +59,7 @@ public class StudentReservationService {
             LocalDateTime time = LocalDateTime.now();
             System.out.println("time now " +time);
             var results = reservationRepository.findReservationByStudentIdInfosUpComing(studentId, time,offset, perPage );
-
+            results.forEach(reservation -> System.out.println(reservation.toString()));
             if(results.isEmpty()) {
                 Map<String, Object> result = new HashMap<>();
                 result.put("reservations",new ArrayList<>());
@@ -82,6 +84,7 @@ public class StudentReservationService {
             Map<String, Object> result = new HashMap<>();
             result.put("reservations",res);
             result.put("total",(Long) results.get(0).get("totalCount"));
+            System.out.println("result " + result.toString());
             return result;
         }catch (Exception e) {
             Map<String, Object> result = new HashMap<>();
@@ -89,9 +92,6 @@ public class StudentReservationService {
             result.put("total",0);
             return result;
         }
-
-
-        // return reservationRepository.findReservationByStudentIdInfosUpComing(studentId, time,offset, perPage );
     }
 
     public Map<String, Object> getAllReservationByStudentIdInfosHistory(Long studentId, int perPage, int offset)
@@ -222,9 +222,27 @@ public class StudentReservationService {
         // return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
     }
 
-    public List<Map<String, Object>> delete(Long reservationId, Long studentId) {
-        reservationRepository.deleteById(reservationId);
-        return reservationRepository.findReservationInfos(studentId);
+    public Map<String, Object> delete(Long reservationId, Long studentId, int perPage, int offset) {
+        System.out.println("per page " + perPage + " offset " + offset);
+        try {
+            var reservation = reservationRepository.findById(reservationId);
+            reservationRepository.deleteById(reservationId);
+            userSlotService.freeSlot(reservation.get().getId());
+            Map<String, Object> result = new HashMap<>();
+            result.put("message ", "Reservation annulé");
+            result.put("success",true);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            reservationRepository.deleteById(reservationId);
+            Map<String, Object> result = new HashMap<>();
+            result.put("message ", ex.getMessage());
+            result.put("success",false);
+            return result;
+        }
+
     }
 
     public Reservation update(Long reservationId, String message) {
