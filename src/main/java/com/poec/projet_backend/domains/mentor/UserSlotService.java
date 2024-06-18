@@ -65,15 +65,14 @@ public class UserSlotService {
 
     public SlotDTO freeSlot(Long slotId) {
         var newSlot = slotRepository.findById(slotId);
-        System.out.println("slot before freed " + SlotDTO.fromEntity(newSlot.get()).toString());
         if(newSlot.isPresent()) {
             Slot slot = newSlot.get();
             slot.setBooked(false);
             var res = slotRepository.save(slot);
-            System.out.println("slot after freed " + SlotDTO.fromEntity(res).toString());
-
+            System.out.println("success");
             return SlotDTO.fromEntity(slotRepository.save(slot));
         }
+        System.out.println("failed");
         return null;
     }
 

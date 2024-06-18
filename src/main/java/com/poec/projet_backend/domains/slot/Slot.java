@@ -36,4 +36,5 @@ public class Slot {
     @ManyToOne
     @JoinColumn(name = "mentorId")
     private Mentor mentor;
+
 }
