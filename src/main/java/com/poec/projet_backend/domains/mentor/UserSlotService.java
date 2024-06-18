@@ -25,9 +25,6 @@ public class UserSlotService {
     private final UserAppRepository userRepository;
     private final SlotRepository slotRepository;
     private final MentorRepository mentorRepository;
-
-
-
     public List<SlotDTO> getSlotByMentorId(Long mentorId) {
         return slotRepository.findAllByMentorId(mentorId).stream().map(SlotDTO::fromEntity).toList();
     }
@@ -71,9 +68,11 @@ public class UserSlotService {
         if(newSlot.isPresent()) {
             Slot slot = newSlot.get();
             slot.setBooked(false);
-            slotRepository.save(slot);
+            var res = slotRepository.save(slot);
+            System.out.println("success");
             return SlotDTO.fromEntity(slotRepository.save(slot));
         }
+        System.out.println("failed");
         return null;
     }
 

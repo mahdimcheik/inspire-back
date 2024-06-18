@@ -226,8 +226,10 @@ public class StudentReservationService {
         System.out.println("per page " + perPage + " offset " + offset);
         try {
             var reservation = reservationRepository.findById(reservationId);
+            var slotId = reservation.get().getId();
             reservationRepository.deleteById(reservationId);
-            userSlotService.freeSlot(reservation.get().getId());
+            System.out.println("slot id " + slotId);
+            userSlotService.freeSlot(slotId);
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);

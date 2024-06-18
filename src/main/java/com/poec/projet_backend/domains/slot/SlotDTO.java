@@ -13,7 +13,7 @@ public class SlotDTO {
     private Long id;
     private LocalDateTime dateBegin;
     private LocalDateTime dateEnd;
-    private boolean visio;
+    private boolean isVisio;
     private boolean isBooked;
     private Long mentorId;
     private Long reservationId;
@@ -28,7 +28,7 @@ public class SlotDTO {
                 .isBooked(slot.isBooked())
                 .mentorId(slot.getMentor().getId())
                 // .reservationId(slot.getReservation().getId())
-                .visio(slot.isVisio())
+                .isVisio(slot.isVisio())
                 .build();
     }
 
@@ -36,7 +36,7 @@ public class SlotDTO {
         return Slot.builder()
                 .dateBegin(slotDTO.getDateBegin())
                 .dateEnd(slotDTO.getDateEnd())
-                .isBooked(false)
+                .booked(false)
                 .mentor(mentor)
                 .visio(slotDTO.isVisio())
                 //.reservation(reservation)
