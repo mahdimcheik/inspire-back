@@ -22,12 +22,6 @@ public class StudentReservationController {
         return new ResponseEntity<>(studentReservationService.create(reservationDTO), HttpStatus.CREATED) ;
     }
 
-//    @GetMapping("/get/{studentId}")
-//    public ResponseEntity<List<ReservationDTO>> get(@PathVariable final Long studentId) {
-//        var result = studentReservationService.getReservationsByStudentId(studentId);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-
     @GetMapping("/get/student/history/{studentId}/{perPage}/{offset}")
     public ResponseEntity<Map<String, Object
             >> getStudentUpcomingReservation(@PathVariable final Long studentId,@PathVariable  int perPage,@PathVariable int offset) {
@@ -53,9 +47,9 @@ public class StudentReservationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{reservationId}/{studentId}")
-    public ResponseEntity<List<Map<String, Object>>> delete(@PathVariable final Long reservationId, @PathVariable final Long studentId) {
-        return new ResponseEntity<>( studentReservationService.delete(reservationId, studentId), HttpStatus.OK);
+    @DeleteMapping("/delete/student/{reservationId}/{studentId}/{perpage}/{offset}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable final Long reservationId, @PathVariable final Long studentId, @PathVariable final int perpage, @PathVariable final int offset) {
+       return new ResponseEntity<>( studentReservationService.delete(reservationId, studentId, perpage,offset), HttpStatus.OK);
     }
 
     @PutMapping("/update/{reservationId}")

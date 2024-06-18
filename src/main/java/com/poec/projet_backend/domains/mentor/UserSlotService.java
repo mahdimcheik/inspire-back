@@ -74,6 +74,25 @@ public class UserSlotService {
         }
         return null;
     }
+
+    public SlotDTO freeSlot(Long slotId) {
+        var newSlot = slotRepository.findById(slotId);
+        if(newSlot.isPresent()) {
+            Slot slot = newSlot.get();
+            slot.setReservation(null);
+            slot.setBooked(false);
+            slotRepository.save(slot);
+            return SlotDTO.fromEntity(slotRepository.save(slot));
+        }
+        return null;
+    }
+
+    public void deleteSlot(Long id) {
+        Slot slot = slotRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Slot not found with id " + id));
+
+        slotRepository.delete(slot);
+    }
 //
 //    public List <SlotDTO> addSlotMentor(SlotDTO slot) {
 ////        try {
