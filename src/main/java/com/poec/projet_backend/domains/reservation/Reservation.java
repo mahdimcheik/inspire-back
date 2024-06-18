@@ -29,7 +29,7 @@ public class Reservation {
     @JsonIgnore
     private Student student;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "slotId")
     private Slot slot;
 }
