@@ -47,10 +47,16 @@ public class StudentReservationController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/student/{reservationId}/{studentId}/{perpage}/{offset}")
-    public ResponseEntity<Map<String, Object>> delete(@PathVariable final Long reservationId, @PathVariable final Long studentId, @PathVariable final int perpage, @PathVariable final int offset) {
-       return new ResponseEntity<>( studentReservationService.delete(reservationId, studentId, perpage,offset), HttpStatus.OK);
+    @DeleteMapping("/delete/student/{reservationId}")
+    public ResponseEntity<Map<String, Object>> delete(@PathVariable final Long reservationId) {
+       return new ResponseEntity<>( studentReservationService.delete(reservationId), HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/mentor/{reservationId}")
+    public ResponseEntity<Map<String, Object>> deleteByMentor(@PathVariable final Long reservationId) {
+        return new ResponseEntity<>( studentReservationService.delete(reservationId), HttpStatus.OK);
+    }
+
 
     @PutMapping("/update/{reservationId}")
     public ResponseEntity<Reservation> update(@PathVariable final Long reservationId, @RequestBody final Map<String, String> message) {
