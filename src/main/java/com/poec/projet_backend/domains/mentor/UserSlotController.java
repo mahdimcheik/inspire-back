@@ -4,9 +4,12 @@ package com.poec.projet_backend.domains.mentor;
 import com.poec.projet_backend.domains.reservation.RangeDate;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -40,19 +43,9 @@ public class UserSlotController {
     public SlotDTO updateUserSlot(@RequestBody SlotDTO slotDTO) {
         return userSlotService.updateSlot(slotDTO);
     }
-//    @PostMapping("/add/{userId}")
-//    public List<Slot> addSlotMentor(@RequestBody Slot slot, @PathVariable Long userId) {
-//        Slot.builder().dateBegin(slot);
-//        return userSlotService.addSlotMentor(slot);
-//    }
 
-//@GetMapping ("/{userId}")
-//public List<Slot> getSlotByUserId(@PathVariable Long userId) {
-//    return userSlotService.getSlotByUserId(userId);}
-
-//@DeleteMapping ("/delete/{slotId}")
-//public Slot deleteSlot(@PathVariable Long slotId) {
-//    return userSlotService.deleteSlot(slotId);}
-
-
+    @PostMapping("/slots/{mentorId}/{studentId}")
+    public ResponseEntity<List<Map<String, Object>>> test(@PathVariable Long mentorId,@PathVariable Long studentId, @RequestBody RangeDate date) {
+        return new ResponseEntity<>(userSlotService.getSlotsforStudentByMentorId(mentorId, studentId, date.getStart(), date.getEnd()), HttpStatus.ACCEPTED);
+    }
 }

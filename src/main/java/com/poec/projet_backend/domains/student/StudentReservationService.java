@@ -37,6 +37,7 @@ public class StudentReservationService {
                         .message("")
                         .student(student.get())
                         .build();
+                Reservation newReservation = reservationRepository.save(reservation);
                 slot.get().setBooked(true);
                 slotRepository.save(slot.get());
                 return ReservationDTO.toDTO(reservationRepository.save(reservation));
@@ -44,7 +45,6 @@ public class StudentReservationService {
         }
         return null;
     }
-
 
     public List<ReservationDTO> getAllReservations() {
         return reservationRepository.findAll().stream().map(ReservationDTO::toDTO).toList();
