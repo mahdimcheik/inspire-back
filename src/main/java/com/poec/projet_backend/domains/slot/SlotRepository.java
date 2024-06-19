@@ -13,7 +13,7 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findAllByMentorId(Long id);
 
     @Query(
-            value = "SELECT s.*, st.firstname, st.lastname, st.imgUrl, r.id as reservationId, r.subject FROM slot s " +
+            value = "SELECT s.*, st.firstname, st.lastname, st.imgUrl, r.id as reservationId, r.subject  , s.dateBegin, s.dateEnd FROM slot s " +
                     "LEFT JOIN reservation r ON r.slotId = s.id " +
                     "LEFT JOIN student st ON r.studentId = st.id",
             nativeQuery = true
