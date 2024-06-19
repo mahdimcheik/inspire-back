@@ -9,6 +9,7 @@ import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -222,6 +223,7 @@ public class StudentReservationService {
         // return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
     }
 
+    @Transactional
     public Map<String, Object> delete(Long reservationId) {
         try {
             var reservation = reservationRepository.findById(reservationId);
