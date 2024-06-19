@@ -3,6 +3,9 @@ package com.poec.projet_backend.user_app;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
+import com.poec.projet_backend.domains.student.Student;
+import com.poec.projet_backend.domains.student.StudentDTO;
+import com.poec.projet_backend.domains.student.StudentRepository;
 import jakarta.servlet.ServletContext;
 import lombok.Data;
 import org.apache.commons.io.FileUtils;
@@ -17,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.*;
 import java.util.Base64;
 import java.util.HashMap;
@@ -33,67 +38,87 @@ import java.nio.file.Paths;
 @RequestMapping("/user/upload")
 public class FileUploadController {
 
-
     private final MentorRepository mentorRepository;
+    private final StudentRepository studentRepository;
     private final ServletContext servletContext;
-    private static final String UPLOAD_DIR = "images/";
+    private static final String UPLOAD_DIR = "uploads/images/";
 
-    @PostMapping("/image/{userId}")
-    @Transactional
-    public ResponseEntity<MentorDTO> handleFileUpload(@RequestParam("file") MultipartFile file, @PathVariable Long userId) {
-        System.out.println("called");
-        if (file.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
-        System.out.println("file not empty " + file.getOriginalFilename());
+    @PostMapping("/image/mentor/{userId}")
+    public ResponseEntity<MentorDTO> uploadImage(@RequestParam("file") MultipartFile file, @PathVariable Long userId) {
         try {
-            String fileName = file.getOriginalFilename();
-            String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-            UUID uuid = UUID.randomUUID();
-            fileName = uuid.toString() + "." + extension;
-            System.out.println("new name " + fileName);
-            String workingDirectory = System.getProperty("user.dir");
-            System.out.println("file details " + file.getResource());
+            // Generate a unique file name
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(UPLOAD_DIR + fileName);
+
+            // Save the file locally
+            Files.createDirectories(filePath.getParent());
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
             Mentor updatedMentor = mentorRepository.findByUserId(userId);
-            updatedMentor.setImgUrl("http://localhost:8080/user/upload/serve/" + fileName);
-            MentorDTO res = MentorDTO.fromEntity(mentorRepository.save(updatedMentor));
-            file.transferTo(new File(workingDirectory + "/src/main/resources/static/images/" + fileName));
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(res);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        }
-    }
-
-    @GetMapping("/serve/{filename}")
-    @ResponseBody
-    public ResponseEntity< Map<String, String> > serveImage(@PathVariable String filename) {
-        try {
-            String workingDirectory = System.getProperty("user.dir");
-            System.out.println(Paths.get(UPLOAD_DIR));
-            Path file = Paths.get(workingDirectory + "/src/main/resources/static/images/").resolve(filename);
-            Resource resource = new UrlResource(file.toUri());
-
-            byte[] fileContent = FileUtils.readFileToByteArray(new File(workingDirectory + "/src/main/resources/static/images/" + filename));
-            String encodedString = Base64.getEncoder().encodeToString(fileContent);
-            System.out.println(encodedString);
-
-            Map<String, String> response = new HashMap<>();
-            response.put("image", encodedString);
-            if (resource.exists() || resource.isReadable()) {
-                String contentType = Files.probeContentType(file);
-                return ResponseEntity.ok()
-                        // .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-                        // .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                        .body(response);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            String filename = updatedMentor.getImgUrl();
+            filename = getLastPartOfUrl(filename);
+            Path oldFilePath = Paths.get(UPLOAD_DIR + filename);
+            if (Files.exists(oldFilePath)) {
+                Files.delete(oldFilePath);
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Could not read the file!", e);
+            updatedMentor.setImgUrl("http://localhost:8080/user/upload/" + fileName);
+            MentorDTO res = MentorDTO.fromEntity(mentorRepository.save(updatedMentor));
+
+            return ResponseEntity.ok(res);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
+    @PostMapping("/image/student/{userId}")
+    public ResponseEntity<StudentDTO> uploadImageStudent(@RequestParam("file") MultipartFile file, @PathVariable Long userId) {
+        try {
+            // Generate a unique file name
+            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
+            Path filePath = Paths.get(UPLOAD_DIR + fileName);
 
+            // Save the file locally
+            Files.createDirectories(filePath.getParent());
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+            Student updatedMentor = studentRepository.findByUserId(userId);
+            updatedMentor.setImgUrl("http://localhost:8080/user/upload/" + fileName);
+            StudentDTO res = StudentDTO.mapFromEntity(studentRepository.save(updatedMentor));
+
+            return ResponseEntity.ok(res);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    @GetMapping("/{filename}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get(UPLOAD_DIR + filename);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                HttpHeaders headers = new HttpHeaders();
+                headers.add(HttpHeaders.CONTENT_TYPE, Files.probeContentType(filePath));
+                return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        } catch (MalformedURLException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (IOException e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public static String getLastPartOfUrl(String url) {
+        if (url == null || url.isEmpty()) {
+            return null;
+        }
+        int lastSlashIndex = url.lastIndexOf('/');
+        if (lastSlashIndex == -1) {
+            return url; // Return the whole URL if no slash is found
+        }
+        return url.substring(lastSlashIndex + 1);
+    }
 }
