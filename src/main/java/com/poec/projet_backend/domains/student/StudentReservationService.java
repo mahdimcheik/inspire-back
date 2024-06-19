@@ -222,8 +222,7 @@ public class StudentReservationService {
         // return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
     }
 
-    public Map<String, Object> delete(Long reservationId, Long studentId, int perPage, int offset) {
-        System.out.println("per page " + perPage + " offset " + offset);
+    public Map<String, Object> delete(Long reservationId) {
         try {
             var reservation = reservationRepository.findById(reservationId);
             var slotId = reservation.get().getId();

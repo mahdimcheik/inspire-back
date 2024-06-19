@@ -25,8 +25,8 @@ public class UserSlotService {
     private final UserAppRepository userRepository;
     private final SlotRepository slotRepository;
     private final MentorRepository mentorRepository;
-    public List<SlotDTO> getSlotByMentorId(Long mentorId) {
-        return slotRepository.findAllByMentorId(mentorId).stream().map(SlotDTO::fromEntity).toList();
+    public List<Map<String,String>> getSlotByMentorId(Long mentorId) {
+        return slotRepository.findAllByMentorIdDetailed(mentorId); //.stream().map(SlotDTO::fromEntity).toList();
     }
 
     public SlotDTO addSlot(Long mentorId, SlotDTO slotDTO) {
