@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class ResponseReservationForMentor {
     private Long id;
     private Long userId;
+    private Long mentorUserId;
     private Long studentId;
     private Long slotId;
     private Long reservationId;

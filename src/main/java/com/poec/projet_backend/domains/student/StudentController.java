@@ -23,5 +23,4 @@ public class StudentController {
     public StudentDTO getStudentById(@PathVariable Long studentId){
         return service.getStudentById(studentId);
     }
-
 }
