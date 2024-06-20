@@ -21,6 +21,7 @@ public class ResponseReservationForMentor {
     private String lastname;
     private String title;
     private String imgUrl;
+    private String details;
     private LocalDateTime dateBegin;
     private LocalDateTime dateEnd;
 }

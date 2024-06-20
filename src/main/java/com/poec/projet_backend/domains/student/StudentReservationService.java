@@ -35,7 +35,8 @@ public class StudentReservationService {
                 Reservation reservation = Reservation.builder()
                         .slot(slot.get())
                         .subject(reservationDTO.getSubject())
-                        .message("")
+                        .message(reservationDTO.getMessage())
+                        .details(reservationDTO.getDetails())
                         .student(student.get())
                         .build();
                 Reservation newReservation = reservationRepository.save(reservation);
@@ -195,6 +196,7 @@ public class StudentReservationService {
                         .imgUrl((String) ele.get("imgUrl"))
                         .subject((String) ele.get("subject"))
                         .message((String) ele.get("message"))
+                        .details((String) ele.get("details"))
                         .id((Long) ele.get("id"))
                         .userId((Long) ele.get("userId"))
                         .reservationId((Long) ele.get("reservationId"))

@@ -24,11 +24,13 @@ public class ReservationDTO {
     private String message;
     private Long studentId;
     private Long slotId;
+    private String details;
 
     public static ReservationDTO toDTO(Reservation reservation) {
        return ReservationDTO.builder()
                 .id(reservation.getId())
                 .message(reservation.getMessage())
+                .details(reservation.getDetails())
                 .subject(reservation.getSubject())
                 .slotId(reservation.getSlot().getId())
                 .studentId(reservation.getStudent().getId())
@@ -39,6 +41,7 @@ public class ReservationDTO {
         return Reservation.builder()
                 .id(reservationDTO.getId())
                 .message(reservationDTO.getMessage())
+                .details(reservationDTO.getDetails())
                 .subject(reservationDTO.getSubject())
                 .student(student)
                 .slot(slot)
