@@ -248,7 +248,7 @@ public class StudentReservationService {
 
     }
 
-    public Reservation update(Long reservationId, String message) {
+    public Reservation update(Long reservationId,int first,  String message) {
         var reservation = reservationRepository.findById(reservationId);
         if (reservation.isPresent()) {
             reservation.get().setMessage(message);

@@ -75,7 +75,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, " +
+            value = "SELECT r.id as reservationId, r.subject,r.message, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, " +
                     "st.title, st.imgUrl, st.firstname, st.lastname, " +
                     "mt.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
