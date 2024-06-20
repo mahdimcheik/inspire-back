@@ -75,27 +75,27 @@ public class DatabaseInitializer implements CommandLineRunner {
         createSkill("React");
         createSkill("Php");
 
-        createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette",
+        createMentor(new MentorDTO(1L, "Marie", "Delo", "Développeuse Front-End", "Passionnée par le développement web, je maîtrise HTML, CSS et JavaScript. J'adore transmettre mes connaissances et aider les autres à progresser.",
                 "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
-        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data",
+        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Développeur Full-Stack", "Expert en React et Node.js, j'ai un talent pour simplifier les concepts complexes. Je suis toujours prêt à soutenir mes collègues dans leurs projets.",
                 "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
-        createMentor(new MentorDTO(3L, "Adam", "Martin", "UX Designer", "Créateur d'Expérience",
+        createMentor(new MentorDTO(3L, "Adam", "Martin", "Développeur Back-End", "Développeur front-end expérimenté, j'excelle en UX/UI design. Mon approche pédagogique et mon écoute attentive me permettent d'accompagner efficacement les apprenants.",
                 "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
-        createMentor(new MentorDTO(4L, "Raph", "Moreau", "DevOps", "Spécialiste en Infrastructure",
+        createMentor(new MentorDTO(4L, "Raph", "Moreau", "DevOps", "Passionné par le développement web, je me concentre sur l'accessibilité et l'optimisation des performances. J'aime guider les étudiants vers des solutions efficaces et inclusives.",
                 "http://localhost:8080/images/raph.jpeg", "githubLucas", "linkedinLucas", 4L));
-        createMentor(new MentorDTO(5L, "Fred", "Leroy", "Product Manager", "Gestionnaire de Produit",
+        createMentor(new MentorDTO(5L, "Fred", "Leroy", "Développeuse Back-End", "Développeuse back-end expérimentée, j'utilise principalement Ruby on Rails et PostgreSQL. J'adore résoudre des problèmes complexes et aider les autres à comprendre les concepts fondamentaux.",
                 "http://localhost:8080/images/fred.webp", "githubEmma", "linkedinEmma", 5L));
-        createMentor(new MentorDTO(6L, "Pilou", "Treuh", "CTO", "Chef d'agence Tech",
+        createMentor(new MentorDTO(6L, "Pilou", "Treuh", "Développeur Full-Stack", "Spécialiste en développement full-stack, je maîtrise les technologies comme Python, Django, et Angular. J'aime partager mon savoir et aider les autres à réaliser leurs projets.",
                 "http://localhost:8080/images/pilou.jpeg", "githubEmma", "linkedinEmma", 6L));
-        createMentor(new MentorDTO(7L, "Orore", "Valixe", "Experte Debug", "Vous êtes ou ??? ",
+        createMentor(new MentorDTO(7L, "Orore", "Valixe", "Développeuse Full-Stack", "Avec une expertise en développement mobile, je crée des applications Android et iOS. Je suis passionné par l'innovation et l'apprentissage continu",
                 "http://localhost:8080/images/AuroreC.jpg", "githubEmma", "linkedinEmma", 7L));
-        createMentor(new MentorDTO(8L, "Angeline", "Leroy", "Développeuse Angular Experte", "Gestionnaire de Produit",
+        createMentor(new MentorDTO(8L, "Angeline", "Leroy", "Développeuse Angular Experte", "Enthousiaste de l'open-source, je contribue régulièrement à des projets GitHub. J'aime encourager les étudiants à s'impliquer dans la communauté tech.",
                 "http://localhost:8080/images/Angeline.jpeg", "githubEmma", "linkedinEmma", 8L));
-        createMentor(new MentorDTO(9L, "Nassime", "Lemoulin", "Expert Package NPM", "Gestionnaire de package",
+        createMentor(new MentorDTO(9L, "Nassime", "Lemoulin", "Expert Package NPM", "Spécialisé en back-end, je travaille principalement avec PHP et Laravel. J'aime résoudre des problèmes complexes et partager mes astuces avec les autres.",
                 "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 9L));
 
         List<Long> mentorids = new ArrayList<>();
-        createStudent(new StudentDTO(1L, "Mahdi", "Mcheik", "Developpeur Junior", "J'ai envie d'apprendre !", "http://localhost:8080/images/mahdi.jpg",
+        createStudent(new StudentDTO(1L, "Mahdi", "Mcheik", "Developpeur Back-End", "J'ai envie d'apprendre !", "http://localhost:8080/images/mahdi.jpg",
                 "github/mariedelaire", "linkedin/mariedelaire", 10L, mentorids));
         createStudent(new StudentDTO(2L, "Jean", "Dupont", "Data Scientist", "Expert en données",
                 "https://picsum.photos/200", "github/jeandupont", "linkedin/jeandupont", 11L, mentorids));
