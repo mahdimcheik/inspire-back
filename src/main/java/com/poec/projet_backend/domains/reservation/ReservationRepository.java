@@ -18,7 +18,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findReservationsByStudentId(Long studentId);
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin , s.dateEnd, r.studentId, st.title, st.imgUrl, st.firstName, st.lastName FROM reservation r, slot s, student st " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin , s.dateEnd, r.studentId, st.title, st.imgUrl, st.firstname, st.lastname FROM reservation r, slot s, student st " +
                     "where r.studentId = ?1  and s.id = r.slotId and st.id = r.studentId",
             nativeQuery = true
     )
@@ -26,7 +26,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, " +
-                    "mt.title, mt.imgUrl, mt.firstName, mt.lastName, " +
+                    "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
                     "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -43,7 +43,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd,s.booked, s.visio, r.studentId, " +
-                    "mt.title, mt.imgUrl, mt.firstName, mt.lastName, " +
+                    "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
                     "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -59,7 +59,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(
             value = "SELECT r.id , r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, " +
-                    "st.title, st.imgUrl, st.firstName, st.lastName, " +
+                    "st.title, st.imgUrl, st.firstname, st.lastname, " +
                     "mt.userId as userId , " +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -76,7 +76,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Query(
             value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, " +
-                    "st.title, st.imgUrl, st.firstName, st.lastName, " +
+                    "st.title, st.imgUrl, st.firstname, st.lastname, " +
                     "mt.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +

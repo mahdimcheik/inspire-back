@@ -47,7 +47,7 @@ public class SecurityConfig {
                             .requestMatchers("/user/slot/update").permitAll()
                             .requestMatchers("/student/favorite/**","/student/favorite/add/**", "/student/favorite/delete/**").permitAll() /* n'importe qui a accès à cet url */
 //                    .requestMatchers("/api/v1/users/me").permitAll() /* n'importe qui a accès à cet url */
-                 .requestMatchers("/user/upload/image", "/uploads/images/**", "/images/**", "/static/images/**").permitAll() /* n'importe qui a accès à cet url */
+                 .requestMatchers("/user/upload/image/mentor","/user/upload/image/student", "/uploads/images/**", "/images/**", "/static/images/**", "uploads/images/**","/**").permitAll() /* n'importe qui a accès à cet url */
 
                     .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
                     .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
