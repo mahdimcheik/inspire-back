@@ -17,8 +17,8 @@ public class ResponseReservationForMentor {
     private boolean isVisio;
     private String subject;
     private String message;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String title;
     private String imgUrl;
     private LocalDateTime dateBegin;

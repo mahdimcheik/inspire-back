@@ -74,8 +74,8 @@ public class AuthService {
 
             var student = Student.builder()
                     .user(user)
-                    .firstName(request.getFirstName())
-                    .lastName(request.getLastName())
+                    .firstname(request.getFirstName())
+                    .lastname(request.getLastName())
                     .build();
 
             studentRepository.save(student);

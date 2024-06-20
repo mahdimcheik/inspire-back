@@ -18,8 +18,8 @@ public class StudentService {
 
     public StudentDTO updateStudentByUserId(Long userId, Student student){
         Student studentToUpdate = repository.findByUserId(userId);
-        studentToUpdate.setFirstName(student.getFirstName());
-        studentToUpdate.setLastName(student.getLastName());
+        studentToUpdate.setFirstname(student.getFirstname());
+        studentToUpdate.setLastname(student.getLastname());
         studentToUpdate.setDescription(student.getDescription());
         studentToUpdate.setTitle(student.getTitle());
         studentToUpdate.setImgUrl(student.getImgUrl());
