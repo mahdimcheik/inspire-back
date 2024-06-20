@@ -155,6 +155,7 @@ public class StudentReservationService {
                         .imgUrl((String) ele.get("imgUrl"))
                         .subject((String) ele.get("subject"))
                         .message((String) ele.get("message"))
+                        .details((String) ele.get("details"))
                         .id((Long) ele.get("id"))
                         .userId((Long) ele.get("userId"))
                         .reservationId((Long) ele.get("reservationId"))
