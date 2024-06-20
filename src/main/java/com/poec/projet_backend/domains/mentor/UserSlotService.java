@@ -9,6 +9,7 @@ import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -63,6 +64,7 @@ public class UserSlotService {
         return null;
     }
 
+    @Transactional
     public SlotDTO freeSlot(Long slotId) {
         var newSlot = slotRepository.findById(slotId);
         if(newSlot.isPresent()) {
