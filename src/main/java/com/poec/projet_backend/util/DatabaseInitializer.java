@@ -5,6 +5,7 @@ import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.language.LanguageRepository;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
+import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.mentor.MentorService;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillRepository;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +107,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 "https://picsum.photos/200", "github/lucgirard", "linkedin/lucgirard", 13L, mentorids));
         createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack",
                 "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 14L, mentorids));
+
 
         addExperiencesForUser1();
         addExperiencesForUser2();
@@ -194,6 +197,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 .build();
         createExperience(experience1);
     }
+
+
 
     private void createAdmin() {
         UserApp admin = UserApp.builder()

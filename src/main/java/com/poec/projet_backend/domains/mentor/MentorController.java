@@ -2,10 +2,13 @@ package com.poec.projet_backend.domains.mentor;
 
 import com.poec.projet_backend.domains.language.LanguageDTO;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -49,5 +52,14 @@ public class MentorController {
         return new ResponseEntity<>(mentors, HttpStatus.OK);
     }
 
+    @GetMapping("/available")
+    public ResponseEntity<List<MentorDTO>> getMentorsByAvailability(@RequestParam String period) {
+        try {
+            List<MentorDTO> mentors = service.getMentorsByAvailability(period);
+            return new ResponseEntity<>(mentors, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(Collections.emptyList(), HttpStatus.BAD_REQUEST);
+        }
+    }
+    }
 
-}

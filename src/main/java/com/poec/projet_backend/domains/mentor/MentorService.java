@@ -1,6 +1,7 @@
 package com.poec.projet_backend.domains.mentor;
 
 import com.poec.projet_backend.domains.language.LanguageDTO;
+import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import com.poec.projet_backend.user_app.UserExperienceService;
@@ -8,6 +9,9 @@ import lombok.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -18,6 +22,8 @@ public class MentorService {
     private final MentorRepository repository;
     private final UserAppRepository userAppRepository;
     private final UserExperienceService userExperienceService;
+    private final UserSlotService userSlotService;
+    private final SlotRepository slotRepository;
 
     public List<Mentor> getAll() {
         return repository.findAll();
@@ -82,6 +88,40 @@ public class MentorService {
                 .filter(mentor -> {
                     long totalExperienceYears = userExperienceService.calculateTotalExperienceYears(mentor.getUser().getId());
                     return totalExperienceYears >= minYears && totalExperienceYears <= maxYears;
+                })
+                .map(MentorDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    public List<MentorDTO> getMentorsByAvailability(String period) {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime start;
+        LocalDateTime end;
+
+        switch (period.toLowerCase()) {
+            case "day":
+                start = now.withHour(0).withMinute(0).withSecond(0).withNano(0);
+                end = start.plusDays(1).minusSeconds(1);
+                break;
+            case "week":
+                start = now.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+                end = start.plusWeeks(1).with(TemporalAdjusters.nextOrSame(java.time.DayOfWeek.SUNDAY)).withHour(23).withMinute(59).withSecond(59).withNano(999999999);
+                break;
+            case "any":
+                start = LocalDateTime.MIN;
+                end = LocalDateTime.MAX;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid period specified: " + period);
+        }
+
+        return repository.findAll().stream()
+                .filter(mentor -> {
+                    if (period.equalsIgnoreCase("any")) {
+                        return mentor.getSlots().stream().anyMatch(slot -> !slot.isBooked());
+                    } else {
+                        return slotRepository.findAvailableSlotsByMentorIdAndDateRange(mentor.getId(), start, end).size() > 0;
+                    }
                 })
                 .map(MentorDTO::fromEntity)
                 .collect(Collectors.toList());
