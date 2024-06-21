@@ -75,9 +75,9 @@ public class StudentFavoriteController {
     }
 
     @GetMapping("/list/{studentId}")
-    public ResponseEntity<List<Mentor>> getUserFavorites(@PathVariable Long studentId) {
+    public ResponseEntity<List<MentorDTO>> getUserFavorites(@PathVariable Long studentId) {
         try {
-            List<Mentor> result = studentFavoriteService.getUserFavorites(studentId);
+            var result = studentFavoriteService.getUserFavorites(studentId).stream().map(MentorDTO::fromEntity).toList();
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             return ResponseEntity.status(401).body(null);
