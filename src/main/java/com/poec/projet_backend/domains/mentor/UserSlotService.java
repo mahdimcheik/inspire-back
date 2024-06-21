@@ -18,6 +18,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -91,4 +92,5 @@ public class UserSlotService {
         LocalDateTime endDateTime = WeekUtil.convertDateToLocalDateTime(endDate);
         return slotRepository.getSlotsforStudentByMentorId(  mentorId,studentId, startDateTime, endDateTime);
     }
+
 }
