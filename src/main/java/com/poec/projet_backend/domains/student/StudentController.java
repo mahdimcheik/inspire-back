@@ -18,4 +18,9 @@ public class StudentController {
     public StudentDTO updateStudentByUserId(@PathVariable Long userId, @RequestBody Student student){
         return service.updateStudentByUserId(userId, student);
     }
+
+    @GetMapping("/students/{studentId}")
+    public StudentDTO getStudentById(@PathVariable Long studentId){
+        return service.getStudentById(studentId);
+    }
 }

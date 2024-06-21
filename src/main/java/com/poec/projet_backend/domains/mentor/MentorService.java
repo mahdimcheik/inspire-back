@@ -29,6 +29,12 @@ public class MentorService {
         return MentorDTO.fromEntity(mentor);
     }
 
+    public MentorDTO getMentorById(Long mentorId){
+        Mentor mentor = repository.findById(mentorId).get();
+
+        return MentorDTO.fromEntity(mentor);
+    }
+
     public MentorDTO updateMentorByUserId(Long userId, MentorDTO mentor){
         Mentor mentorToUpdate = repository.findByUserId(userId);
         mentorToUpdate.setFirstname(mentor.firstname());

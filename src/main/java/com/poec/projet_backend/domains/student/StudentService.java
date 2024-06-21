@@ -16,6 +16,10 @@ public class StudentService {
         return StudentDTO.mapFromEntity(repository.findByUserId(userId));
     }
 
+    public StudentDTO getStudentById(Long userId){
+        return StudentDTO.mapFromEntity(repository.findById(userId).get());
+    }
+
     public StudentDTO updateStudentByUserId(Long userId, Student student){
         Student studentToUpdate = repository.findByUserId(userId);
         studentToUpdate.setFirstname(student.getFirstname());
