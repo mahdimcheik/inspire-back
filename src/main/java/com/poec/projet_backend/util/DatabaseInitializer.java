@@ -109,8 +109,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 14L, mentorids));
 
 
-        addExperiencesForUser1();
-        addExperiencesForUser2();
+         // addExperiencesForUser1();
+        // addExperiencesForUser2();
 
         // formation
         for (int i = 0; i < 10; i++) {

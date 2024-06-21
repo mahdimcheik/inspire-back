@@ -5,7 +5,10 @@ import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import com.poec.projet_backend.user_app.UserExperienceService;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Data
+@AllArgsConstructor
 public class MentorService {
     private final MentorRepository repository;
     private final UserAppRepository userAppRepository;
     private final UserExperienceService userExperienceService;
-    private final UserSlotService userSlotService;
+    // private final UserSlotService userSlotService;
     private final SlotRepository slotRepository;
 
     public List<Mentor> getAll() {
