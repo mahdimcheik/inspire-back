@@ -78,41 +78,36 @@ public class DatabaseInitializer implements CommandLineRunner {
                 createSkill("Php");
 
                 createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette",
-                                "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
-                createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Developpeur Web Java / Angular",
-                                "Expert en Java, je suis également compétent en Angular et j'ai un interet particulier pour le front ! ",
-                                "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
+                        "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
+                createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Developpeur Web Java / Angular", "Expert en Java, je suis également compétent en Angular et j'ai un interet particulier pour le front ! ",
+                        "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
                 createMentor(new MentorDTO(3L, "Adam", "Martin", "UX Designer", "Créateur d'Expérience",
-                                "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
+                        "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
                 createMentor(new MentorDTO(4L, "Raph", "Moreau", "DevOps", "Spécialiste en Infrastructure",
-                                "http://localhost:8080/images/raph.jpeg", "githubLucas", "linkedinLucas", 4L));
+                        "http://localhost:8080/images/raph.jpeg", "githubLucas", "linkedinLucas", 4L));
                 createMentor(new MentorDTO(5L, "Fred", "Leroy", "Product Manager", "Gestionnaire de Produit",
-                                "http://localhost:8080/images/fred.webp", "githubEmma", "linkedinEmma", 5L));
+                        "http://localhost:8080/images/fred.webp", "githubEmma", "linkedinEmma", 5L));
                 createMentor(new MentorDTO(6L, "Pilou", "Treuh", "CTO", "Chef d'agence Tech",
-                                "http://localhost:8080/images/pilou.jpeg", "githubEmma", "linkedinEmma", 6L));
+                        "http://localhost:8080/images/pilou.jpeg", "githubEmma", "linkedinEmma", 6L));
                 createMentor(new MentorDTO(7L, "Orore", "Valixe", "Experte Debug", "Vous êtes ou ??? ",
-                                "http://localhost:8080/images/AuroreC.jpg", "githubEmma", "linkedinEmma", 7L));
-                createMentor(new MentorDTO(8L, "Angeline", "Leroy", "Développeuse Angular Experte",
-                                "Gestionnaire de Produit",
-                                "http://localhost:8080/images/Angeline.jpeg", "githubEmma", "linkedinEmma", 8L));
+                        "http://localhost:8080/images/AuroreC.jpg", "githubEmma", "linkedinEmma", 7L));
+                createMentor(new MentorDTO(8L, "Angeline", "Leroy", "Développeuse Angular Experte", "Gestionnaire de Produit",
+                        "http://localhost:8080/images/Angeline.jpeg", "githubEmma", "linkedinEmma", 8L));
                 createMentor(new MentorDTO(9L, "Nassime", "Lemoulin", "Expert Package NPM", "Gestionnaire de package",
-                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 9L));
+                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 9L));
 
                 List<Long> mentorids = new ArrayList<>();
-                createStudent(new StudentDTO(1L, "Mahdi", "Mcheik", "Developpeur Back-End", "J'ai envie d'apprendre !",
-                                "http://localhost:8080/images/mahdi.jpg",
-                                "github/mariedelaire", "linkedin/mariedelaire", 10L, mentorids));
+                createStudent(new StudentDTO(1L, "Mahdi", "Mcheik", "Developpeur Junior", "J'ai envie d'apprendre !", "http://localhost:8080/images/mahdi.jpg",
+                        "github/mariedelaire", "linkedin/mariedelaire", 10L, mentorids));
                 createStudent(new StudentDTO(2L, "Jean", "Dupont", "Data Scientist", "Expert en données",
-                                "https://picsum.photos/200", "github/jeandupont", "linkedin/jeandupont", 11L,
-                                mentorids));
+                        "https://picsum.photos/200", "github/jeandupont", "linkedin/jeandupont", 11L, mentorids));
                 createStudent(new StudentDTO(3L, "Alice", "Martin", "UX Designer", "Créatrice d'expériences",
-                                "https://picsum.photos/200", "github/alicemartin", "linkedin/alicemartin", 12L,
-                                mentorids));
+                        "https://picsum.photos/200", "github/alicemartin", "linkedin/alicemartin", 12L, mentorids));
                 createStudent(new StudentDTO(4L, "Luc", "Girard", "Backend Developer", "Maître du backend",
-                                "https://picsum.photos/200", "github/lucgirard", "linkedin/lucgirard", 13L, mentorids));
+                        "https://picsum.photos/200", "github/lucgirard", "linkedin/lucgirard", 13L, mentorids));
                 createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack",
-                                "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 14L,
-                                mentorids));
+                        "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 14L, mentorids));
+
 
                 // addExperiencesForUser1();
                 // addExperiencesForUser2();
@@ -122,12 +117,12 @@ public class DatabaseInitializer implements CommandLineRunner {
                         for (int j = 0; j < 3; j++) {
                                 String title = "formation " + j;
                                 FormationDTO formation = FormationDTO.builder()
-                                                .title("formation " + j)
-                                                .dateEnd(LocalDate.of(2010 + i, 1, 8))
-                                                .dateBegin(LocalDate.of(2021 + j, 1, 8))
-                                                .city("Bordeaux")
-                                                .userId((long) (i + 1))
-                                                .build();
+                                        .title("formation " + j)
+                                        .dateEnd(LocalDate.of(2010 + i, 1, 8))
+                                        .dateBegin(LocalDate.of(2021 + j, 1, 8))
+                                        .city("Bordeaux")
+                                        .userId((long) (i + 1))
+                                        .build();
                                 createFormation(formation);
 
                                 title = "formation " + j;
@@ -167,68 +162,70 @@ public class DatabaseInitializer implements CommandLineRunner {
         private void addExperiencesForUser1() {
 
                 ExperienceDTO experience1 = ExperienceDTO.builder()
-                                .title("Développeur Junior")
-                                .company("Company A")
-                                .dateBegin(LocalDate.of(2015, 1, 1))
-                                .dateEnd(LocalDate.of(2016, 1, 1))
-                                .city("Paris")
-                                .country("France")
-                                .userId(1L)
-                                .build();
+                        .title("Développeur Junior")
+                        .company("Company A")
+                        .dateBegin(LocalDate.of(2015, 1, 1))
+                        .dateEnd(LocalDate.of(2016, 1, 1))
+                        .city("Paris")
+                        .country("France")
+                        .userId(1L)
+                        .build();
                 createExperience(experience1);
 
                 ExperienceDTO experience2 = ExperienceDTO.builder()
-                                .title("Développeur Senior")
-                                .company("Company B")
-                                .dateBegin(LocalDate.of(2016, 2, 1))
-                                .dateEnd(LocalDate.of(2018, 2, 1))
-                                .city("Lyon")
-                                .country("France")
-                                .userId(1L)
-                                .build();
+                        .title("Développeur Senior")
+                        .company("Company B")
+                        .dateBegin(LocalDate.of(2016, 2, 1))
+                        .dateEnd(LocalDate.of(2018, 2, 1))
+                        .city("Lyon")
+                        .country("France")
+                        .userId(1L)
+                        .build();
                 createExperience(experience2);
         }
 
         private void addExperiencesForUser2() {
 
                 ExperienceDTO experience1 = ExperienceDTO.builder()
-                                .title("Développeur Junior")
-                                .company("Company A")
-                                .dateBegin(LocalDate.of(2015, 1, 1))
-                                .dateEnd(LocalDate.of(2016, 3, 15))
-                                .city("Paris")
-                                .country("France")
-                                .userId(2L)
-                                .build();
+                        .title("Développeur Junior")
+                        .company("Company A")
+                        .dateBegin(LocalDate.of(2015, 1, 1))
+                        .dateEnd(LocalDate.of(2016, 3, 15))
+                        .city("Paris")
+                        .country("France")
+                        .userId(2L)
+                        .build();
                 createExperience(experience1);
         }
 
+
+
         private void createAdmin() {
                 UserApp admin = UserApp.builder()
-                                .email("admin@admin.com")
-                                .password(passwordEncoder.encode("admin"))
-                                .role("ROLE_" + Role.ADMIN)
-                                .build();
+                        .email("admin@admin.com")
+                        .password(passwordEncoder.encode("admin"))
+                        .role("ROLE_" + Role.ADMIN)
+                        .build();
 
                 this.userAppRepository.save(admin);
         }
 
         private void createUsers() {
                 UserApp user1 = UserApp.builder()
-                                .email("user@user.com")
-                                .password(passwordEncoder.encode("user1"))
-                                .role("ROLE_" + Role.USER)
-                                .build();
+                        .email("user@user.com")
+                        .password(passwordEncoder.encode("user1"))
+                        .role("ROLE_" + Role.USER)
+                        .build();
 
                 this.userAppRepository.save(user1);
         }
 
         private UserApp createUser(String email, String password, Role role) {
                 UserApp user1 = UserApp.builder()
-                                .email(email)
-                                .password(passwordEncoder.encode(password))
-                                .role(role.name())
-                                .build();
+                        .email(email)
+                        .password(passwordEncoder.encode(password))
+                        .role(role.name())
+                        .build();
 
                 this.userAppRepository.save(user1);
                 return user1;
