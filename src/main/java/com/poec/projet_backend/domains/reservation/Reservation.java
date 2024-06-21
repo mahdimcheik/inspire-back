@@ -22,6 +22,7 @@ public class Reservation {
     private Long id;
     private String subject;
     private String message;
+    private String details;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentId")
@@ -29,7 +30,7 @@ public class Reservation {
     @JsonIgnore
     private Student student;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "slotId")
     private Slot slot;
 }

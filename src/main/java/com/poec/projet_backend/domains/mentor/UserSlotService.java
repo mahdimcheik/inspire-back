@@ -9,6 +9,7 @@ import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -26,11 +27,8 @@ public class UserSlotService {
     private final UserAppRepository userRepository;
     private final SlotRepository slotRepository;
     private final MentorRepository mentorRepository;
-
-
-
-    public List<SlotDTO> getSlotByMentorId(Long mentorId) {
-        return slotRepository.findAllByMentorId(mentorId).stream().map(SlotDTO::fromEntity).toList();
+    public List<Map<String,String>> getSlotByMentorId(Long mentorId) {
+        return slotRepository.findAllByMentorIdDetailed(mentorId); //.stream().map(SlotDTO::fromEntity).toList();
     }
 
     public SlotDTO addSlot(Long mentorId, SlotDTO slotDTO) {
@@ -67,14 +65,17 @@ public class UserSlotService {
         return null;
     }
 
+    @Transactional
     public SlotDTO freeSlot(Long slotId) {
         var newSlot = slotRepository.findById(slotId);
         if(newSlot.isPresent()) {
             Slot slot = newSlot.get();
             slot.setBooked(false);
-            slotRepository.save(slot);
+            var res = slotRepository.save(slot);
+            System.out.println("success");
             return SlotDTO.fromEntity(slotRepository.save(slot));
         }
+        System.out.println("failed");
         return null;
     }
 

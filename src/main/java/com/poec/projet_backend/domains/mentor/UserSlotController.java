@@ -19,7 +19,7 @@ public class UserSlotController {
     private final UserSlotService userSlotService;
 
     @GetMapping("/get/{mentorId}")
-    public List<SlotDTO> getUserSlots(@PathVariable Long mentorId) {
+    public List<Map<String,String>> getUserSlots(@PathVariable Long mentorId) {
         return userSlotService.getSlotByMentorId(mentorId);
     }
 

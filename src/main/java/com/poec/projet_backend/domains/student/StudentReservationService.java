@@ -9,6 +9,7 @@ import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -34,7 +35,8 @@ public class StudentReservationService {
                 Reservation reservation = Reservation.builder()
                         .slot(slot.get())
                         .subject(reservationDTO.getSubject())
-                        .message("")
+                        .message(reservationDTO.getMessage())
+                        .details(reservationDTO.getDetails())
                         .student(student.get())
                         .build();
                 Reservation newReservation = reservationRepository.save(reservation);
@@ -69,14 +71,15 @@ public class StudentReservationService {
             var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
                     .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
                     .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
-                    .firstName((String) ele.get("firstName"))
-                    .lastName((String) ele.get("lastName"))
+                    .firstname((String) ele.get("firstname"))
+                    .lastname((String) ele.get("lastname"))
                     .title((String) ele.get("title"))
                     .imgUrl((String) ele.get("imgUrl"))
                     .subject((String) ele.get("subject"))
                     .message((String) ele.get("message"))
                     .id((Long) ele.get("id"))
                     .userId((Long) ele.get("userId"))
+                    .mentorUserId((Long) ele.get("mentorUserId"))
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
@@ -109,14 +112,15 @@ public class StudentReservationService {
             var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
                     .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
                     .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
-                    .firstName((String) ele.get("firstName"))
-                    .lastName((String) ele.get("lastName"))
+                    .firstname((String) ele.get("firstname"))
+                    .lastname((String) ele.get("lastname"))
                     .title((String) ele.get("title"))
                     .imgUrl((String) ele.get("imgUrl"))
                     .subject((String) ele.get("subject"))
                     .message((String) ele.get("message"))
                     .id((Long) ele.get("id"))
                     .userId((Long) ele.get("userId"))
+                    .mentorUserId((Long) ele.get("mentorUserId"))
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
@@ -147,14 +151,16 @@ public class StudentReservationService {
                 var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
                         .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
                         .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
-                        .firstName((String) ele.get("firstName"))
-                        .lastName((String) ele.get("lastName"))
+                        .firstname((String) ele.get("firstname"))
+                        .lastname((String) ele.get("lastname"))
                         .title((String) ele.get("title"))
                         .imgUrl((String) ele.get("imgUrl"))
                         .subject((String) ele.get("subject"))
                         .message((String) ele.get("message"))
+                        .details((String) ele.get("details"))
                         .id((Long) ele.get("id"))
                         .userId((Long) ele.get("userId"))
+                        .mentorUserId((Long) ele.get("mentorUserId"))
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
@@ -188,14 +194,16 @@ public class StudentReservationService {
                 var res = results.stream().map(ele -> ResponseReservationForMentor.builder()
                         .dateBegin(((Timestamp) ele.get("dateBegin")).toLocalDateTime())
                         .dateEnd(((Timestamp) ele.get("dateEnd")).toLocalDateTime())
-                        .firstName((String) ele.get("firstName"))
-                        .lastName((String) ele.get("lastName"))
+                        .firstname((String) ele.get("firstname"))
+                        .lastname((String) ele.get("lastname"))
                         .title((String) ele.get("title"))
                         .imgUrl((String) ele.get("imgUrl"))
                         .subject((String) ele.get("subject"))
                         .message((String) ele.get("message"))
+                        .details((String) ele.get("details"))
                         .id((Long) ele.get("id"))
                         .userId((Long) ele.get("userId"))
+                        .mentorUserId((Long) ele.get("mentorUserId"))
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
@@ -222,12 +230,14 @@ public class StudentReservationService {
         // return reservationRepository.findReservationInfosByMentorIdHistory(mentorId, time,offset, perPage );
     }
 
-    public Map<String, Object> delete(Long reservationId, Long studentId, int perPage, int offset) {
-        System.out.println("per page " + perPage + " offset " + offset);
+    @Transactional
+    public Map<String, Object> delete(Long reservationId) {
         try {
             var reservation = reservationRepository.findById(reservationId);
+            var slotId = reservation.get().getId();
             reservationRepository.deleteById(reservationId);
-            userSlotService.freeSlot(reservation.get().getId());
+            System.out.println("slot id " + slotId);
+            userSlotService.freeSlot(slotId);
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
@@ -245,7 +255,7 @@ public class StudentReservationService {
 
     }
 
-    public Reservation update(Long reservationId, String message) {
+    public Reservation update(Long reservationId,int first,  String message) {
         var reservation = reservationRepository.findById(reservationId);
         if (reservation.isPresent()) {
             reservation.get().setMessage(message);

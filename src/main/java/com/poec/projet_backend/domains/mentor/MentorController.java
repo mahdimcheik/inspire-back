@@ -30,6 +30,11 @@ public class MentorController {
         return service.getMentorByUserId(userId);
     }
 
+    @GetMapping("/mentors/{mentorId}")
+    public MentorDTO getMentorById(@PathVariable Long mentorId){
+        return service.getMentorById(mentorId);
+    }
+
     @PutMapping("/{userId}")
     public MentorDTO updateMentorByUserId(@PathVariable Long userId, @RequestBody MentorDTO mentor){
         return service.updateMentorByUserId(userId, mentor);

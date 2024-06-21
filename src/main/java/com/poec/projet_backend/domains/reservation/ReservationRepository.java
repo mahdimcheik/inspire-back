@@ -18,15 +18,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findReservationsByStudentId(Long studentId);
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin , s.dateEnd, r.studentId, st.title, st.imgUrl, st.firstName, st.lastName FROM reservation r, slot s, student st " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin , s.dateEnd, r.studentId, st.title, st.imgUrl, st.firstname, st.lastname FROM reservation r, slot s, student st " +
                     "where r.studentId = ?1  and s.id = r.slotId and st.id = r.studentId",
             nativeQuery = true
     )
     List<Map<String, Object>> findReservationInfos(Long studentId);
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
-                    "mt.title, mt.imgUrl, mt.firstName, mt.lastName, " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
+                    "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
+                    "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -42,8 +43,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd,s.isBooked, s.isVisio, r.studentId, " +
-                    "mt.title, mt.imgUrl, mt.firstName, mt.lastName, " +
+            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd,s.booked, s.visio, r.studentId, r.details , " +
+                    "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
+                    "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
@@ -58,9 +60,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Map<String, Object>> findReservationByStudentInfosHistory(Long studentId, LocalDateTime timeNow, int offset, int limit);
 
     @Query(
-            value = "SELECT r.id , r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
-                    "st.title, st.imgUrl, st.firstName, st.lastName, " +
-                    "mt.userId as userId , " +
+            value = "SELECT r.id , r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
+                    "st.title, st.imgUrl, st.firstname, st.lastname, " +
+                    "mt.userId as mentorUserId, " +
+                    "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
                     "JOIN slot s ON s.id = r.slotId " +
@@ -75,9 +78,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.isBooked, s.isVisio, r.studentId, " +
-                    "st.title, st.imgUrl, st.firstName, st.lastName, " +
-                    "mt.userId as userId ," +
+            value = "SELECT r.id as reservationId, r.subject,r.message, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details , " +
+                    "st.title, st.imgUrl, st.firstname, st.lastname, " +
+                    "mt.userId as mentorUserId, " +
+                    "st.userId as userId ," +
                     "COUNT(*) OVER() as totalCount " +
                     "FROM reservation r " +
                     "JOIN slot s ON s.id = r.slotId " +
