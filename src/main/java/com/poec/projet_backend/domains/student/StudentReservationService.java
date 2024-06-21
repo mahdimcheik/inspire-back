@@ -35,7 +35,8 @@ public class StudentReservationService {
                 Reservation reservation = Reservation.builder()
                         .slot(slot.get())
                         .subject(reservationDTO.getSubject())
-                        .message("")
+                        .message(reservationDTO.getMessage())
+                        .details(reservationDTO.getDetails())
                         .student(student.get())
                         .build();
                 Reservation newReservation = reservationRepository.save(reservation);
@@ -78,6 +79,7 @@ public class StudentReservationService {
                     .message((String) ele.get("message"))
                     .id((Long) ele.get("id"))
                     .userId((Long) ele.get("userId"))
+                    .mentorUserId((Long) ele.get("mentorUserId"))
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
@@ -118,6 +120,7 @@ public class StudentReservationService {
                     .message((String) ele.get("message"))
                     .id((Long) ele.get("id"))
                     .userId((Long) ele.get("userId"))
+                    .mentorUserId((Long) ele.get("mentorUserId"))
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
@@ -154,8 +157,10 @@ public class StudentReservationService {
                         .imgUrl((String) ele.get("imgUrl"))
                         .subject((String) ele.get("subject"))
                         .message((String) ele.get("message"))
+                        .details((String) ele.get("details"))
                         .id((Long) ele.get("id"))
                         .userId((Long) ele.get("userId"))
+                        .mentorUserId((Long) ele.get("mentorUserId"))
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
@@ -195,8 +200,10 @@ public class StudentReservationService {
                         .imgUrl((String) ele.get("imgUrl"))
                         .subject((String) ele.get("subject"))
                         .message((String) ele.get("message"))
+                        .details((String) ele.get("details"))
                         .id((Long) ele.get("id"))
                         .userId((Long) ele.get("userId"))
+                        .mentorUserId((Long) ele.get("mentorUserId"))
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
@@ -248,7 +255,7 @@ public class StudentReservationService {
 
     }
 
-    public Reservation update(Long reservationId, String message) {
+    public Reservation update(Long reservationId,int first,  String message) {
         var reservation = reservationRepository.findById(reservationId);
         if (reservation.isPresent()) {
             reservation.get().setMessage(message);
