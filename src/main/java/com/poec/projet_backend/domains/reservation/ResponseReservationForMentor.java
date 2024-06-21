@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 public class ResponseReservationForMentor {
     private Long id;
     private Long userId;
+    private Long mentorUserId;
     private Long studentId;
     private Long slotId;
     private Long reservationId;
@@ -17,10 +18,11 @@ public class ResponseReservationForMentor {
     private boolean isVisio;
     private String subject;
     private String message;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String title;
     private String imgUrl;
+    private String details;
     private LocalDateTime dateBegin;
     private LocalDateTime dateEnd;
 }

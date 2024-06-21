@@ -9,6 +9,7 @@ import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Data
@@ -24,11 +27,8 @@ public class UserSlotService {
     private final UserAppRepository userRepository;
     private final SlotRepository slotRepository;
     private final MentorRepository mentorRepository;
-
-
-
-    public List<SlotDTO> getSlotByMentorId(Long mentorId) {
-        return slotRepository.findAllByMentorId(mentorId).stream().map(SlotDTO::fromEntity).toList();
+    public List<Map<String,String>> getSlotByMentorId(Long mentorId) {
+        return slotRepository.findAllByMentorIdDetailed(mentorId); //.stream().map(SlotDTO::fromEntity).toList();
     }
 
     public SlotDTO addSlot(Long mentorId, SlotDTO slotDTO) {
@@ -40,12 +40,7 @@ public class UserSlotService {
         System.out.println(start);
         System.out.println(end);
 
-        //return getSlotByUserIdStartToEnd(mentorId,start,end).stream().map(SlotDTO::fromEntity).toList();
         return SlotDTO.fromEntity(slotRepository.save(slot));
-//        return slotRepository.findAllActiveUsersSlotsNative(mentorId ,
-//                        WeekUtil.convertLocalDateToLocalDateTime(start),
-//                        WeekUtil.convertLocalDateToLocalDateTime(end))
-//                .stream().map(SlotDTO::fromEntity).toList();
     }
 
     public List<Slot> getSlotByUserIdStartToEnd(Long mentorId, Date startDate, Date endDate) {
@@ -53,7 +48,6 @@ public class UserSlotService {
         LocalDateTime endDateTime = WeekUtil.convertDateToLocalDateTime(endDate);
         System.out.println(mentorId);
         return slotRepository.findAllActiveUsersSlotsNative(mentorId ,startDateTime, endDateTime);
-        //return slotRepository.findAllActiveSlotNative(startDateTime, endDateTime);
     }
 
     public SlotDTO updateSlot(SlotDTO slotDTO) {
@@ -66,12 +60,22 @@ public class UserSlotService {
                     .visio(slotDTO.isVisio())
                     .mentor(slot.get().getMentor())
                     .build();
-            if (slot.get().getReservation() != null) {
-                newSlot.setReservation(slot.get().getReservation());
-            }else
-                newSlot.setReservation(null);
             return SlotDTO.fromEntity(slotRepository.save(newSlot));
         }
+        return null;
+    }
+
+    @Transactional
+    public SlotDTO freeSlot(Long slotId) {
+        var newSlot = slotRepository.findById(slotId);
+        if(newSlot.isPresent()) {
+            Slot slot = newSlot.get();
+            slot.setBooked(false);
+            var res = slotRepository.save(slot);
+            System.out.println("success");
+            return SlotDTO.fromEntity(slotRepository.save(slot));
+        }
+        System.out.println("failed");
         return null;
     }
 
@@ -81,28 +85,12 @@ public class UserSlotService {
 
         slotRepository.delete(slot);
     }
-//
-//    public List <SlotDTO> addSlotMentor(SlotDTO slot) {
-////        try {
-////            UserApp userApp = userRepository.findById(slot .getUserId()).orElseThrow(() -> new RuntimeException());
-////
-////Slot newSlot = Slot.builder().dateBegin(slot.getDateBegin()).dateEnd(slot.getDateEnd()).visio(slot.isVisio()).isBooked(false).mentor()
-////
-////            slotRepository.save(slot);
-////            return slotRepository.findAllByUserId( slot.getUserId());
-////        } catch (Exception e) {
-////            throw new RuntimeException(e.getMessage());
-////
-////        }
-////    }
-////
-////    public List<Slot> getSlotByUserId(Long userId) {
-////        return slotRepository.findAllByUserId(userId);
-////    }
-//
-////    public Slot deleteSlot(Long slotId) {
-////        Slot slot = slotRepository.findById(slotId).orElseThrow(() -> new RuntimeException());
-////        slotRepository.delete(slot);
-////        return slotRepository.findBySlotId(slotId);
-////    }
+
+    public List<Map<String, Object>> getSlotsforStudentByMentorId(Long mentorId, Long studentId,  Date startDate, Date endDate) {
+        System.out.println(mentorId);
+        LocalDateTime startDateTime =WeekUtil.convertDateToLocalDateTime(startDate);
+        LocalDateTime endDateTime = WeekUtil.convertDateToLocalDateTime(endDate);
+        return slotRepository.getSlotsforStudentByMentorId(  mentorId,studentId, startDateTime, endDateTime);
+    }
+
 }

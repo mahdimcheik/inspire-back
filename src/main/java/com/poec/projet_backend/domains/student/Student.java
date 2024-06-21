@@ -23,8 +23,8 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
+    private String firstname;
+    private String lastname;
     private String title;
     private String description;
     @Column(name = "imgUrl")
@@ -51,6 +51,6 @@ public class Student {
         if(mentors != null){
             mentorIds = mentors.stream().map(Mentor::getId).toList();
         }
-        return  new StudentDTO(this.getId(), this.getFirstName(), this.getLastName(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
+        return  new StudentDTO(this.getId(), this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
     }
 }

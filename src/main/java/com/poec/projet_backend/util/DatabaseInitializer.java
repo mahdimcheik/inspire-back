@@ -5,6 +5,7 @@ import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.language.LanguageRepository;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
+import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.mentor.MentorService;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillRepository;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +79,7 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         createMentor(new MentorDTO(1L, "Marie", "Delo", "super dev", "Super mentorette",
                 "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
-        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Data Scientist", "Expert en Data",
+        createMentor(new MentorDTO(2L, "Mathieu", "Dupont", "Developpeur Web Java / Angular", "Expert en Java, je suis également compétent en Angular et j'ai un interet particulier pour le front ! ",
                 "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
         createMentor(new MentorDTO(3L, "Adam", "Martin", "UX Designer", "Créateur d'Expérience",
                 "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
@@ -106,8 +108,9 @@ public class DatabaseInitializer implements CommandLineRunner {
         createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack",
                 "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 14L, mentorids));
 
-        addExperiencesForUser1();
-        addExperiencesForUser2();
+
+         // addExperiencesForUser1();
+        // addExperiencesForUser2();
 
         // formation
         for (int i = 0; i < 10; i++) {
@@ -194,6 +197,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 .build();
         createExperience(experience1);
     }
+
+
 
     private void createAdmin() {
         UserApp admin = UserApp.builder()

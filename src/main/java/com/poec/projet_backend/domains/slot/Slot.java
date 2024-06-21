@@ -27,17 +27,14 @@ public class Slot {
     @Column(name = "dateEnd")
     private LocalDateTime dateEnd;
 
-    @Column(name="isVisio" )
+    @Column(name="visio" )
     private boolean visio;
 
-    @Column(name = "isBooked")
-    private boolean isBooked;
+    @Column(name = "booked")
+    private boolean booked;
 
     @ManyToOne
     @JoinColumn(name = "mentorId")
     private Mentor mentor;
-
-    @OneToOne
-    private Reservation reservation;
 
 }
