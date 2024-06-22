@@ -261,7 +261,30 @@ public class StudentReservationService {
         catch (Exception ex)
         {
             ex.printStackTrace();
+            Map<String, Object> result = new HashMap<>();
+            result.put("message ", ex.getMessage());
+            result.put("success",false);
+            return result;
+        }
+
+    }
+
+    @Transactional
+    public Map<String, Object> deleteReservationAndSlot(Long reservationId) {
+        try {
+            var reservation = reservationRepository.findById(reservationId);
+            var slotId = reservation.get().getId();
             reservationRepository.deleteById(reservationId);
+            System.out.println("slot id " + slotId);
+            slotRepository.deleteById(slotId);
+            Map<String, Object> result = new HashMap<>();
+            result.put("message ", "Reservation annulé");
+            result.put("success",true);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
             Map<String, Object> result = new HashMap<>();
             result.put("message ", ex.getMessage());
             result.put("success",false);
