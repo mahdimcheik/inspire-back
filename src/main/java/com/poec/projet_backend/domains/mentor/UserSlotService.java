@@ -7,7 +7,11 @@ import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserAppRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.Data;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +28,8 @@ import java.util.stream.Collectors;
 @Data
 @Service
 public class UserSlotService {
+    @PersistenceContext
+    private EntityManager entityManager;
     private final UserAppRepository userRepository;
     private final SlotRepository slotRepository;
     private final MentorRepository mentorRepository;
@@ -68,6 +74,7 @@ public class UserSlotService {
     @Transactional
     public SlotDTO freeSlot(Long slotId) {
         var oldSlot = slotRepository.findById(slotId) ;
+        entityManager.flush();
         if(oldSlot.isPresent()) {
             Slot slot = oldSlot.get();
             slot.setBooked(false);
@@ -79,7 +86,9 @@ public class UserSlotService {
                     .mentor(oldSlot.get().getMentor())
                     .build();
             slotRepository.deleteById(slotId);
+            entityManager.flush();
             var res = slotRepository.save(newSlot);
+            entityManager.flush();
             System.out.println("success");
             return SlotDTO.fromEntity(res);
         }

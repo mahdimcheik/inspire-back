@@ -7,6 +7,8 @@ import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import java.util.Map;
 @Data
 @Service
 public class StudentReservationService {
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private final StudentRepository studentRepository;
     private final ReservationRepository reservationRepository;
@@ -251,8 +255,10 @@ public class StudentReservationService {
             var reservation = reservationRepository.findById(reservationId);
             var slotId = reservation.get().getId();
             reservationRepository.deleteById(reservationId);
+            entityManager.flush();
             System.out.println("slot id " + slotId);
             userSlotService.freeSlot(slotId);
+            entityManager.flush();
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
