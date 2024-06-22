@@ -59,7 +59,7 @@ public class UserSlotService {
                     .dateEnd(slotDTO.getDateEnd())
                     .visio(slotDTO.isVisio())
                     .mentor(slot.get().getMentor())
-                    .build();
+                    .booked(false).build();
             return SlotDTO.fromEntity(slotRepository.save(newSlot));
         }
         return null;
@@ -67,13 +67,21 @@ public class UserSlotService {
 
     @Transactional
     public SlotDTO freeSlot(Long slotId) {
-        var newSlot = slotRepository.findById(slotId);
-        if(newSlot.isPresent()) {
-            Slot slot = newSlot.get();
+        var oldSlot = slotRepository.findById(slotId) ;
+        if(oldSlot.isPresent()) {
+            Slot slot = oldSlot.get();
             slot.setBooked(false);
-            var res = slotRepository.save(slot);
+            Slot newSlot = Slot.builder()
+                    .visio(oldSlot.get().isVisio())
+                    .booked(oldSlot.get().isBooked())
+                    .dateBegin(oldSlot.get().getDateBegin())
+                    .dateEnd(oldSlot.get().getDateEnd())
+                    .mentor(oldSlot.get().getMentor())
+                    .build();
+            slotRepository.deleteById(slotId);
+            var res = slotRepository.save(newSlot);
             System.out.println("success");
-            return SlotDTO.fromEntity(slotRepository.save(slot));
+            return SlotDTO.fromEntity(res);
         }
         System.out.println("failed");
         return null;
