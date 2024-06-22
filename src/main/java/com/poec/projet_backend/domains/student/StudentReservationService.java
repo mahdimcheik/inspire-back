@@ -7,6 +7,7 @@ import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,12 +78,15 @@ public class StudentReservationService {
                     .imgUrl((String) ele.get("imgUrl"))
                     .subject((String) ele.get("subject"))
                     .message((String) ele.get("message"))
+                    .details((String) ele.get("details"))
                     .id((Long) ele.get("id"))
                     .userId((Long) ele.get("userId"))
                     .mentorUserId((Long) ele.get("mentorUserId"))
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
+                    .isBooked((boolean) ele.get("booked"))
+                    .isVisio((boolean) ele.get("visio"))
                     .build()).toList();
             Map<String, Object> result = new HashMap<>();
             result.put("reservations",res);
@@ -103,6 +107,10 @@ public class StudentReservationService {
             LocalDateTime time = LocalDateTime.now();
             System.out.println("time now " +time);
             var results = reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
+            results.forEach(reservation ->{ System.out.println(reservation.get("firstname")+" "+reservation.get("lastname"));
+                System.out.println("booked " + reservation.get("booked")+"  visio "+reservation.get("visio"));
+                System.out.println("details " + reservation.get("details")+"  visio "+reservation.get("details"));
+            });
             if(results.isEmpty()) {
                 Map<String, Object> result = new HashMap<>();
                 result.put("reservations",new ArrayList<>());
@@ -118,12 +126,15 @@ public class StudentReservationService {
                     .imgUrl((String) ele.get("imgUrl"))
                     .subject((String) ele.get("subject"))
                     .message((String) ele.get("message"))
+                    .details((String) ele.get("details"))
                     .id((Long) ele.get("id"))
                     .userId((Long) ele.get("userId"))
                     .mentorUserId((Long) ele.get("mentorUserId"))
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
+                    .isBooked((boolean) ele.get("booked"))
+                    .isVisio((boolean) ele.get("visio"))
                     .build()).toList();
             Map<String, Object> result = new HashMap<>();
             result.put("reservations",res);
@@ -164,6 +175,8 @@ public class StudentReservationService {
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
+                        .isBooked((boolean) ele.get("booked"))
+                        .isVisio((boolean) ele.get("visio"))
                         .build()).toList();
                 Map<String, Object> result = new HashMap<>();
                 result.put("reservations",res);
@@ -207,6 +220,8 @@ public class StudentReservationService {
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
+                        .isBooked((boolean) ele.get("booked"))
+                        .isVisio((boolean) ele.get("visio"))
                         .build()).toList();
                 Map<String, Object> result = new HashMap<>();
                 result.put("reservations",res);
