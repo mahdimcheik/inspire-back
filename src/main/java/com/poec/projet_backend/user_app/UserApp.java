@@ -14,6 +14,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -33,6 +34,7 @@ public class UserApp implements UserDetails {
     @JsonIgnore
     private String password;
     private String role;
+    private LocalDateTime timeSinceLastCheckNotifications;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("user")

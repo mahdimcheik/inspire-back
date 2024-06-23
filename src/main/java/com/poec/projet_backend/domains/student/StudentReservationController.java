@@ -22,7 +22,7 @@ public class StudentReservationController {
     private final ReservationRepository reservationRepository;
 
     @PostMapping("/add")
-    public ResponseEntity<ReservationDTO>  add(@RequestBody final ReservationDTO reservationDTO) {
+    public ResponseEntity<ReservationDTO>  add(@RequestBody final ReservationDTO reservationDTO) throws Exception {
         return new ResponseEntity<>(studentReservationService.create(reservationDTO), HttpStatus.CREATED) ;
     }
 
