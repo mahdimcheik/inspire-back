@@ -22,7 +22,7 @@ public class StudentReservationController {
     private final ReservationRepository reservationRepository;
 
     @PostMapping("/add")
-    public ResponseEntity<ReservationDTO>  add(@RequestBody final ReservationDTO reservationDTO) {
+    public ResponseEntity<ReservationDTO>  add(@RequestBody final ReservationDTO reservationDTO) throws Exception {
         return new ResponseEntity<>(studentReservationService.create(reservationDTO), HttpStatus.CREATED) ;
     }
 
@@ -58,7 +58,7 @@ public class StudentReservationController {
 
     @DeleteMapping("/delete/mentor/{reservationId}")
     public ResponseEntity<Map<String, Object>> deleteByMentor(@PathVariable final Long reservationId) {
-        return new ResponseEntity<>( studentReservationService.delete(reservationId), HttpStatus.OK);
+        return new ResponseEntity<>( studentReservationService.deleteReservationAndSlot(reservationId), HttpStatus.OK);
     }
 
     @PutMapping("/update/{reservationId}/{first}")
