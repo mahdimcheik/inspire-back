@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,13 @@ public class StudentReservationService {
     private final UserSlotService userSlotService;
     private final UserAppRepository userAppRepository;
     private final NotificationService notificationService;
+
+    public String dateFormatter(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM HH:mm");
+        var res = date.format(formatter).split(" ");
+
+       return  res[0] + " à " + res[1];
+    }
 
     @Transactional
     public ReservationDTO create(ReservationDTO reservationDTO) throws Exception {
@@ -64,7 +72,7 @@ public class StudentReservationService {
                     NotificationDTO notif = NotificationDTO.builder()
                             .userId(user.getId())
                             .emittedAt(LocalDateTime.now())
-                            .message("Reservation : " + student.get().getFirstname() + " " + student.get().getLastname() + ", créneau : " + slot.get().getDateBegin())
+                            .message("Reservation : " + student.get().getFirstname() + " " + student.get().getLastname() + "\nCréneau : " +dateFormatter( slot.get().getDateBegin()))
                             .type(NotificationType.BOOKING)
                             .build();
                     notificationService.createNotification(notif);
@@ -296,7 +304,7 @@ public class StudentReservationService {
             NotificationDTO notif = NotificationDTO.builder()
                     .userId(user.getId())
                     .emittedAt(LocalDateTime.now())
-                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + ", créneau : " + slot1.getDateBegin())
+                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + "\nCréneau : " +dateFormatter( slot1.getDateBegin()))
                     .type(NotificationType.BOOKING)
                     .build();
             notificationRepository.save(NotificationDTO.toNotification(notif, user));
@@ -322,8 +330,10 @@ public class StudentReservationService {
             var reservation = reservationRepository.findById(reservationId);
             var slotId = reservation.get().getId();
             reservationRepository.deleteById(reservationId);
+            entityManager.flush();
             System.out.println("slot id " + slotId);
             slotRepository.deleteById(slotId);
+            entityManager.flush();
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
