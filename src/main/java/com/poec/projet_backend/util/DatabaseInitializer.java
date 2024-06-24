@@ -290,7 +290,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 mentorService.addMentorByUserId(newMentor);
         }
 
-        private void createStudent(StudentDTO newStudent) {
+        private void createStudent(StudentDTO newStudent) throws Exception {
                 studentService.addStudentByUserId(newStudent);
         }
 
