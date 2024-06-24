@@ -43,7 +43,7 @@ public class StudentReservationService {
     private final NotificationService notificationService;
 
     public String dateFormatter(LocalDateTime date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM HH:mm");
         var res = date.format(formatter).split(" ");
 
        return  res[0] + " à " + res[1];
@@ -72,7 +72,7 @@ public class StudentReservationService {
                     NotificationDTO notif = NotificationDTO.builder()
                             .userId(user.getId())
                             .emittedAt(LocalDateTime.now())
-                            .message("Reservation : " + student.get().getFirstname() + " " + student.get().getLastname() + ", créneau : " +dateFormatter( slot.get().getDateBegin()))
+                            .message("Reservation : " + student.get().getFirstname() + " " + student.get().getLastname() + "\nCréneau : " +dateFormatter( slot.get().getDateBegin()))
                             .type(NotificationType.BOOKING)
                             .build();
                     notificationService.createNotification(notif);
@@ -304,7 +304,7 @@ public class StudentReservationService {
             NotificationDTO notif = NotificationDTO.builder()
                     .userId(user.getId())
                     .emittedAt(LocalDateTime.now())
-                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + ", créneau : " +dateFormatter( slot1.getDateBegin()))
+                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + "\nCréneau : " +dateFormatter( slot1.getDateBegin()))
                     .type(NotificationType.BOOKING)
                     .build();
             notificationRepository.save(NotificationDTO.toNotification(notif, user));
