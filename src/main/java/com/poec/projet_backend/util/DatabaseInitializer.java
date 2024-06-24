@@ -224,7 +224,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         this.userAppRepository.save(user1);
     }
 
-    private UserApp createUser(String email, String password, Role role) {
+    private UserApp createUser(String email, String password, Role role) throws Exception {
         UserApp user1 = UserApp.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))
@@ -251,7 +251,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         mentorService.addMentorByUserId(newMentor);
     }
 
-    private void createStudent(StudentDTO newStudent) {
+    private void createStudent(StudentDTO newStudent) throws Exception {
         studentService.addStudentByUserId(newStudent);
     }
 
