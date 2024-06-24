@@ -2,6 +2,7 @@ package com.poec.projet_backend.domains.reservation;
 
 import com.poec.projet_backend.domains.slot.Slot;
 import jakarta.persistence.SqlResultSetMapping;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,8 +25,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     )
     List<Map<String, Object>> findReservationInfos(Long studentId);
 
+    @Transactional
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
+            value = "SELECT r.id as reservationId, r.subject, r.message ,  s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
                     "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
                     "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
@@ -41,9 +43,9 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     )
     List<Map<String, Object>> findReservationByStudentIdInfosUpComing(Long studentId, LocalDateTime timeNow, int offset, int limit);
 
-
+    @Transactional
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, s.id as slotId, s.dateBegin, s.dateEnd,s.booked, s.visio, r.studentId, r.details , " +
+            value = "SELECT r.*, r.id as reservationId, s.id as slotId, s.dateBegin, s.dateEnd,s.booked, s.visio , " +
                     "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
                     "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
@@ -59,6 +61,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     )
     List<Map<String, Object>> findReservationByStudentInfosHistory(Long studentId, LocalDateTime timeNow, int offset, int limit);
 
+    @Transactional
     @Query(
             value = "SELECT r.id , r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
                     "st.title, st.imgUrl, st.firstname, st.lastname, " +
