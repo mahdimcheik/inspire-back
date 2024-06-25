@@ -1,6 +1,10 @@
 package com.poec.projet_backend.user_app;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.experience.Experience;
+import com.poec.projet_backend.domains.language.Language;
+import com.poec.projet_backend.domains.skill.Skill;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +14,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -24,13 +30,23 @@ public class UserApp implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstname;
-    private String lastname;
     private String email;
     @JsonIgnore
     private String password;
-
     private String role;
+    private LocalDateTime timeSinceLastCheckNotifications;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("user")
+    private List<Experience> experience = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("users")
+    private List<Language> languages = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("users")
+    private List<Skill> skills = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
