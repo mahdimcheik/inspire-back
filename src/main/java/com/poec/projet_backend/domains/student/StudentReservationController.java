@@ -60,6 +60,10 @@ public class StudentReservationController {
     public ResponseEntity<Map<String, Object>> deleteByMentor(@PathVariable final Long reservationId) {
         return new ResponseEntity<>( studentReservationService.deleteReservationAndSlot(reservationId), HttpStatus.OK);
     }
+    @DeleteMapping("/delete/mentor/reservation/{reservationId}")
+    public ResponseEntity<Map<String, Object>> deleteReservationOnly(@PathVariable final Long reservationId) {
+        return new ResponseEntity<>( studentReservationService.delete(reservationId), HttpStatus.OK);
+    }
 
     @PutMapping("/update/{reservationId}/{first}")
     public ResponseEntity<Map<String, Object>> update(@PathVariable final Long reservationId,@PathVariable int first,  @RequestBody final Map<String, String> message) {
