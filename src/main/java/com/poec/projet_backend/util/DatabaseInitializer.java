@@ -92,38 +92,51 @@ public class DatabaseInitializer implements CommandLineRunner {
                 createSkill("React");
                 createSkill("Php");
 
-                createMentor(new MentorDTO(1L, "Marie", "Delaire", "Développeuse Front-End", "Passionné par la création d'applications robustes et évolutives, je maîtrise Angular pour le front-end et Java pour le back-end. Mon expérience inclut le développement de systèmes complexes et la gestion de bases de données relationnelles.",
+                createMentor(new MentorDTO(1L, "Marie", "Delaire", "Développeuse Front-End",
+                                "Passionné par la création d'applications robustes et évolutives, je maîtrise Angular pour le front-end et Java pour le back-end. Mon expérience inclut le développement de systèmes complexes et la gestion de bases de données relationnelles.",
                                 "http://localhost:8080/images/marieD.webp", "git", "link", 1L));
                 createMentor(new MentorDTO(2L, "Mathieu", "Chauveau", "Developpeur Web Java / Angular",
                                 "Expert en React et Express, je crée des applications web modernes et performantes. Je suis également compétent en MongoDB pour le stockage des données et Node.js pour la logique serveur. ",
                                 "http://localhost:8080/images/mat.jpg", "githubJean", "linkedinJean", 2L));
-                createMentor(new MentorDTO(3L, "Adam", "Hemamou", "Développeur Back-End", "Avec une forte expertise en Angular et Express, je développe des applications web dynamiques et réactives. Mon objectif est de fournir des solutions complètes et efficaces en utilisant des bases de données NoSQL.",
+                createMentor(new MentorDTO(3L, "Adam", "Hemamou", "Développeur Back-End",
+                                "Avec une forte expertise en Angular et Express, je développe des applications web dynamiques et réactives. Mon objectif est de fournir des solutions complètes et efficaces en utilisant des bases de données NoSQL.",
                                 "http://localhost:8080/images/AdamC.jpg", "githubAlice", "linkedinAlice", 3L));
-                createMentor(new MentorDTO(4L, "Raphaël", "Bard", "Développeur Front-End", "Je combine React pour le développement front-end et Java pour les services back-end, garantissant des applications fluides et sécurisées. Mon approche intégrée me permet de gérer des projets complexes de bout en bout.",
+                createMentor(new MentorDTO(4L, "Raphaël", "Bard", "Développeur Front-End",
+                                "Je combine React pour le développement front-end et Java pour les services back-end, garantissant des applications fluides et sécurisées. Mon approche intégrée me permet de gérer des projets complexes de bout en bout.",
                                 "http://localhost:8080/images/raph.jpeg", "githubLucas", "linkedinLucas", 4L));
-                createMentor(new MentorDTO(5L, "Nelia", "Courtais", "Développeuse Back-End", "Je suis spécialisé dans Angular pour le front-end et Node.js pour le back-end, créant ainsi des applications web réactives et performantes. Mon expérience inclut également la gestion de bases de données comme MongoDB.",
+                createMentor(new MentorDTO(5L, "Nelia", "Courtais", "Développeuse Back-End",
+                                "Je suis spécialisé dans Angular pour le front-end et Node.js pour le back-end, créant ainsi des applications web réactives et performantes. Mon expérience inclut également la gestion de bases de données comme MongoDB.",
                                 "http://localhost:8080/images/fred.webp", "githubEmma", "linkedinEmma", 5L));
-                createMentor(new MentorDTO(6L, "Pierre-Louis", "Treuh", "Développeur Full-Stack", "Utilisant React pour le front-end et Spring Boot pour le back-end, je développe des applications web complètes et robustes. Je suis passionné par la création de systèmes évolutifs et sécurisés.",
+                createMentor(new MentorDTO(6L, "Pierre-Louis", "Treuh", "Développeur Full-Stack",
+                                "Utilisant React pour le front-end et Spring Boot pour le back-end, je développe des applications web complètes et robustes. Je suis passionné par la création de systèmes évolutifs et sécurisés.",
                                 "http://localhost:8080/images/pilou.jpeg", "githubEmma", "linkedinEmma", 6L));
-                createMentor(new MentorDTO(7L, "Aurore", "Valeix", "Développeuse Back-End", "Avec Angular et Express, je construis des applications web interactives et modernes. Je m'assure que chaque projet est bien structuré et performant, en utilisant des bases de données SQL et NoSQL.",
+                createMentor(new MentorDTO(7L, "Aurore", "Valeix", "Développeuse Back-End",
+                                "Avec Angular et Express, je construis des applications web interactives et modernes. Je m'assure que chaque projet est bien structuré et performant, en utilisant des bases de données SQL et NoSQL.",
                                 "http://localhost:8080/images/AuroreC.jpg", "githubEmma", "linkedinEmma", 7L));
                 createMentor(new MentorDTO(8L, "Angeline", "Gauron", "Développeuse Back-End",
                                 "En combinant React pour l'interface utilisateur et Java pour la logique serveur, je développe des applications efficaces et réactives. Je suis aussi compétent dans l'utilisation de bases de données relationnelles pour la gestion des données.",
                                 "http://localhost:8080/images/Angeline.jpeg", "githubEmma", "linkedinEmma", 8L));
-                createMentor(new MentorDTO(9L, "Nassime", "Harmach", "Développeur Back-End", "Expert en Angular pour le développement front-end et Node.js pour le back-end, je crée des applications web robustes et évolutives. Mon objectif est de fournir des solutions complètes et sécurisées.",
+                createMentor(new MentorDTO(9L, "Nassime", "Harmach", "Développeur Back-End",
+                                "Expert en Angular pour le développement front-end et Node.js pour le back-end, je crée des applications web robustes et évolutives. Mon objectif est de fournir des solutions complètes et sécurisées.",
                                 "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 9L));
-                createMentor(new MentorDTO(10L, "Nick", "Ellam", "Développeur Back-End", "Expert en React pour le front-end et Express pour le back-end, je développe des applications web réactives et évolutives. J'ai une solide expérience en MongoDB et en API RESTful pour assurer une intégration fluide des données.",
-                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 10L));
-                createMentor(new MentorDTO(11L, "Jérémy", "Grégoire", "Développeur Back-End", "En utilisant Angular pour le front-end et Express pour le back-end, je construis des applications web interactives et modernes. Je m'assure que chaque projet est bien structuré et performant, en utilisant des bases de données SQL et NoSQL.",
-                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 11L));
-                createMentor(new MentorDTO(12L, "Yohan", "Harmach", "Développeur Back-End", "Avec une forte expertise en React pour le front-end et Spring Boot pour le back-end, je développe des applications web complètes et performantes. Je suis passionné par la création de systèmes évolutifs et sécurisés.",
-                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 12L));
-                createMentor(new MentorDTO(13L, "Nicolas", "Leroux", "Développeur Back-End", "Je suis spécialisé dans Angular pour le front-end et Node.js pour le back-end, créant des applications web réactives et robustes. Mon travail inclut également la gestion de bases de données comme MongoDB.",
-                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 13L));
-                createMentor(new MentorDTO(14L, "Victor", "Garcia", "Développeur Back-End", "Utilisant React pour l'interface utilisateur et Java pour le serveur, je crée des applications web performantes et sécurisées. Mon expertise inclut également l'intégration avec des bases de données relationnelles.",
-                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 14L));
-                createMentor(new MentorDTO(15L, "Sylvain", "Bonnaure", "Développeur Front-End", "Passionné par Angular pour le front-end et Express pour le back-end, je construis des applications web interactives et modernes. Je suis également expérimenté dans la gestion de bases de données NoSQL.",
-                        "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 15L));
+                createMentor(new MentorDTO(10L, "Nick", "Ellam", "Développeur Back-End",
+                                "Expert en React pour le front-end et Express pour le back-end, je développe des applications web réactives et évolutives. J'ai une solide expérience en MongoDB et en API RESTful pour assurer une intégration fluide des données.",
+                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 10L));
+                createMentor(new MentorDTO(11L, "Jérémy", "Grégoire", "Développeur Back-End",
+                                "En utilisant Angular pour le front-end et Express pour le back-end, je construis des applications web interactives et modernes. Je m'assure que chaque projet est bien structuré et performant, en utilisant des bases de données SQL et NoSQL.",
+                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 11L));
+                createMentor(new MentorDTO(12L, "Yohan", "Harmach", "Développeur Back-End",
+                                "Avec une forte expertise en React pour le front-end et Spring Boot pour le back-end, je développe des applications web complètes et performantes. Je suis passionné par la création de systèmes évolutifs et sécurisés.",
+                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 12L));
+                createMentor(new MentorDTO(13L, "Nicolas", "Leroux", "Développeur Back-End",
+                                "Je suis spécialisé dans Angular pour le front-end et Node.js pour le back-end, créant des applications web réactives et robustes. Mon travail inclut également la gestion de bases de données comme MongoDB.",
+                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 13L));
+                createMentor(new MentorDTO(14L, "Victor", "Garcia", "Développeur Back-End",
+                                "Utilisant React pour l'interface utilisateur et Java pour le serveur, je crée des applications web performantes et sécurisées. Mon expertise inclut également l'intégration avec des bases de données relationnelles.",
+                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 14L));
+                createMentor(new MentorDTO(15L, "Sylvain", "Bonnaure", "Développeur Front-End",
+                                "Passionné par Angular pour le front-end et Express pour le back-end, je construis des applications web interactives et modernes. Je suis également expérimenté dans la gestion de bases de données NoSQL.",
+                                "http://localhost:8080/images/NassimeC.jpg", "githubEmma", "linkedinEmma", 15L));
 
                 List<Long> mentorids = new ArrayList<>();
                 createStudent(new StudentDTO(1L, "Mahdi", "Mcheik", "Developpeur Junior", "J'ai envie d'apprendre !",
@@ -277,7 +290,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 mentorService.addMentorByUserId(newMentor);
         }
 
-        private void createStudent(StudentDTO newStudent) {
+        private void createStudent(StudentDTO newStudent) throws Exception {
                 studentService.addStudentByUserId(newStudent);
         }
 

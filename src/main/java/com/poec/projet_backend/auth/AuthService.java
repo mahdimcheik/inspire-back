@@ -3,6 +3,7 @@ package com.poec.projet_backend.auth;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.notification.NotificationService;
+import com.poec.projet_backend.domains.sse.SseService;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.domains.student.StudentRepository;
 import com.poec.projet_backend.exceptions.UsernameAlreadyTakenException;
@@ -20,6 +21,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +37,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final NotificationService notificationService;
+    private final SseService sseService;
 
     public Map<String, String> registerMentor(RegisterRequest request, HttpServletRequest httpRequest) throws UsernameAlreadyTakenException {
 
@@ -115,6 +118,8 @@ public class AuthService {
             if(user.getTimeSinceLastCheckNotifications() == null){
                 notificationService.resetUserApp(user.getId());
             }
+            SseEmitter emitter = new SseEmitter(6000000L);
+            sseService.addEmitter(emitter, user.getId());
             return AuthResponse.builder()
                     .token(jwtToken)
                     .message("Logged In")

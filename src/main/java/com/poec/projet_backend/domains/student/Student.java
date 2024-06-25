@@ -26,6 +26,7 @@ public class Student {
     private String firstname;
     private String lastname;
     private String title;
+    @Column(columnDefinition = "TEXT")
     private String description;
     @Column(name = "imgUrl")
     private String imgUrl;

@@ -32,6 +32,7 @@ public class Mentor {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "imgUrl")
