@@ -21,7 +21,6 @@ public class Skill {
     private String name;
     @ManyToMany( mappedBy = "skills")
     @JsonIgnoreProperties("skills")
-    @JsonIgnore
     private List<UserApp> users = new ArrayList<>();
     public Skill(Long id,String name) {
         this.id = id;

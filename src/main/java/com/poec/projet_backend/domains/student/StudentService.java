@@ -13,11 +13,11 @@ public class StudentService {
     private final UserAppRepository userAppRepository;
 
     public StudentDTO getStudentByUserId(Long userId) throws Exception{
-        return StudentDTO.mapFromEntity(repository.findByUserId(userId));
+        return StudentDTO.fromEntity(repository.findByUserId(userId));
     }
 
     public StudentDTO getStudentById(Long userId) throws Exception{
-        return StudentDTO.mapFromEntity(repository.findById(userId).get());
+        return StudentDTO.fromEntity(repository.findById(userId).get());
     }
 
     public StudentDTO updateStudentByUserId(Long userId, Student student) throws Exception {
@@ -31,7 +31,7 @@ public class StudentService {
         studentToUpdate.setGithubUrl(student.getGithubUrl());
         studentToUpdate.setLinkedinUrl(student.getLinkedinUrl());
 
-        return StudentDTO.mapFromEntity(repository.save(studentToUpdate));}
+        return StudentDTO.fromEntity(repository.save(studentToUpdate));}
         catch(Exception e){
             e.printStackTrace();
             throw  new Exception(e.getMessage());
@@ -40,9 +40,9 @@ public class StudentService {
 
     public Student addStudentByUserId(StudentDTO student) throws Exception{
         try {
-
-        UserApp user = userAppRepository.findById(student.userId()).orElseThrow(() -> new RuntimeException("User not found"));
-        return repository.save(StudentDTO.toStudent(student, user));
+            System.out.println(student.toString());
+        UserApp user = userAppRepository.findById(student.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.save(StudentDTO.fromDTO(student, user));
         }
         catch(Exception e){
             e.printStackTrace();

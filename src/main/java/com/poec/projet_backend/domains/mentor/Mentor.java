@@ -44,8 +44,9 @@ public class Mentor {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "userId")
+    @JsonIgnoreProperties("mentor")
     private UserApp user;
 
     @OneToMany(mappedBy = "mentor")

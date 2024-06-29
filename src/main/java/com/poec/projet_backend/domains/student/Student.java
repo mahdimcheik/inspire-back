@@ -35,8 +35,9 @@ public class Student {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "userId")
+    @JsonIgnoreProperties("student")
     private UserApp user;
 
     @ManyToMany(cascade = CascadeType.PERSIST)

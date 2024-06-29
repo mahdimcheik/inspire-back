@@ -1,6 +1,7 @@
 package com.poec.projet_backend.util;
 
 import com.poec.projet_backend.domains.formation.FormationDTO;
+import com.poec.projet_backend.domains.formation.ResponseFormation;
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.language.LanguageRepository;
 import com.poec.projet_backend.domains.language.UserLanguageService;
@@ -33,7 +34,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         private final LanguageRepository languageRepository;
         private final SkillRepository skillRepository;
         private final MentorService mentorService;
-        private final UserFormationService userFormationService;
+        private final ResponseFormation.UserFormationService userFormationService;
         private final StudentService studentService;
         private final UserLanguageService userLanguageService;
         private final UserSkillService userSkillService;
@@ -149,6 +150,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack",
                         "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 20L,
                         mentorids));
+
                 // addExperiencesForUser1();
                 // addExperiencesForUser2();
 
