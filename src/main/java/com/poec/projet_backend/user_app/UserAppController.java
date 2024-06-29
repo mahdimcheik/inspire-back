@@ -1,7 +1,9 @@
 package com.poec.projet_backend.user_app;
 
+import com.poec.projet_backend.auth.AuthResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,13 +20,15 @@ public class UserAppController {
 
     @GetMapping("/me")
     public ResponseEntity<?> getMe(HttpServletRequest request) {
-        System.out.println("request " + request.getHeader("Authorization"));
         String username  = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("autih " + username );
-
-        return ResponseEntity.ok(userAppRepository.findByEmail(username)
-                .orElseThrow(() -> new RuntimeException("email " + username +" not found"))
-        );
+        UserApp user = userAppRepository.findByEmail(username)
+                .orElseThrow(() -> new RuntimeException("email " + username +" not found"));
+        AuthResponse response = AuthResponse.builder()
+                .message("Connection réussite")
+                .id(user.getId())
+                .role(user.getRole())
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/email/{email}")

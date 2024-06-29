@@ -15,25 +15,32 @@ public class UserLanguageService {
 
 
     public List<LanguageDTO> getLanguagesByUserId(Long id) {
-        UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
-        return user.getLanguages().stream().map(LanguageDTO::fromLanguage).toList();
+        try {
+            UserApp user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+            return user.getLanguages().stream().map(LanguageDTO::fromLanguage).toList();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     public ResponseLanguage updateUserLanguageList(Long id, List<Language> languages) {
-        UserApp user = userRepository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
-        if(user != null){
-            user.setLanguages(languages);
-            var response = ResponseLanguage.builder().success(true)
-                    .languages(userRepository.save(user).getLanguages().stream().map(LanguageDTO::fromLanguage).toList())
-                    .message("All languages")
+        try {
+            UserApp user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+            if (user != null) {
+                user.setLanguages(languages);
+                var response = ResponseLanguage.builder().success(true)
+                        .languages(userRepository.save(user).getLanguages().stream().map(LanguageDTO::fromLanguage).toList())
+                        .message("Langauge updated successfully")
+                        .build();
+                return response;
+            }
+            var response = ResponseLanguage.builder().success(false)
+                    .message("Echec")
                     .build();
             return response;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
 
-
-        var response = ResponseLanguage.builder().success(false)
-                .message("nothing ")
-                .build();
-        return response;
     }
 }

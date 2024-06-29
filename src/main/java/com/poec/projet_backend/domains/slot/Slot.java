@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.slot;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.reservation.Reservation;
 import jakarta.persistence.*;
@@ -33,8 +34,8 @@ public class Slot {
     @Column(name = "booked")
     private boolean booked;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentorId")
+    @JsonIgnoreProperties("slots")
     private Mentor mentor;
-
 }

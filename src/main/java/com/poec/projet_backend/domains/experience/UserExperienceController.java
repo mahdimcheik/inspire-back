@@ -15,6 +15,7 @@ import java.util.List;
 public class UserExperienceController {
     private final UserExperienceService userExperienceService;
     private final ExperienceRepository experienceRepository;
+
     @PostMapping("/add")
     public ResponseExperience addUserExperience(@RequestBody ExperienceDTO experience) {
         try {
@@ -22,8 +23,7 @@ public class UserExperienceController {
                     .message("Expericence Added Succefuly")
                     .success(true)
                     .build();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseExperience.builder().experiences(null)
                     .message("Expericence not Added Succefuly")
@@ -35,14 +35,13 @@ public class UserExperienceController {
     @PutMapping("/update/{experienceId}")
     public ResponseEntity<ResponseExperience> updateUserExperience(@RequestBody ExperienceDTO experience, @PathVariable Long experienceId) {
         try {
-            return new ResponseEntity<>( ResponseExperience.builder().experiences(userExperienceService.updateUserExperience(experience, experienceId))
+            return new ResponseEntity<>(ResponseExperience.builder().experiences(userExperienceService.updateUserExperience(experience, experienceId))
                     .message("Expericence updated Succefuly")
                     .success(true)
                     .build(), HttpStatus.OK);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>( ResponseExperience.builder().experiences(null)
+            return new ResponseEntity<>(ResponseExperience.builder().experiences(null)
                     .message(e.getMessage())
                     .success(false)
                     .build(), HttpStatus.BAD_REQUEST);

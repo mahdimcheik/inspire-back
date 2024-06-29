@@ -5,54 +5,50 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public record MentorDTO (
-        Long id,
-    String firstname,
-    String lastname,
-    String title,
-    String description,
-    String imgUrl,
-    String githubUrl,
-    String linkedinUrl,
-    Long userId
-){
-    public Mentor toMentor ( UserApp userApp) {
-    return new Mentor().builder()
-            .firstname(this.firstname())
-            .lastname(this.lastname())
-            .title(this.title())
-            .description(this.description())
-            .imgUrl(this.imgUrl())
-            .githubUrl(this.githubUrl())
-            .linkedinUrl(this.linkedinUrl())
-            .user(userApp)
-            .build();
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class MentorDTO {
+    private Long id;
+    private String firstname;
+    private String lastname;
+    private String title;
+    private String description;
+    private String imgUrl;
+    private String githubUrl;
+    private String linkedinUrl;
+    private Long userId;
+
+    public static MentorDTO fromEntity(Mentor mentor) {
+        return MentorDTO.builder()
+                .id(mentor.getId())
+                .firstname(mentor.getFirstname())
+                .lastname(mentor.getLastname())
+                .title(mentor.getTitle())
+                .description(mentor.getDescription())
+                .imgUrl(mentor.getImgUrl())
+                .githubUrl(mentor.getGithubUrl())
+                .linkedinUrl(mentor.getLinkedinUrl())
+                .userId(mentor.getUser().getId())
+                .build();
     }
 
-    public static  MentorDTO fromEntity ( Mentor mentor) {
-        return new MentorDTO(mentor.getId(),
-                mentor.getFirstname(),
-                mentor.getLastname(),
-                mentor.getTitle(),
-                mentor.getDescription(),
-                mentor.getImgUrl(),
-                mentor.getGithubUrl(),
-                mentor.getLinkedinUrl(),
-                mentor.getUser().getId());
-    }
-
-    public static Mentor fromDto (MentorDTO mentorDTO, UserApp user) {
+    public static Mentor fromDTO(MentorDTO mentorDTO, UserApp user) {
         return Mentor.builder()
-                .firstname(mentorDTO.firstname())
-                .lastname(mentorDTO.lastname())
-                .title(mentorDTO.title())
-                .description(mentorDTO.description())
-                .imgUrl(mentorDTO.imgUrl())
-                .githubUrl(mentorDTO.githubUrl())
-                .linkedinUrl(mentorDTO.linkedinUrl())
+                .firstname(mentorDTO.getFirstname())
+                .lastname(mentorDTO.getLastname())
+                .title(mentorDTO.getTitle())
+                .description(mentorDTO.getDescription())
+                .imgUrl(mentorDTO.getImgUrl())
+                .githubUrl(mentorDTO.getGithubUrl())
+                .linkedinUrl(mentorDTO.getLinkedinUrl())
                 .user(user)
                 .build();
-         
     }
 }

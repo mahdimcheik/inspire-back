@@ -3,13 +3,17 @@ package com.poec.projet_backend.domains.formation;
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import com.poec.projet_backend.user_app.UserApp;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FormationDTO {
     private Long id;
     private String title;
@@ -42,7 +46,6 @@ public class FormationDTO {
                 .dateEnd(formation.getDateEnd())
                 .title(formation.getTitle())
                 .user(user)
-                .id(formation.getId())
                 .build();
     }
 

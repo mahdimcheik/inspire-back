@@ -22,21 +22,20 @@ public class UserExperienceService {
 
     public List<ExperienceDTO> addUserExperience(ExperienceDTO experience) {
         try {
-            UserApp userApp =  userRepository.findById(experience.getUserId()).orElseThrow(() ->  new RuntimeException() );
-            Experience newExperience = ExperienceDTO.fromDTO(experience,userApp);
+            UserApp userApp = userRepository.findById(experience.getUserId()).orElseThrow(() -> new RuntimeException());
+            Experience newExperience = ExperienceDTO.fromDTO(experience, userApp);
             experienceRepository.save(newExperience);
             return experienceRepository.findAllByUserId(experience.getUserId()).stream()
                     .map(ExperienceDTO::fromEntity).toList();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }
 
     public List<ExperienceDTO> updateUserExperience(ExperienceDTO experience, Long id) {
         try {
-            UserApp userApp =  userRepository.findById(experience.getUserId()).orElseThrow(() ->  new RuntimeException() );
-            Experience newExperience = experienceRepository.findById(id).orElseThrow(() ->  new RuntimeException() );
+            UserApp userApp = userRepository.findById(experience.getUserId()).orElseThrow(() -> new RuntimeException());
+            Experience newExperience = experienceRepository.findById(id).orElseThrow(() -> new RuntimeException());
             newExperience.setTitle(experience.getTitle());
             newExperience.setCity(experience.getCity());
             newExperience.setCountry(experience.getCountry());
@@ -46,8 +45,7 @@ public class UserExperienceService {
             experienceRepository.save(newExperience);
             return experienceRepository.findAllByUserId(experience.getUserId()).stream()
                     .map(ExperienceDTO::fromEntity).toList();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException("Echec de mise à jour de l'éxperience");
         }
     }

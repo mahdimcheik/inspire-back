@@ -21,7 +21,13 @@ public class LanguageController {
 
     @PostMapping("/add")
     public Language addLanguage(@RequestBody Language language) {
-        return service.addLanguage(language);
+        try {
+            return service.addLanguage(language);
+        }
+        catch (Exception e) {
+            return null;
+        }
+
     }
 }
 

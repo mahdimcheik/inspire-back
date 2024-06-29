@@ -42,7 +42,7 @@ public class MentorController {
 
     @PostMapping("/add")
     public MentorDTO addMentor(@RequestBody MentorDTO mentor){
-        return service.addMentorByUserId(mentor).toMentorDTO();
+        return MentorDTO.fromEntity( service.addMentorByUserId(mentor));
     }
 
     @GetMapping("/by-skills")
