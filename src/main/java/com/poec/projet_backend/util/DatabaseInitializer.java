@@ -1,11 +1,10 @@
 package com.poec.projet_backend.util;
 
-import com.poec.projet_backend.domains.experience.ExperienceDTO;
 import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.language.LanguageRepository;
+import com.poec.projet_backend.domains.language.UserLanguageService;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
-import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.mentor.MentorService;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.skill.SkillRepository;
@@ -22,7 +21,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,6 @@ public class DatabaseInitializer implements CommandLineRunner {
         private final MentorService mentorService;
         private final UserFormationService userFormationService;
         private final StudentService studentService;
-        private final UserExperienceService userExperienceService;
         private final UserLanguageService userLanguageService;
         private final UserSkillService userSkillService;
 
@@ -69,7 +66,6 @@ public class DatabaseInitializer implements CommandLineRunner {
                 this.createUser("student5@gmail.com", "1234", Role.STUDENT);
 
                 createLanguage("Francais");
-                createLanguage("Deutsch");
                 createLanguage("Arabe");
                 createLanguage("Chinois");
                 createLanguage("Japonais");
@@ -79,9 +75,6 @@ public class DatabaseInitializer implements CommandLineRunner {
                 createLanguage("Portugais");
                 createLanguage("Italien");
                 createLanguage("Allemand");
-                createLanguage("Arabe");
-                createLanguage("Chinois");
-                createLanguage("Japonais");
 
                 createSkill("Java");
                 createSkill("Python");
@@ -206,44 +199,9 @@ public class DatabaseInitializer implements CommandLineRunner {
 
         }
 
-        private void addExperiencesForUser1() {
 
-                ExperienceDTO experience1 = ExperienceDTO.builder()
-                        .title("Développeur Junior")
-                        .company("Company A")
-                        .dateBegin(LocalDate.of(2015, 1, 1))
-                        .dateEnd(LocalDate.of(2016, 1, 1))
-                        .city("Paris")
-                        .country("France")
-                        .userId(1L)
-                        .build();
-                createExperience(experience1);
 
-                ExperienceDTO experience2 = ExperienceDTO.builder()
-                        .title("Développeur Senior")
-                        .company("Company B")
-                        .dateBegin(LocalDate.of(2016, 2, 1))
-                        .dateEnd(LocalDate.of(2018, 2, 1))
-                        .city("Lyon")
-                        .country("France")
-                        .userId(1L)
-                        .build();
-                createExperience(experience2);
-        }
 
-        private void addExperiencesForUser2() {
-
-                ExperienceDTO experience1 = ExperienceDTO.builder()
-                        .title("Développeur Junior")
-                        .company("Company A")
-                        .dateBegin(LocalDate.of(2015, 1, 1))
-                        .dateEnd(LocalDate.of(2016, 3, 15))
-                        .city("Paris")
-                        .country("France")
-                        .userId(2L)
-                        .build();
-                createExperience(experience1);
-        }
 
         private void createAdmin() {
                 UserApp admin = UserApp.builder()
@@ -300,9 +258,6 @@ public class DatabaseInitializer implements CommandLineRunner {
                 userFormationService.addUserFormation(formation);
         }
 
-        private void createExperience(ExperienceDTO experience) {
-                userExperienceService.addUserExperience(experience);
-        }
 
         private void addUserLanguage(Long userId, List<Language> languages) {
                 userLanguageService.updateUserLanguageList(userId, languages);

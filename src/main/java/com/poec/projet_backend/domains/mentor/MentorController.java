@@ -51,11 +51,7 @@ public class MentorController {
         return new ResponseEntity<>(mentors, HttpStatus.OK);
     }
 
-    @GetMapping("/by-experience")
-    public ResponseEntity<List<MentorDTO>> getMentorsByExperienceYears(@RequestParam int minYears, @RequestParam int maxYears) {
-        List<MentorDTO> mentors = service.getMentorsByExperienceYears(minYears, maxYears);
-        return new ResponseEntity<>(mentors, HttpStatus.OK);
-    }
+
 
     @GetMapping("/available")
     public ResponseEntity<List<MentorDTO>> getMentorsByAvailability(@RequestParam String period) {

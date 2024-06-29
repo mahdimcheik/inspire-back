@@ -1,8 +1,5 @@
-package com.poec.projet_backend.user_app;
+package com.poec.projet_backend.domains.language;
 
-import com.poec.projet_backend.domains.language.Language;
-import com.poec.projet_backend.domains.language.LanguageDTO;
-import com.poec.projet_backend.domains.language.ResponseLanguage;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 

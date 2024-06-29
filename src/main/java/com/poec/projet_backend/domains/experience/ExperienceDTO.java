@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.experience;
 
+import com.poec.projet_backend.user_app.UserApp;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class ExperienceDTO {
     private String country;
     private Long userId;
 
-    static public ExperienceDTO from(Experience experience) {
+    static public ExperienceDTO fromEntity(Experience experience) {
         return ExperienceDTO.builder().city(experience.getCity())
                 .company(experience.getCompany())
                 .country(experience.getCountry())
@@ -26,6 +27,18 @@ public class ExperienceDTO {
                 .dateBegin(experience.getDateBegin())
                 .id(experience.getId())
                 .userId(experience.getUser().getId())
+                .build();
+    }
+
+    public static Experience fromDTO(ExperienceDTO experience, UserApp user) {
+        return Experience.builder()
+                .city(experience.getCity())
+                .country(experience.getCountry())
+                .company(experience.getCompany())
+                .dateBegin(experience.getDateBegin())
+                .dateEnd(experience.getDateEnd())
+                .title(experience.getTitle())
+                .user(user)
                 .build();
     }
 }

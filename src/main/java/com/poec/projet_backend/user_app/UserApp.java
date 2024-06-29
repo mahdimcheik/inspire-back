@@ -3,6 +3,7 @@ package com.poec.projet_backend.user_app;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.experience.Experience;
+import com.poec.projet_backend.domains.formation.Formation;
 import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.skill.Skill;
 import jakarta.persistence.*;
@@ -15,9 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Data
 @Builder
@@ -36,11 +35,20 @@ public class UserApp implements UserDetails {
     private String role;
     private LocalDateTime timeSinceLastCheckNotifications;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    @JsonIgnoreProperties("user")
-    private List<Experience> experience = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Experience> experiences = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Formation> formations = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_language",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
     @JsonIgnoreProperties("users")
     private List<Language> languages = new ArrayList<>();
 

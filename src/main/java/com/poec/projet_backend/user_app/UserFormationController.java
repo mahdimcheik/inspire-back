@@ -63,7 +63,7 @@ public class UserFormationController {
 
     @GetMapping("/{userId}")
     public List<FormationDTO> getUserFormation(@PathVariable Long userId) {
-        return formationRepository.findAllByUserId(userId).stream().map(formation -> FormationDTO.from(formation)).toList();
+        return formationRepository.findAllByUserId(userId).stream().map(formation -> FormationDTO.fromEntity(formation)).toList();
 
     }
 

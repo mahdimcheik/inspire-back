@@ -1,9 +1,7 @@
-package com.poec.projet_backend.user_app;
+package com.poec.projet_backend.domains.language;
 
-import com.poec.projet_backend.domains.language.Language;
-import com.poec.projet_backend.domains.language.LanguageDTO;
-import com.poec.projet_backend.domains.language.LanguageRepository;
-import com.poec.projet_backend.domains.language.ResponseLanguage;
+import com.poec.projet_backend.user_app.UserApp;
+import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 

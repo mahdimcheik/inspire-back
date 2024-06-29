@@ -92,7 +92,7 @@ public class UserFormationService {
             formationRepository.delete(formation);
             if(formation != null){
                 formationRepository.delete(formation);
-                List<FormationDTO> formations = formationRepository.findAllByUserId(userId).stream().map(ele -> FormationDTO.from(ele)).toList();
+                List<FormationDTO> formations = formationRepository.findAllByUserId(userId).stream().map(ele -> FormationDTO.fromEntity(ele)).toList();
                 return ResponseFormation.builder()
                         .formations(formations)
                         .message("done")

@@ -21,9 +21,8 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @ManyToMany( mappedBy = "languages")
+    @ManyToMany(mappedBy = "languages")
     @JsonIgnoreProperties("languages")
-    @JsonIgnore
     private List<UserApp> users = new ArrayList<>();
 
     public Language(Long id,String name) {
