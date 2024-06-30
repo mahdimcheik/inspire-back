@@ -34,6 +34,10 @@ public class Slot {
     @Column(name = "booked")
     private boolean booked;
 
+    @OneToOne(mappedBy = "slot", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("slot")
+    private Reservation reservation;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mentorId")
     @JsonIgnoreProperties("slots")

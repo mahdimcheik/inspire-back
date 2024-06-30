@@ -24,13 +24,22 @@ public class Reservation {
     private String message;
     private String details;
 
+    //    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "studentId")
+//    @JsonIgnoreProperties("mentors")
+//    @JsonIgnore
+//    private Student student;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "studentId")
-    @JsonIgnoreProperties("mentors")
-    @JsonIgnore
+    @JsonIgnoreProperties("reservations")
     private Student student;
 
-    @OneToOne(cascade = CascadeType.DETACH)
+//    @OneToOne(cascade = CascadeType.DETACH)
+//    @JoinColumn(name = "slotId")
+//    private Slot slot;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "slotId")
+    @JsonIgnoreProperties("reservation")
     private Slot slot;
 }
