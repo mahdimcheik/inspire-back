@@ -11,16 +11,11 @@ import java.util.List;
 public class ExperienceService {
 
     private final ExperienceRepository repository;
-//
-//    public Experience createExperience(Experience experience){
-//        return repository.save(experience);
-//
-//    }
 
    public ExperienceDTO getExperienceById(Long id){
        Experience experience = repository.findById(id).orElse(null);
 
-        return ExperienceDTO.from(experience);
+        return ExperienceDTO.fromEntity(experience);
    }
    public List<Experience> getAllExperienceByUserId(Long userId){
         return repository.findAllByUserId(userId);
@@ -45,7 +40,4 @@ public class ExperienceService {
         experienceToUpdate.setCountry(experience.getCountry());
         return repository.save(experienceToUpdate);
    }
-
-//
-
 }

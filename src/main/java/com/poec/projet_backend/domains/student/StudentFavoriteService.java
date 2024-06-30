@@ -42,7 +42,7 @@ public class StudentFavoriteService {
         student.getMentors().add(mentor);
         studentRepository.save(student);
 
-        return student.getMentors().stream().map(Mentor::toMentorDTO).toList();
+        return student.getMentors().stream().map(MentorDTO::fromEntity).toList();
     }
 
 

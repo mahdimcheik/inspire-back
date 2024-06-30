@@ -1,8 +1,5 @@
-package com.poec.projet_backend.user_app;
+package com.poec.projet_backend.domains.skill;
 
-import com.poec.projet_backend.domains.skill.ResponseSkill;
-import com.poec.projet_backend.domains.skill.Skill;
-import com.poec.projet_backend.domains.skill.SkillDTO;
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +13,23 @@ public class UserSkillController {
 
     @PutMapping("/update/{userId}")
     public ResponseSkill update(@PathVariable Long userId, @RequestBody List<Skill> skills) {
-        return userSkillService.updateUserSkillList(userId, skills);
+        try {
+            return userSkillService.updateUserSkillList(userId, skills);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
+
     @GetMapping("/{userId}")
     public List<SkillDTO> getSkillByUserId(@PathVariable Long userId) {
-        return userSkillService.getSkillsByUserId(userId);
+        try {
+            return userSkillService.getSkillsByUserId(userId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

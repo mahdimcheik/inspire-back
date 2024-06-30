@@ -1,19 +1,13 @@
 package com.poec.projet_backend.domains.mentor;
 
-import com.poec.projet_backend.domains.language.LanguageDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
-import com.poec.projet_backend.user_app.UserExperienceService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Set;
@@ -25,7 +19,6 @@ import java.util.stream.Collectors;
 public class MentorService {
     private final MentorRepository repository;
     private final UserAppRepository userAppRepository;
-    private final UserExperienceService userExperienceService;
     // private final UserSlotService userSlotService;
     private final SlotRepository slotRepository;
 
@@ -47,24 +40,21 @@ public class MentorService {
 
     public MentorDTO updateMentorByUserId(Long userId, MentorDTO mentor){
         Mentor mentorToUpdate = repository.findByUserId(userId);
-        mentorToUpdate.setFirstname(mentor.firstname());
-        mentorToUpdate.setLastname(mentor.lastname());
-        mentorToUpdate.setTitle(mentor.title());
-        mentorToUpdate.setDescription(mentor.description());
-        mentorToUpdate.setImgUrl(mentor.imgUrl());
-        mentorToUpdate.setGithubUrl(mentor.githubUrl());
-        mentorToUpdate.setLinkedinUrl(mentor.linkedinUrl());
+        mentorToUpdate.setFirstname(mentor.getFirstname());
+        mentorToUpdate.setLastname(mentor.getLastname());
+        mentorToUpdate.setTitle(mentor.getTitle());
+        mentorToUpdate.setDescription(mentor.getDescription());
+        mentorToUpdate.setImgUrl(mentor.getImgUrl());
+        mentorToUpdate.setGithubUrl(mentor.getGithubUrl());
+        mentorToUpdate.setLinkedinUrl(mentor.getLinkedinUrl());
         Mentor savedMentor = repository.save(mentorToUpdate);
         return MentorDTO.fromEntity(savedMentor);
     }
 
 
     public Mentor addMentorByUserId(MentorDTO mentor){
-        System.out.println("mentor in service " + mentor.toString());
-        System.out.println("user Id " + mentor.userId());
-        UserApp user = userAppRepository.findById(mentor.userId()).orElseThrow(() -> new RuntimeException("User not found"));
-       // System.out.println("user in service " + user.toString());
-        return repository.save(mentor.toMentor(user));
+        UserApp user = userAppRepository.findById(mentor.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        return repository.save(MentorDTO.fromDTO(mentor, user));
     }
 
 
@@ -92,16 +82,7 @@ public class MentorService {
         return mentorSkills.containsAll(skillNames);
     }
 
-    public List<MentorDTO> getMentorsByExperienceYears(int minYears, int maxYears) {
-        List<Mentor> mentors = repository.findAll();
-        return mentors.stream()
-                .filter(mentor -> {
-                    long totalExperienceYears = userExperienceService.calculateTotalExperienceYears(mentor.getUser().getId());
-                    return totalExperienceYears >= minYears && totalExperienceYears <= maxYears;
-                })
-                .map(MentorDTO::fromEntity)
-                .collect(Collectors.toList());
-    }
+
 
     public List<MentorDTO> getMentorsByAvailability(String period) {
         LocalDateTime now = LocalDateTime.now();

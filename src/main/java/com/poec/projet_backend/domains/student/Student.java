@@ -3,6 +3,7 @@ package com.poec.projet_backend.domains.student;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.mentor.Mentor;
+import com.poec.projet_backend.domains.reservation.Reservation;
 import com.poec.projet_backend.user_app.UserApp;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,9 +36,14 @@ public class Student {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "userId")
+    @JsonIgnoreProperties("student")
     private UserApp user;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("student")
+    private List<Reservation> reservations = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(

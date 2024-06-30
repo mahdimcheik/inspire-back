@@ -1,6 +1,7 @@
 package com.poec.projet_backend.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -57,7 +58,11 @@ public class GlobalExceptionHandler {
         System.out.println(ex.getMessage());
         return handleException(ex, HttpStatus.NOT_FOUND);
     }
-
+    @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleRuntimeException(ChangeSetPersister.NotFoundException ex) {
+        System.out.println("Introuvable");
+        return handleException(ex, HttpStatus.NOT_FOUND);
+    }
 
 }
 

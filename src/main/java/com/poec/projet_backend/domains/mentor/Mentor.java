@@ -44,11 +44,12 @@ public class Mentor {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "userId")
+    @JsonIgnoreProperties("mentor")
     private UserApp user;
 
-    @OneToMany(mappedBy = "mentor")
+    @OneToMany(mappedBy = "mentor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("mentor")
     private List<Slot> slots = new ArrayList<>();
 
@@ -56,8 +57,4 @@ public class Mentor {
     @JsonIgnoreProperties("mentors")
     @JsonIgnore
     private List<Student> students = new ArrayList<>();
-
-    public MentorDTO toMentorDTO(){
-       return  new MentorDTO(this.getId(), this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId());
-    }
 }

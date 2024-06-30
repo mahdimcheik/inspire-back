@@ -2,13 +2,18 @@ package com.poec.projet_backend.domains.formation;
 
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.experience.ExperienceDTO;
+import com.poec.projet_backend.user_app.UserApp;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class FormationDTO {
     private Long id;
     private String title;
@@ -19,7 +24,7 @@ public class FormationDTO {
     private String country;
     private Long userId;
 
-    static public FormationDTO from(Formation formation) {
+    static public FormationDTO fromEntity(Formation formation) {
         return FormationDTO.builder()
                 .id(formation.getId())
                 .title(formation.getTitle())
@@ -31,4 +36,17 @@ public class FormationDTO {
                 .userId(formation.getUser().getId())
                 .build();
     }
+
+    public static Formation fromDTO(FormationDTO formation, UserApp user) {
+        return Formation.builder()
+                .city(formation.getCity())
+                .country(formation.getCountry())
+                .company(formation.getCompany())
+                .dateBegin(formation.getDateBegin())
+                .dateEnd(formation.getDateEnd())
+                .title(formation.getTitle())
+                .user(user)
+                .build();
+    }
+
 }

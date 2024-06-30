@@ -83,7 +83,7 @@ public class FileUploadController {
 
             Student updatedMentor = studentRepository.findByUserId(userId);
             updatedMentor.setImgUrl("http://localhost:8080/user/upload/" + fileName);
-            StudentDTO res = StudentDTO.mapFromEntity(studentRepository.save(updatedMentor));
+            StudentDTO res = StudentDTO.fromEntity(studentRepository.save(updatedMentor));
 
             return ResponseEntity.ok(res);
         } catch (IOException e) {
