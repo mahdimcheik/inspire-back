@@ -280,17 +280,10 @@ public class StudentReservationService {
     @Transactional
     public Map<String, Object> delete(Long reservationId) {
         try {
-            var reservation = reservationRepository.findById(reservationId);
-            Long slotId = reservation.get().getSlot().getId();
-            var slot1 = slotRepository.findById(slotId).orElseThrow(()->new RuntimeException("slot not found"));
-            System.out.println("slot id " + slotId);
-            reservationRepository.deleteById(reservationId);
-            entityManager.flush();
-            System.out.println("slot id " + slotId);
-            userSlotService.freeSlot(slotId);
-            entityManager.flush();
-            System.out.println("slot id " + slotId);
-            // var slot = slotRepository.findById(slotId).orElseThrow(()->new RuntimeException("slot not founded"));
+              var reservation = reservationRepository.findById(reservationId);
+              var slot1 = slotRepository.findById(reservation.get().getSlot().getId()).orElseThrow(()->new RuntimeException("slot not found"));
+              slot1.setReservation(null);
+              slotRepository.save(slot1);
             UserApp user = userAppRepository.findById(slot1.getMentor().getId()).orElseThrow(()->new RuntimeException("user not found"));
 
             NotificationDTO notif = NotificationDTO.builder()
@@ -345,10 +338,4 @@ public class StudentReservationService {
         }
         return null;
     }
-
-    public SlotDTO BookSlot(Long studentId, Long slotId, String subject) {
-
-        return null;
-    }
-
 }
