@@ -31,9 +31,6 @@ public class Slot {
     @Column(name="visio" )
     private boolean visio;
 
-    @Column(name = "booked")
-    private boolean booked;
-
     @OneToOne(mappedBy = "slot", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnoreProperties("slot")
     private Reservation reservation;

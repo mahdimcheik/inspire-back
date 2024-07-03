@@ -55,7 +55,7 @@ public class StudentReservationService {
             if(reservationDTO.getStudentId() != null) {
                 var student = studentRepository.findById(reservationDTO.getStudentId());
                 var slot = slotRepository.findById(reservationDTO.getSlotId());
-                if(student.isPresent() && slot.isPresent() && !slot.get().isBooked()) {
+                if(student.isPresent() && slot.isPresent() && slot.get().getReservation() == null) {
                     Reservation reservation = Reservation.builder()
                             .slot(slot.get())
                             .subject(reservationDTO.getSubject())
@@ -66,7 +66,6 @@ public class StudentReservationService {
                     Reservation newReservation = reservationRepository.save(reservation);
                     // entityManager.flush();
                     UserApp user = userAppRepository.findById(slot.get().getMentor().getId()).orElseThrow(()->new RuntimeException("user not found"));
-                    slot.get().setBooked(true);
                     slotRepository.save(slot.get());
                     // entityManager.flush();
                     NotificationDTO notif = NotificationDTO.builder()
@@ -125,7 +124,6 @@ public class StudentReservationService {
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
-                    .isBooked((boolean) ele.get("booked"))
                     .isVisio((boolean) ele.get("visio"))
                     .build()).toList();
             Map<String, Object> result = new HashMap<>();
@@ -147,10 +145,7 @@ public class StudentReservationService {
             LocalDateTime time = LocalDateTime.now();
             System.out.println("time now " +time);
             var results = reservationRepository.findReservationByStudentInfosHistory(studentId, time,offset, perPage );
-            results.forEach(reservation ->{ System.out.println(reservation.get("firstname")+" "+reservation.get("lastname"));
-                System.out.println("booked " + reservation.get("booked")+"  visio "+reservation.get("visio"));
-                System.out.println("details " + reservation.get("details")+"  visio "+reservation.get("details"));
-            });
+
             if(results.isEmpty()) {
                 Map<String, Object> result = new HashMap<>();
                 result.put("reservations",new ArrayList<>());
@@ -173,7 +168,6 @@ public class StudentReservationService {
                     .reservationId((Long) ele.get("reservationId"))
                     .studentId((Long) ele.get("studentId"))
                     .slotId((Long) ele.get("slotId"))
-                    .isBooked((boolean) ele.get("booked"))
                     .isVisio((boolean) ele.get("visio"))
                     .build()).toList();
             Map<String, Object> result = new HashMap<>();
@@ -215,7 +209,6 @@ public class StudentReservationService {
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
-                        .isBooked((boolean) ele.get("booked"))
                         .isVisio((boolean) ele.get("visio"))
                         .build()).toList();
                 Map<String, Object> result = new HashMap<>();
@@ -260,7 +253,6 @@ public class StudentReservationService {
                         .reservationId((Long) ele.get("reservationId"))
                         .studentId((Long) ele.get("studentId"))
                         .slotId((Long) ele.get("slotId"))
-                        .isBooked((boolean) ele.get("booked"))
                         .isVisio((boolean) ele.get("visio"))
                         .build()).toList();
                 Map<String, Object> result = new HashMap<>();
@@ -328,12 +320,7 @@ public class StudentReservationService {
     public Map<String, Object> deleteReservationAndSlot(Long reservationId) {
         try {
             var reservation = reservationRepository.findById(reservationId);
-            var slotId = reservation.get().getId();
-            reservationRepository.deleteById(reservationId);
-            entityManager.flush();
-            System.out.println("slot id " + slotId);
-            slotRepository.deleteById(slotId);
-            entityManager.flush();
+            reservationRepository.delete(reservation.get());
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);

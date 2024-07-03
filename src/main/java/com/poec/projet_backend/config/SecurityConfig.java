@@ -30,40 +30,23 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        // On configure les règles de sécurité de Spring Security
         http
-            // On délègue la configuration de CORS à notre propre implémentation
             .cors(cors -> cors.configure(http))
-            // On désactive la gestion des sessions par Spring Security : pas utile avec un JWT
             .sessionManagement(session -> session .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            // Il n'y a pas de sessions car l'application est en STATELESS : pas besoin de CSRF
             .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).ignoringRequestMatchers("/**").disable())
 
-            // Liste des routes protégées / non protégées
             .authorizeHttpRequests((requests) -> requests
-                    .requestMatchers("/api/v1/auth/**","/formation/user/**","/language/user/update/**","/formation/user/**","/language/user/**","/skill/user/update/**","/skill/user/**","skill/get/**","/language/get/all", "/experience/**", "/experience/user/**", "/mentor/**", "/api/v1/users/**").permitAll() /* n'importe qui a accès à cet url */
-                    .requestMatchers("/experience/user/**", "/experience/user/update/**").permitAll()
-                    .requestMatchers("/student/**").permitAll() /* n'importe qui a accès à cet url */
-                            .requestMatchers("/user/slot/update").permitAll()
-                            .requestMatchers("/student/favorite/**","/student/favorite/add/**", "/student/favorite/delete/**").permitAll() /* n'importe qui a accès à cet url */
-//                    .requestMatchers("/api/v1/users/me").permitAll() /* n'importe qui a accès à cet url */
-                 .requestMatchers("/user/upload/image/mentor","/user/upload/image/student", "/uploads/images/**", "/images/**", "/static/images/**", "uploads/images/**","/**").permitAll() /* n'importe qui a accès à cet url */
-
-                    .requestMatchers("/api/v1/demo/users-only").hasAnyRole(Role.USER.name()) /* ROLE_USER */
-                    .requestMatchers("/api/v1/demo/admin-only").hasAnyRole(Role.ADMIN.name()) /* ROLE_ADMIN */
+                    .requestMatchers("/api/v1/auth/**").permitAll()
+                    .requestMatchers("/user/upload/image/mentor","/user/upload/image/student", "/uploads/images/**", "/images/**", "/static/images/**", "uploads/images/**","/**").permitAll()
                     .anyRequest().authenticated()
             )
 
-            // On configure les erreurs d'authentification
             .exceptionHandling((exception) ->  exception
                     .authenticationEntryPoint(jwtAuthenticationErrors)
                     .accessDeniedHandler(accessDeniedHandler)
             )
 
-            // On précise quel Provider d'authentification utiliser
             .authenticationProvider(authenticationProvider)
-
-            // On ajoute notre filtre de vérification du JWT avant le filtre de vérification des identifiants
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
             return http.build();

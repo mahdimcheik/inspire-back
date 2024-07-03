@@ -18,8 +18,7 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
                     "LEFT JOIN student st ON r.studentId = st.id",
             nativeQuery = true
     )
-    List<Map<String,String>> findAllByMentorIdDetailed(Long id);
-
+    List<Map<String, String>> findAllByMentorIdDetailed(Long id);
 
     @Query(
             value = "SELECT * FROM slot u WHERE u.dateEnd BETWEEN :start AND :end",
@@ -28,22 +27,26 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
     List<Slot> findAllActiveSlotNative(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Query(
-            value = "SELECT * FROM slot u WHERE u.dateEnd BETWEEN :start AND :end AND u.mentorId = :mentorId",
+            value = "SELECT s.*, r.subject, r.id as reservationId, r.details, r.message, st.firstname, st.lastname, st.imgUrl  " +
+                    "FROM slot s " +
+                    "LEFT JOIN  reservation r on s.id = r.slotId " +
+                    "LEFT JOIN student st on r.studentId = st.id " +
+                    "WHERE s.dateEnd BETWEEN :start AND :end AND s.mentorId = :mentorId",
             nativeQuery = true
     )
-    List<Slot> findAllActiveUsersSlotsNative(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    List<Map<String, Object>> findAllActiveUsersSlotsNative(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
 
     @Query(
             value = "SELECT s.*, r.id as reservationId FROM slot s " +
                     "LEFT JOIN reservation r ON r.slotId = s.id " +
-                    "WHERE s.dateEnd >= :start AND s.dateEnd <= :end AND s.mentorId = :mentorId AND (s.booked = false OR r.studentId = :studentId)",
+                    "WHERE s.dateEnd >= :start AND s.dateEnd <= :end AND s.mentorId = :mentorId AND (r.id IS NULL or r.studentId = :studentId)",
             nativeQuery = true
     )
-    List<Map<String, Object>> getSlotsforStudentByMentorId(@Param("mentorId") Long mentorId,@Param("studentId") Long studentId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    List<Map<String, Object>> getSlotsforStudentByMentorId(@Param("mentorId") Long mentorId, @Param("studentId") Long studentId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
-    @Query("SELECT s FROM Slot s WHERE s.mentor.id = :mentorId AND s.booked = false AND s.dateEnd BETWEEN :start AND :end")
+    @Query("SELECT s FROM Slot s WHERE s.mentor.id = :mentorId  AND s.dateEnd BETWEEN :start AND :end")
     List<Slot> findAvailableSlotsByMentorIdAndDateRange(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 }
-//@Param("studentId") Long studentId,
 
 
