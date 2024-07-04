@@ -20,11 +20,6 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
     )
     List<Map<String, String>> findAllByMentorIdDetailed(Long id);
 
-    @Query(
-            value = "SELECT * FROM slot u WHERE u.dateEnd BETWEEN :start AND :end",
-            nativeQuery = true
-    )
-    List<Slot> findAllActiveSlotNative(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Query(
             value = "SELECT s.*, r.subject, r.id as reservationId, r.details, r.message, st.firstname, st.lastname, st.imgUrl  " +
@@ -43,7 +38,7 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
                     "WHERE s.dateEnd >= :start AND s.dateEnd <= :end AND s.mentorId = :mentorId AND (r.id IS NULL or r.studentId = :studentId)",
             nativeQuery = true
     )
-    List<Map<String, Object>> getSlotsforStudentByMentorId(@Param("mentorId") Long mentorId, @Param("studentId") Long studentId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+    List<Map<String, Object>> getSlotsByMentorIdForStudent(@Param("mentorId") Long mentorId, @Param("studentId") Long studentId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     @Query("SELECT s FROM Slot s WHERE s.mentor.id = :mentorId  AND s.dateEnd BETWEEN :start AND :end")
     List<Slot> findAvailableSlotsByMentorIdAndDateRange(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);

@@ -98,7 +98,6 @@ public class UserSlotService {
         // LocalDateTime startDateTime =WeekUtil.convertDateToLocalDateTime(startDate);
         LocalDateTime startDateTime = LocalDateTime.now();
         LocalDateTime endDateTime = WeekUtil.convertDateToLocalDateTime(endDate);
-        return slotRepository.getSlotsforStudentByMentorId(  mentorId,studentId, startDateTime, endDateTime);
+        return slotRepository.getSlotsByMentorIdForStudent(  mentorId,studentId, startDateTime, endDateTime);
     }
-
 }
