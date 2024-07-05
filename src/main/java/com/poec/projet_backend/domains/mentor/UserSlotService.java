@@ -20,6 +20,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -94,10 +95,19 @@ public class UserSlotService {
     }
 
     public List<Map<String, Object>> getSlotsforStudentByMentorId(Long mentorId, Long studentId,  Date startDate, Date endDate) {
-        System.out.println(mentorId);
-        // LocalDateTime startDateTime =WeekUtil.convertDateToLocalDateTime(startDate);
-        LocalDateTime startDateTime = LocalDateTime.now();
+        System.out.println("get mentor slot for student called ");
+        LocalDateTime startDateTime =WeekUtil.convertDateToLocalDateTime(startDate);
         LocalDateTime endDateTime = WeekUtil.convertDateToLocalDateTime(endDate);
+        LocalDateTime now = LocalDateTime.now();
+        if(endDateTime.isBefore(now)) {
+            System.out.println(" return none ");
+
+            return new ArrayList<>(); }
+        if(startDateTime.isBefore(now)) {
+            System.out.println(" less than time now");
+
+            startDateTime = now;
+        }
         return slotRepository.getSlotsByMentorIdForStudent(  mentorId,studentId, startDateTime, endDateTime);
     }
 }
