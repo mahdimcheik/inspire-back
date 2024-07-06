@@ -109,7 +109,7 @@ public class MentorService {
         return repository.findAll().stream()
                 .filter(mentor -> {
                     if (period.equalsIgnoreCase("any")) {
-                        return mentor.getSlots().stream().anyMatch(slot -> !slot.isBooked());
+                        return mentor.getSlots().stream().anyMatch(slot -> slot.getReservation() == null);
                     } else {
                         return slotRepository.findAvailableSlotsByMentorIdAndDateRange(mentor.getId(), start, end).size() > 0;
                     }

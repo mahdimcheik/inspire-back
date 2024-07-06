@@ -12,15 +12,14 @@ import java.util.List;
 @Data
 @Service
 public class SlotService {
-    private SlotRepository slotRepository;
-
-
+    private final SlotRepository slotRepository;
 
     public List<Slot> getSlots() {
         //return slotRepository.findAllActiveSlotNative();
         return slotRepository.findAll();
     }
 
-
-
+    public void deleteSlot(Long slotId) {
+        slotRepository.deleteById(slotId);
+    }
 }

@@ -27,7 +27,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Transactional
     @Query(
-            value = "SELECT r.id as reservationId, r.subject, r.message ,  s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
+            value = "SELECT r.id as reservationId, r.subject, r.message ,  s.id as slotId, s.dateBegin, s.dateEnd,  s.visio, r.studentId, r.details, " +
                     "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
                     "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
@@ -45,7 +45,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Transactional
     @Query(
-            value = "SELECT r.*, r.id as reservationId, s.id as slotId, s.dateBegin, s.dateEnd,s.booked, s.visio , " +
+            value = "SELECT r.*, r.id as reservationId, s.id as slotId, s.dateBegin, s.dateEnd, s.visio , " +
                     "mt.title, mt.imgUrl, mt.firstname, mt.lastname, " +
                     "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
@@ -63,7 +63,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @Transactional
     @Query(
-            value = "SELECT r.id , r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details, " +
+            value = "SELECT r.id , r.subject, s.id as slotId, s.dateBegin, s.dateEnd, s.visio, r.studentId, r.details, " +
                     "st.title, st.imgUrl, st.firstname, st.lastname, " +
                     "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +
@@ -81,7 +81,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
 
     @Query(
-            value = "SELECT r.id as reservationId, r.subject,r.message, s.id as slotId, s.dateBegin, s.dateEnd, s.booked, s.visio, r.studentId, r.details , " +
+            value = "SELECT r.id as reservationId, r.subject,r.message, s.id as slotId, s.dateBegin, s.dateEnd, s.visio, r.studentId, r.details , " +
                     "st.title, st.imgUrl, st.firstname, st.lastname, " +
                     "mt.userId as mentorUserId, " +
                     "st.userId as userId ," +

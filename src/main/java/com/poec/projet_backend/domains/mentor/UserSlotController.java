@@ -2,7 +2,9 @@ package com.poec.projet_backend.domains.mentor;
 
 
 import com.poec.projet_backend.domains.reservation.RangeDate;
+import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
+import com.poec.projet_backend.domains.slot.SlotResponseForMentorDTO;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +26,9 @@ public class UserSlotController {
     }
 
     @PostMapping("/get/{mentorId}")
-    public List<SlotDTO> getUserSlotsInRang(@PathVariable Long mentorId, @RequestBody RangeDate range ) {
+    public List<Map<String, Object>> getUserSlotsInRang(@PathVariable Long mentorId, @RequestBody RangeDate range ) {
         System.out.println("date " + range.toString());
-        return userSlotService.getSlotByUserIdStartToEnd(mentorId,range.getStart() ,range.getEnd()).stream().map(SlotDTO::fromEntity).toList();
+        return userSlotService.getSlotByUserIdStartToEnd(mentorId,range.getStart() ,range.getEnd());
     }
 
     @PostMapping("/add")

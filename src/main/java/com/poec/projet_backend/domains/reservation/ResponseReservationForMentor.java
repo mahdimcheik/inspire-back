@@ -14,7 +14,6 @@ public class ResponseReservationForMentor {
     private Long studentId;
     private Long slotId;
     private Long reservationId;
-    private boolean isBooked;
     private boolean isVisio;
     private String subject;
     private String message;
