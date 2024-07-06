@@ -5,9 +5,11 @@ import com.poec.projet_backend.domains.reservation.RangeDate;
 import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotResponseForMentorDTO;
+import com.poec.projet_backend.user_app.UserApp;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class UserSlotController {
 
     @PostMapping("/add")
     public SlotDTO addUserSlot(@RequestBody SlotDTO slotDTO) {
+
         return userSlotService.addSlot(slotDTO.getMentorId(), slotDTO);
     }
 
