@@ -1,6 +1,9 @@
 package com.poec.projet_backend.user_app;
 
 import com.poec.projet_backend.auth.AuthResponse;
+import com.poec.projet_backend.domains.notification.NotificationController;
+import com.poec.projet_backend.domains.notification.NotificationRepository;
+import com.poec.projet_backend.domains.notification.NotificationService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,12 +20,16 @@ import java.util.List;
 public class UserAppController {
 
     private final UserAppRepository userAppRepository;
+    private final NotificationService notificationService;
 
     @GetMapping("/me")
     public ResponseEntity<?> getMe(HttpServletRequest request) {
         String username  = SecurityContextHolder.getContext().getAuthentication().getName();
         UserApp user = userAppRepository.findByEmail(username)
                 .orElseThrow(() -> new RuntimeException("email " + username +" not found"));
+        if(user.getTimeSinceLastCheckNotifications() == null){
+            notificationService.resetUserApp(user.getId());
+        }
         AuthResponse response = AuthResponse.builder()
                 .message("Connection réussite")
                 .id(user.getId())

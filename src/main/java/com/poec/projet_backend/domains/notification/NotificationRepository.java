@@ -9,22 +9,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
+// AND n.emittedAt >= :lastSeen
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
     @Query(value = "SELECT n.* FROM notification n " +
             "JOIN user u ON n.userId = u.id " +
-            "WHERE  n.userId = :userId "+
+            "WHERE  n.userId = :userId AND n.emittedAt >= :lastSeen "+
+            "ORDER BY n.emittedAt DESC " +
             "LIMIT 10"
             ,
             nativeQuery = true)
-    List<Map<String, Object>> getNotificationsSinceLastSeen(@Param("userId") Long userId);
+    List<Map<String, Object>> getNotificationsSinceLastSeen(@Param("userId") Long userId, @Param("lastSeen") LocalDateTime lastSeen);
 }
-
-
-//public interface NotificationRepository extends JpaRepository<Notification, Long> {
-//    @Query(value = "SELECT n.* FROM notification n " +
-//            "JOIN user u ON n.userId = u.id " +
-//            "WHERE u.timeSinceLastCheckNotifications < n.emittedAt AND n.userId = :userId",
-//            nativeQuery = true)
-//    List<Map<String, Object>> getNotificationsSinceLastSeen(@Param("userId") Long userId);
-//}
