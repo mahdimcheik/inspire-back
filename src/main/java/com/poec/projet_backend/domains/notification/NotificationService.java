@@ -7,7 +7,12 @@ import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.time.chrono.ChronoLocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,25 +26,29 @@ public class NotificationService {
 
     public NotificationDTO createNotification(NotificationDTO dto) throws Exception {
         var user = userRepository.findById(dto.getUserId());
-        if(user.isPresent()) {
-            Notification notification = NotificationDTO.toNotification(dto,user.get());
-            return NotificationDTO.fromNotification( notificationRepository.save(notification));
-        }
-        else throw  new Exception("User or reservation not found");
+        if (user.isPresent()) {
+            Notification notification = NotificationDTO.toNotification(dto, user.get());
+            return NotificationDTO.fromNotification(notificationRepository.save(notification));
+        } else throw new Exception("User or reservation not found");
     }
 
-    public List< NotificationDTO> getAll(Long userId) throws Exception {
+    public List<NotificationDTO> getAll(Long userId) throws Exception {
         return notificationRepository.findAll().stream().map(NotificationDTO::fromNotification).toList();
     }
 
     public List<Map<String, Object>> getAll(Long userId, LocalDateTime time) throws Exception {
-        return notificationRepository.getNotificationsSinceLastSeen(userId);
+        var user = userRepository.findById(userId).orElseThrow(() -> new Exception("User or reservation not found"));
+        var notifications = notificationRepository.getNotificationsSinceLastSeen(userId, user.getTimeSinceLastCheckNotifications());
+
+
+        return notifications;
     }
 
     private final UserAppRepository userAppRepository;
+
     public UserApp resetUserApp(Long id) {
         LocalDateTime now = LocalDateTime.now();
-        UserApp user = userAppRepository.findById(id).orElseThrow(()->new RuntimeException("User App Not Found"));
+        UserApp user = userAppRepository.findById(id).orElseThrow(() -> new RuntimeException("User App Not Found"));
         user.setTimeSinceLastCheckNotifications(now);
         return userAppRepository.save(user);
     }
