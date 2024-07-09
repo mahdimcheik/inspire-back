@@ -285,14 +285,40 @@ public class StudentReservationService {
               slot1.setReservation(null);
               slotRepository.save(slot1);
             UserApp user = userAppRepository.findById(slot1.getMentor().getId()).orElseThrow(()->new RuntimeException("user not found"));
+            notificationService.add(user, reservation.get().getStudent().getFirstname(), reservation.get().getStudent().getLastname(),dateFormatter( slot1.getDateBegin()), "Annulation");
+//            NotificationDTO notif = NotificationDTO.builder()
+//                    .userId(user.getId())
+//                    .emittedAt(LocalDateTime.now())
+//                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + "\nCréneau : " +dateFormatter( slot1.getDateBegin()))
+//                    .type(NotificationType.BOOKING)
+//                    .build();
+//            notificationRepository.save(NotificationDTO.toNotification(notif, user));
+            Map<String, Object> result = new HashMap<>();
+            result.put("message ", "Reservation annulé");
+            result.put("success",true);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            Map<String, Object> result = new HashMap<>();
+            result.put("message ", ex.getMessage());
+            result.put("success",false);
+            return result;
+        }
 
-            NotificationDTO notif = NotificationDTO.builder()
-                    .userId(user.getId())
-                    .emittedAt(LocalDateTime.now())
-                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + "\nCréneau : " +dateFormatter( slot1.getDateBegin()))
-                    .type(NotificationType.BOOKING)
-                    .build();
-            notificationRepository.save(NotificationDTO.toNotification(notif, user));
+    }
+
+    @Transactional
+    public Map<String, Object> deleteByMentor(Long reservationId) {
+        try {
+            var reservation = reservationRepository.findById(reservationId);
+            var slot1 = slotRepository.findById(reservation.get().getSlot().getId()).orElseThrow(()->new RuntimeException("slot not found"));
+            slot1.setReservation(null);
+            slotRepository.save(slot1);
+            UserApp user = userAppRepository.findById(reservation.get().getStudent().getUser().getId()).orElseThrow(()->new RuntimeException("user not found"));
+            notificationService.add(user, slot1.getMentor().getFirstname(), slot1.getMentor().getLastname(),dateFormatter( slot1.getDateBegin()), "Annulation");
+
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
@@ -314,8 +340,9 @@ public class StudentReservationService {
         try {
             var reservation = reservationRepository.findById(reservationId);
             reservationRepository.delete(reservation.get());
+
             Map<String, Object> result = new HashMap<>();
-            result.put("message ", "Reservation annulé");
+            result.put("message ", "Reservation annulée");
             result.put("success",true);
             return result;
         }
