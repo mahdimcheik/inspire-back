@@ -40,7 +40,7 @@ public class UserSlotController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteUserSlot(@PathVariable Long id) {
+    public void deleteUserSlot(@PathVariable Long id) throws Exception {
         userSlotService.deleteSlot(id);
     }
 

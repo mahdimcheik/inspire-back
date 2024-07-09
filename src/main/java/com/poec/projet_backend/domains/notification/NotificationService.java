@@ -52,4 +52,14 @@ public class NotificationService {
         user.setTimeSinceLastCheckNotifications(now);
         return userAppRepository.save(user);
     }
+
+    public void add(UserApp user, String firstname, String lastname , String date, String type) throws Exception {
+        NotificationDTO notif = NotificationDTO.builder()
+                .userId(user.getId())
+                .emittedAt(LocalDateTime.now())
+                .message(type + " : " + firstname + " " + lastname+ "\nCréneau : " + date)
+                .type(NotificationType.BOOKING)
+                .build();
+        notificationRepository.save(NotificationDTO.toNotification(notif, user));
+    }
 }
