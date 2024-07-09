@@ -17,7 +17,6 @@ public class AuthController {
 
     private final AuthService service;
 
-
     @PostMapping("/register/mentor")
     public ResponseEntity<Map<String, String>> register(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
         System.out.println(request.toString());
