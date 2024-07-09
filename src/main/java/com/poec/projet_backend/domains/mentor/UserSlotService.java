@@ -1,6 +1,7 @@
 package com.poec.projet_backend.domains.mentor;
 
 
+import com.poec.projet_backend.domains.notification.NotificationService;
 import com.poec.projet_backend.domains.reservation.Reservation;
 import com.poec.projet_backend.domains.reservation.WeekUtil;
 import com.poec.projet_backend.domains.slot.Slot;
@@ -9,6 +10,7 @@ import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.domains.slot.SlotResponseForMentorDTO;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.domains.student.StudentRepository;
+import com.poec.projet_backend.domains.student.StudentReservationService;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import com.poec.projet_backend.user_app.UserAppService;
@@ -17,6 +19,8 @@ import jakarta.persistence.PersistenceContext;
 import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.annotations.NotFound;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +40,7 @@ import java.util.stream.Collectors;
 @Data
 @Service
 public class UserSlotService {
+    private final UserAppService userAppService;
     @PersistenceContext
     private EntityManager entityManager;
     private final UserAppRepository userRepository;
@@ -42,6 +48,8 @@ public class UserSlotService {
     private final MentorRepository mentorRepository;
     private final StudentRepository studentRepository;
     private final UserAppRepository userAppRepository;
+//    private final StudentReservationService studentReservationService;
+    private final NotificationService  notificationService;
 
     public List<Map<String, String>> getSlotByMentorId(Long mentorId) {
         return slotRepository.findAllByMentorIdDetailed(mentorId); //.stream().map(SlotDTO::fromEntity).toList();
@@ -111,12 +119,21 @@ public class UserSlotService {
         return null;
     }
 
+    public String dateFormatter(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM HH:mm");
+        var res = date.format(formatter).split(" ");
 
+        return  res[0] + " à " + res[1];
+    }
 
-    public void deleteSlot(Long id) {
+    public void deleteSlot(Long id) throws Exception {
         Slot slot = slotRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Slot not found with id " + id));
         checkAuthenticityMentor(slot.getMentor().getId());
+        if(slot.getReservation() != null){
+            var user = userAppRepository.findById(slot.getReservation().getStudent().getUser().getId()).orElseThrow(() -> new RuntimeException("Not found"));
+            notificationService.add(user, slot.getMentor().getFirstname(), slot.getMentor().getLastname(),dateFormatter(slot.getDateBegin()), "Annulation");
+        }
         slotRepository.delete(slot);
     }
 

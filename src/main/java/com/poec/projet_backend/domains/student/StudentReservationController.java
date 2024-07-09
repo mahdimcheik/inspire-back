@@ -62,7 +62,7 @@ public class StudentReservationController {
 
     @DeleteMapping("/delete/mentor/reservation/{reservationId}")
     public ResponseEntity<Map<String, Object>> deleteReservationOnly(@PathVariable final Long reservationId) {
-        return new ResponseEntity<>(studentReservationService.delete(reservationId), HttpStatus.OK);
+        return new ResponseEntity<>(studentReservationService.deleteByMentor(reservationId), HttpStatus.OK);
     }
 
     @PutMapping("/update/{reservationId}/{first}")
