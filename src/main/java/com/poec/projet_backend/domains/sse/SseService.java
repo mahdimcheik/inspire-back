@@ -1,5 +1,7 @@
 package com.poec.projet_backend.domains.sse;
 
+import com.poec.projet_backend.user_app.UserAppRepository;
+import lombok.Data;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
@@ -8,43 +10,55 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+@Data
 @Service
 public class SseService {
-    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<SseEmitter>();
-    private final Map<String, SseEmitter> emittersMap = new HashMap<String, SseEmitter>();
+    private final List<EmitterDetails> emitters = new CopyOnWriteArrayList<EmitterDetails>();
+    private final UserAppRepository appRepository;
+    private final UserAppRepository userAppRepository;
 
     public void addEmitter(SseEmitter emitter,Long id) {
 
-        emittersMap.remove("" + id);
-        emittersMap.put("" + id, emitter);
+        //var user = userAppRepository.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
+        emitters.add(new EmitterDetails(emitter, id, UUID.randomUUID()));
         emitter.onCompletion(() -> {
             System.out.println("complete");
             emitters.remove(emitter);
         });
         emitter.onTimeout(() -> emitters.remove(emitter));
+        System.out.println("emitters counts : " + emitters.size());
     }
+
+
 
     // @Scheduled(fixedRate = 1000)
     public void sendEvents() {
-        emittersMap.forEach((emitter, value) ->  {
+        emitters.forEach(value ->  {
                     try {
-                        value.send("lol " + System.currentTimeMillis());
+                        value.getEmitter().send("lol " + System.currentTimeMillis());
                     } catch (IOException e) {
-                        value.complete();
-                        emittersMap.remove(emitter);
+                        value.getEmitter().complete();
+                        emitters.remove(value);
                     }
                 }
         );
     }
 
     public void sendEvents(Long id) {
-        try {
-            emittersMap.get(id).send(" Message recu à  " + System.currentTimeMillis()  );
-        } catch (IOException e) {
-            emittersMap.get(id).complete();
-            emittersMap.remove(id);
-        }
+        emitters.forEach(value ->  {
+                    try {
+                        if(value.getId() == id){
+                            value.getEmitter().send("lol " + System.currentTimeMillis());
+
+                        }
+                    } catch (IOException e) {
+                        value.getEmitter().complete();
+                        emitters.remove(value);
+                    }
+                }
+        );
     }
 }

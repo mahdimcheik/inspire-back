@@ -118,8 +118,7 @@ public class AuthService {
             if(user.getTimeSinceLastCheckNotifications() == null){
                 notificationService.resetUserApp(user.getId());
             }
-            SseEmitter emitter = new SseEmitter(6000000L);
-            sseService.addEmitter(emitter, user.getId());
+
             return AuthResponse.builder()
                     .token(jwtToken)
                     .message("Logged In")

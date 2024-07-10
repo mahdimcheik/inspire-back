@@ -9,6 +9,7 @@ import com.poec.projet_backend.domains.reservation.*;
 import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
+import com.poec.projet_backend.domains.sse.SseService;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import com.poec.projet_backend.user_app.UserAppService;
@@ -41,6 +42,7 @@ public class StudentReservationService {
     private final UserSlotService userSlotService;
     private final UserAppRepository userAppRepository;
     private final NotificationService notificationService;
+    private final SseService sseService;
 
     public String dateFormatter(LocalDateTime date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM HH:mm");
@@ -76,6 +78,7 @@ public class StudentReservationService {
                             .build();
                     notificationService.createNotification(notif);
                     entityManager.flush();
+                    sseService.sendEvents(slot.get().getMentor().getUser().getId());
                     return ReservationDTO.toDTO(reservationRepository.save(reservation));
                 }
             }
@@ -286,13 +289,7 @@ public class StudentReservationService {
               slotRepository.save(slot1);
             UserApp user = userAppRepository.findById(slot1.getMentor().getId()).orElseThrow(()->new RuntimeException("user not found"));
             notificationService.add(user, reservation.get().getStudent().getFirstname(), reservation.get().getStudent().getLastname(),dateFormatter( slot1.getDateBegin()), "Annulation");
-//            NotificationDTO notif = NotificationDTO.builder()
-//                    .userId(user.getId())
-//                    .emittedAt(LocalDateTime.now())
-//                    .message("Annulation : " + reservation.get().getStudent().getFirstname() + " " + reservation.get().getStudent().getLastname() + "\nCréneau : " +dateFormatter( slot1.getDateBegin()))
-//                    .type(NotificationType.BOOKING)
-//                    .build();
-//            notificationRepository.save(NotificationDTO.toNotification(notif, user));
+            // sseService.sendEvents(slot1.getMentor().getUser().getId());
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
@@ -318,7 +315,8 @@ public class StudentReservationService {
             slotRepository.save(slot1);
             UserApp user = userAppRepository.findById(reservation.get().getStudent().getUser().getId()).orElseThrow(()->new RuntimeException("user not found"));
             notificationService.add(user, slot1.getMentor().getFirstname(), slot1.getMentor().getLastname(),dateFormatter( slot1.getDateBegin()), "Annulation");
-
+            System.out.println("id " + reservation.get().getStudent().getUser().getId());
+            sseService.sendEvents(reservation.get().getStudent().getUser().getId());
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
