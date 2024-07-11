@@ -16,14 +16,15 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Data
 @Service
 public class SseService {
-    private final List<EmitterDetails> emitters = new CopyOnWriteArrayList<EmitterDetails>();
+    private final Map<Long,SseEmitter> emitters = new HashMap<Long, SseEmitter>();
     private final UserAppRepository appRepository;
     private final UserAppRepository userAppRepository;
 
     public void addEmitter(SseEmitter emitter,Long id) {
 
         //var user = userAppRepository.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
-        emitters.add(new EmitterDetails(emitter, id, UUID.randomUUID()));
+        emitters.remove(id);
+        emitters.put(id,emitter);
         emitter.onCompletion(() -> {
             System.out.println("complete");
             emitters.remove(emitter);
@@ -36,29 +37,19 @@ public class SseService {
 
     // @Scheduled(fixedRate = 1000)
     public void sendEvents() {
-        emitters.forEach(value ->  {
+        emitters.forEach((key,value) ->  {
                     try {
-                        value.getEmitter().send("lol " + System.currentTimeMillis());
+                        value.send("lol " + System.currentTimeMillis());
                     } catch (IOException e) {
-                        value.getEmitter().complete();
-                        emitters.remove(value);
+                        value.complete();
+                        emitters.remove(key);
                     }
                 }
         );
     }
 
-    public void sendEvents(Long id) {
-        emitters.forEach(value ->  {
-                    try {
-                        if(value.getId() == id){
-                            value.getEmitter().send("lol " + System.currentTimeMillis());
+    public void sendEvents(Long id) throws IOException {
+        emitters.get(id).send("Notifications");
 
-                        }
-                    } catch (IOException e) {
-                        value.getEmitter().complete();
-                        emitters.remove(value);
-                    }
-                }
-        );
     }
 }

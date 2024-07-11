@@ -289,7 +289,7 @@ public class StudentReservationService {
               slotRepository.save(slot1);
             UserApp user = userAppRepository.findById(slot1.getMentor().getId()).orElseThrow(()->new RuntimeException("user not found"));
             notificationService.add(user, reservation.get().getStudent().getFirstname(), reservation.get().getStudent().getLastname(),dateFormatter( slot1.getDateBegin()), "Annulation");
-            // sseService.sendEvents(slot1.getMentor().getUser().getId());
+            sseService.sendEvents(slot1.getMentor().getUser().getId());
             Map<String, Object> result = new HashMap<>();
             result.put("message ", "Reservation annulé");
             result.put("success",true);
