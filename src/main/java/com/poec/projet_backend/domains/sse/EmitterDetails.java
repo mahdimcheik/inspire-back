@@ -12,4 +12,13 @@ import java.util.*;
 public class EmitterDetails {
     private Map<String, SseEmitter> tokensEmitters = new HashMap<>();
     private Long id;
+
+    @Override
+    public String toString() {
+        final String[] res = {"event emitter "};
+        getTokensEmitters().forEach((key, value) -> {
+            res[0] += "\n key: " + key + " , emitter : " + value.toString();
+        });
+        return res[0];
+    }
 }

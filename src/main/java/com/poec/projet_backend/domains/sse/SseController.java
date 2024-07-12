@@ -53,4 +53,10 @@ public class SseController {
         sseService.sendEvents(id);
         return "Started";
     }
+
+    @GetMapping("/unsubscribe/{id}/{token}")
+    public String removeEmitter(@PathVariable Long id, @PathVariable String token) throws IOException {
+        sseService.removeEmitter(id, token);
+        return "Removed";
+    }
 }

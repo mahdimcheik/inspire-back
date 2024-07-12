@@ -22,11 +22,14 @@ public class SseService {
             var cible = emitters.get(id);
            if( cible != null){
                cible.getTokensEmitters().put(token, emitter);
+               emitters.put(id, cible);
+               printEmitters();
            }else {
                Map<String, SseEmitter> tokensEmitters = new HashMap<>();
                tokensEmitters.put(token, emitter);
                EmitterDetails newCible = new EmitterDetails(tokensEmitters,id);
                emitters.put(id, newCible);
+               printEmitters();
            }
         }catch(Exception e){
             e.printStackTrace();
@@ -34,6 +37,9 @@ public class SseService {
 
     }
 
+    public void printEmitters(){
+        emitters.forEach((key, value) -> System.out.println("\nkey : " + key + " , emitter : " + emitters.get(key).toString()));
+    }
 
 
     // @Scheduled(fixedRate = 1000)
@@ -67,5 +73,9 @@ public class SseService {
             e.printStackTrace();
         }
 
+    }
+    public void removeEmitter(Long id, String token) {
+        var cible = emitters.get(id);
+        cible.getTokensEmitters().remove(token);
     }
 }
