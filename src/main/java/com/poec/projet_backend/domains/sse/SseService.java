@@ -7,49 +7,65 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Data
 @Service
 public class SseService {
-    private final Map<Long,SseEmitter> emitters = new HashMap<Long, SseEmitter>();
+    private  Map<Long, EmitterDetails> emitters = new HashMap<>();
     private final UserAppRepository appRepository;
     private final UserAppRepository userAppRepository;
 
-    public void addEmitter(SseEmitter emitter,Long id) {
+    public void addEmitter(SseEmitter emitter,Long id, String token) {
+        try{
+            var cible = emitters.get(id);
+           if( cible != null){
+               cible.getTokensEmitters().put(token, emitter);
+           }else {
+               Map<String, SseEmitter> tokensEmitters = new HashMap<>();
+               tokensEmitters.put(token, emitter);
+               EmitterDetails newCible = new EmitterDetails(tokensEmitters,id);
+               emitters.put(id, newCible);
+           }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
-        //var user = userAppRepository.findById(id).orElseThrow(() -> new RuntimeException("User with id " + id + " not found"));
-        emitters.remove(id);
-        emitters.put(id,emitter);
-        emitter.onCompletion(() -> {
-            System.out.println("complete");
-            emitters.remove(emitter);
-        });
-        emitter.onTimeout(() -> emitters.remove(emitter));
-        System.out.println("emitters counts : " + emitters.size());
     }
 
 
 
     // @Scheduled(fixedRate = 1000)
     public void sendEvents() {
-        emitters.forEach((key,value) ->  {
-                    try {
-                        value.send("lol " + System.currentTimeMillis());
-                    } catch (IOException e) {
-                        value.complete();
-                        emitters.remove(key);
-                    }
-                }
-        );
+//        emitters.forEach((key, value) ->  {
+//                    try {
+//                        value.getEmitter().send("lol " + System.currentTimeMillis());
+//                    } catch (IOException e) {
+//                        value.getEmitter().complete();
+//                        emitters.remove(value);
+//                    }
+//                }
+//        );
     }
 
     public void sendEvents(Long id) throws IOException {
-        emitters.get(id).send("Notifications");
+        //emitters.get(id).getEmitter().send("Notifications");
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", id);
+
+        try{
+            emitters.get(id).getTokensEmitters().forEach((token, emitter) -> {
+                response.put("token", token);
+                try {
+                    emitter.send(response);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 }
