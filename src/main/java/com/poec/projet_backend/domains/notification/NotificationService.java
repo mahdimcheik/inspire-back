@@ -36,10 +36,17 @@ public class NotificationService {
         return notificationRepository.findAll().stream().map(NotificationDTO::fromNotification).toList();
     }
 
-    public List<Map<String, Object>> getAll(Long userId, LocalDateTime time) throws Exception {
+    public List<Map<String, Object>> getNewNotifications(Long userId, LocalDateTime time) throws Exception {
         var user = userRepository.findById(userId).orElseThrow(() -> new Exception("User or reservation not found"));
         var notifications = notificationRepository.getNotificationsSinceLastSeen(userId, user.getTimeSinceLastCheckNotifications());
 
+
+        return notifications;
+    }
+
+    public List<Map<String, Object>> getOldNotifications(Long userId, LocalDateTime time) throws Exception {
+        var user = userRepository.findById(userId).orElseThrow(() -> new Exception("User or reservation not found"));
+        var notifications = notificationRepository.getNotificationsSinceLastSeen(userId, user.getTimeSinceLastCheckNotifications());
 
         return notifications;
     }
