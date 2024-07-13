@@ -46,7 +46,7 @@ public class NotificationService {
 
     public List<Map<String, Object>> getOldNotifications(Long userId, LocalDateTime time) throws Exception {
         var user = userRepository.findById(userId).orElseThrow(() -> new Exception("User or reservation not found"));
-        var notifications = notificationRepository.getNotificationsSinceLastSeen(userId, user.getTimeSinceLastCheckNotifications());
+        var notifications = notificationRepository.getNotificationsBeforeLastSeen(userId, user.getTimeSinceLastCheckNotifications());
 
         return notifications;
     }
