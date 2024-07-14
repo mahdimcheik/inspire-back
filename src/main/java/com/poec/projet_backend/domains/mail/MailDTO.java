@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @Builder
 public class MailDTO {
-
+private Long id;
     private String title;
     private LocalDateTime sentDate;
     private String body;
@@ -26,6 +26,7 @@ public class MailDTO {
 
     public static MailDTO fromEntity( final Mail mail) {
         return MailDTO.builder()
+                .id(mail.getId())
                 .title(mail.getTitle())
                 .sentDate(mail.getSentDate())
                 .body(mail.getBody())

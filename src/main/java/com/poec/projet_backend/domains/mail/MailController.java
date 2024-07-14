@@ -16,7 +16,7 @@ public class MailController {
     private final MailService mailService;
 
     @PostMapping("/send/{senderId}")
-    public ResponseEntity<?> sendMail(@PathVariable("senderId") Long senderId, @RequestBody MailDTO mail) {
+    public ResponseEntity<?> sendMail(@PathVariable("senderId") Long senderId, @RequestBody MailSend mail) {
         try{
             var sentMail = mailService.sendMail(senderId,mail.getReceiverId(), LocalDateTime.now(),mail.getTitle(),mail.getBody());
             return new ResponseEntity<>(MailDTO.fromEntity( sentMail),HttpStatus.OK);
