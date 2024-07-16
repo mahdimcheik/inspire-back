@@ -30,6 +30,7 @@ public class Mail {
     private String senderFirstName;
     private String senderLastName;
     private String senderRole;
+    private String imgUrl;
     private boolean isOpened = false;
 
     @ManyToOne

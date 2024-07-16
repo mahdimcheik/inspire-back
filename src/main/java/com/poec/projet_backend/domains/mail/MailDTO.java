@@ -22,6 +22,7 @@ private Long id;
     private String senderFirstname;
     private String senderLastname;
     private String senderRole;
+    private String imgUrl;
     private boolean isOpened = false;
 
     public static MailDTO fromEntity( final Mail mail) {
@@ -35,6 +36,7 @@ private Long id;
                 .senderFirstname(mail.getSenderFirstName())
                 .senderLastname(mail.getSenderLastName())
                 .senderRole(mail.getSenderRole())
+                .imgUrl(mail.getImgUrl())
                 .isOpened(mail.isOpened())
                 .build();
     }
@@ -48,6 +50,7 @@ private Long id;
                 .senderFirstName(mail.getSenderFirstName())
                 .senderLastName(mail.getSenderLastName())
                 .senderRole(mail.getSenderRole())
+                .imgUrl(mail.getImgUrl())
                 .isOpened(mail.isOpened())
                 .build();
     }

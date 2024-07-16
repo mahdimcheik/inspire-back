@@ -27,6 +27,7 @@ public class MailService {
             var receiver = userRepository.findById(to).orElseThrow(() -> new RuntimeException("Not found exception"));
             String senderFirstname = "";
             String senderLastname = "";
+            String imgUrl = "";
 
             boolean isMentor = sender.getRole().equals("MENTOR");
             boolean isStudent = sender.getRole().equals("STUDENT");
@@ -35,11 +36,13 @@ public class MailService {
                 Mentor mentor = mentorRepository.findByUserId(sender.getId());
                 senderFirstname = mentor.getFirstname();
                 senderLastname = mentor.getLastname();
+                imgUrl = mentor.getImgUrl();
             }
             if(isStudent){
                 Student student = studentRepository.findByUserId(sender.getId());
                 senderFirstname = student.getFirstname();
                 senderLastname = student.getLastname();
+                imgUrl = student.getImgUrl();
             }
             Mail newMail  = Mail.builder()
                     .title(subject)
@@ -49,6 +52,7 @@ public class MailService {
                     .senderFirstName(senderFirstname)
                     .senderLastName(senderLastname)
                     .senderRole(sender.getRole())
+                    .imgUrl(imgUrl)
                     .isOpened(false)
                     .build();
 

@@ -9,5 +9,4 @@ public class MailSend {
     private String title;
     private String body;
     private Long receiverId;
-
 }
