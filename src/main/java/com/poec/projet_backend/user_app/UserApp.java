@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.formation.Formation;
 import com.poec.projet_backend.domains.language.Language;
+import com.poec.projet_backend.domains.mail.Mail;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.student.Student;
@@ -44,6 +45,10 @@ public class UserApp implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Formation> formations = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnore
+//    private List<Mail> mails = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

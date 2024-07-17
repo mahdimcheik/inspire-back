@@ -43,7 +43,7 @@ public class MentorService {
         mentorToUpdate.setFirstname(mentor.getFirstname());
         mentorToUpdate.setLastname(mentor.getLastname());
         mentorToUpdate.setTitle(mentor.getTitle());
-        mentorToUpdate.setDescription(mentor.getDescription());
+        mentorToUpdate.setBody(mentor.getDescription());
         mentorToUpdate.setImgUrl(mentor.getImgUrl());
         mentorToUpdate.setGithubUrl(mentor.getGithubUrl());
         mentorToUpdate.setLinkedinUrl(mentor.getLinkedinUrl());
