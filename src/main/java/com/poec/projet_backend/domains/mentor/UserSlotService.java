@@ -8,6 +8,7 @@ import com.poec.projet_backend.domains.slot.Slot;
 import com.poec.projet_backend.domains.slot.SlotDTO;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.domains.slot.SlotResponseForMentorDTO;
+import com.poec.projet_backend.domains.sse.SseService;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.domains.student.StudentRepository;
 import com.poec.projet_backend.domains.student.StudentReservationService;
@@ -50,6 +51,7 @@ public class UserSlotService {
     private final UserAppRepository userAppRepository;
 //    private final StudentReservationService studentReservationService;
     private final NotificationService  notificationService;
+    private final SseService sseService;
 
     public List<Map<String, String>> getSlotByMentorId(Long mentorId) {
         return slotRepository.findAllByMentorIdDetailed(mentorId); //.stream().map(SlotDTO::fromEntity).toList();
@@ -133,6 +135,7 @@ public class UserSlotService {
         if(slot.getReservation() != null){
             var user = userAppRepository.findById(slot.getReservation().getStudent().getUser().getId()).orElseThrow(() -> new RuntimeException("Not found"));
             notificationService.add(user, slot.getMentor().getFirstname(), slot.getMentor().getLastname(),dateFormatter(slot.getDateBegin()), "Annulation");
+            sseService.sendEvents(slot.getReservation().getStudent().getUser().getId());
         }
         slotRepository.delete(slot);
     }
