@@ -37,6 +37,7 @@ public class UserApp implements UserDetails {
     private String password;
     private String role;
     private LocalDateTime timeSinceLastCheckNotifications;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
