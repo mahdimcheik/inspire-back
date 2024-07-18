@@ -60,7 +60,7 @@ public class UserAppController {
     public List<UserApp> getAll(HttpServletRequest request) throws AccessDeniedException {
         String roles  = SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
         System.out.println(roles);
-        if(roles.equals("[ROLE_ADMIN]")) {
+        if(roles.equals("[ADMIN]")) {
             return userAppRepository.findAll();
         } else {
             throw new AccessDeniedException("UserApp does not have the correct rights to access to this resource");
