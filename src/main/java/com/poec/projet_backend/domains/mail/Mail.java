@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,23 +25,31 @@ public class Mail {
     @Column(nullable = false)
     private String title;
     private LocalDateTime sentDate;
-
     @Column(columnDefinition = "TEXT", nullable = false)
     private String body;
 
-    private String senderFirstName;
-    private String senderLastName;
-    private String senderRole;
-    private String imgUrl;
     private boolean isOpened = false;
 
-    @ManyToOne
-    @JoinColumn(name = "senderId")
+    private String senderFirstname;
+    private String senderLastname;
+    private String senderRole;
+
+    private String receiverFirstname;
+    private String receiverLastname;
+    private String receiverRole;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "senderId", nullable = false)
     @JsonIgnore
     private UserApp sender;
 
-    @ManyToOne
-    @JoinColumn(name = "receiverId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "receiverId", nullable = false)
     @JsonIgnore
     private UserApp receiver;
+
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "responseToId")
+//    @JsonIgnore
+//    private Mail responseToMail;
 }
