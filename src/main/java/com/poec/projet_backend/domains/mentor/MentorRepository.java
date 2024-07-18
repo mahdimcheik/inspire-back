@@ -35,4 +35,6 @@ public interface MentorRepository extends JpaRepository<Mentor, Long>{
             nativeQuery = true)
     List<Map<String, Object>> findAllMentorsDetailedPaginatedDESC(@Param("perPage") Long perPage, @Param("offset") Long offset);
 
+    void deleteByUserId(Long userId);
+
 }

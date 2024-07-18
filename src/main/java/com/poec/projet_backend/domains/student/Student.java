@@ -36,7 +36,7 @@ public class Student {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId")
     @JsonIgnoreProperties("student")
     private UserApp user;
@@ -53,11 +53,4 @@ public class Student {
     @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
 
-    public StudentDTO toStudentDTO(){
-        List<Long> mentorIds = new ArrayList<>();
-        if(mentors != null){
-            mentorIds = mentors.stream().map(Mentor::getId).toList();
-        }
-        return  new StudentDTO(this.getId(), this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
-    }
 }

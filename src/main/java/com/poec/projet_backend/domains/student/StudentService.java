@@ -5,6 +5,7 @@ import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Data
@@ -47,6 +48,16 @@ public class StudentService {
         catch(Exception e){
             e.printStackTrace();
         throw  new Exception(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void deleteStudentByUserId(Long userId){
+        try{
+            repository.deleteByUserId(userId);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
