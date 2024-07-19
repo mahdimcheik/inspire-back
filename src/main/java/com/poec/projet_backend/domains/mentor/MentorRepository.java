@@ -39,8 +39,8 @@ public interface MentorRepository extends JpaRepository<Mentor, Long>{
 
     void deleteByUserId(Long userId);
 
-    @Transactional
     @Modifying
+    @Transactional
     @Query(value = "DELETE FROM favorite_mentor_student WHERE mentors_id = :mentorId", nativeQuery = true)
     void deleteFavoriteByMentorId(@Param("mentorId") Long mentorId);
 

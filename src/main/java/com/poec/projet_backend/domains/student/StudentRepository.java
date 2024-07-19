@@ -1,9 +1,11 @@
 package com.poec.projet_backend.domains.student;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -36,4 +38,9 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Map<String, Object>> findAllStudentsDetailedPaginatedDESC(@Param("perPage") Long perPage, @Param("offset") Long offset);
 
     void deleteByUserId(Long userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM favorite_mentor_student WHERE students_id = :studentId", nativeQuery = true)
+    void deleteFavoriteByStudentId(@Param("studentId") Long studentId);
 }

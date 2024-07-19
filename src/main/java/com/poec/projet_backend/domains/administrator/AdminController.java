@@ -86,4 +86,12 @@ public class AdminController {
         System.out.println("change in controller");
         return adminService.updateRole(userId,role);
     }
+
+    @DeleteMapping("delete/reservations/{mentorId}")
+    public Map<String, String> deleteReservation(@PathVariable("mentorId") Long mentorId) throws Exception {
+        adminService.deleteReservationsByMentorId(mentorId);
+        Map<String, String> result =  new HashMap<>();
+        result.put("status", "success");
+        return  result;
+    }
 }

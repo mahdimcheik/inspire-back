@@ -4,6 +4,7 @@ import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.mentor.MentorService;
+import com.poec.projet_backend.domains.reservation.ReservationRepository;
 import com.poec.projet_backend.domains.slot.SlotRepository;
 import com.poec.projet_backend.domains.student.Student;
 import com.poec.projet_backend.domains.student.StudentDTO;
@@ -29,6 +30,7 @@ public class AdminService {
     private final UserAppRepository userAppRepository;
     private final SlotRepository   slotRepository;
     private final EntityManager entityManager;
+    private final ReservationRepository reservationRepository;
 
     public List<Map<String ,Object>> getAllMentors() {
         return mentorRepository.findAllMentorsDetailed();
@@ -96,45 +98,85 @@ public class AdminService {
         else throw new Exception("Not found");
     }
 
+    @Transactional
     public void deleteFavorite(Long mentorId) throws Exception {
         mentorRepository.deleteFavoriteByMentorId(mentorId);
     }
 
-    public Map<String ,String> changeMentorRole(Long userId, String role) throws Exception{
+    @Transactional
+    public Map<String, String> changeMentorRole(Long userId, String role) throws Exception {
         var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
         Mentor mentor = mentorRepository.findByUserId(userId);
-        // deleteFavorite(mentor.getId());
+
+        if (mentor == null) {
+            throw new Exception("Mentor not found");
+        }
+
+        mentorRepository.deleteFavoriteByMentorId(mentor.getId());
 
         user.setRole(role);
         Student newStudent = Mentor.toStudent(user.getMentor());
-        mentorRepository.deleteById(mentor.getId());
+
+        for (Student student : mentor.getStudents()) {
+            student.getMentors().remove(mentor);
+        }
+        mentor.getStudents().clear();
+
         user.setMentor(null);
         user.setStudent(newStudent);
 
         userAppRepository.save(user);
 
-            Map<String ,String> response = new HashMap<>();
-            response.put("status", "success");
-            return response;
-        }
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "success");
+        return response;
+    }
 
-    public Map<String ,String> changeStudentRole(Long userId, String role) throws Exception{
+    @Transactional
+    public Map<String, String> changeStudentRole(Long userId, String role) throws Exception {
         var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
         Student student = studentRepository.findByUserId(userId);
-        // deleteFavorite(student.getId());
+
+        if (student == null) {
+            throw new Exception("Mentor not found");
+        }
+
+        studentRepository.deleteFavoriteByStudentId(student.getId());
 
         user.setRole(role);
         Mentor newMentor = Student.toMentor(user.getStudent());
-        studentRepository.delete(student);
-        user.setMentor(null);
+
+        for (Mentor mentor : student.getMentors()) {
+            mentor.getStudents().remove(student);
+        }
+        student.getMentors().clear();
+
+        user.setStudent(null);
         user.setMentor(newMentor);
 
         userAppRepository.save(user);
 
-        Map<String ,String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         response.put("status", "success");
         return response;
     }
+//    public Map<String ,String> changeStudentRole(Long userId, String role) throws Exception{
+//        var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
+//        Student student = studentRepository.findByUserId(userId);
+//        // deleteFavorite(student.getId());
+//
+//        user.setRole(role);
+//        Mentor newMentor = Student.toMentor(user.getStudent());
+//        studentRepository.delete(student);
+//        user.setMentor(null);
+//        user.setMentor(newMentor);
+//
+//        userAppRepository.save(user);
+//
+//        Map<String ,String> response = new HashMap<>();
+//        response.put("status", "success");
+//        return response;
+//    }
 
     public Map<String ,String>  updateRole(Long userId, String role) throws Exception{
         var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
@@ -147,5 +189,10 @@ public class AdminService {
         Map<String ,String> response = new HashMap<>();
         response.put("status", "nothing");
         return response;
+    }
+
+    public void deleteReservationsByMentorId(Long mentorId) throws Exception {
+        //reservationRepository.deleteReservationsByMentorId(mentorId);
+        slotRepository.deleteByMentorId(mentorId);
     }
 }
