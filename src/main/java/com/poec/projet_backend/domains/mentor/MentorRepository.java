@@ -1,9 +1,11 @@
 package com.poec.projet_backend.domains.mentor;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -34,5 +36,12 @@ public interface MentorRepository extends JpaRepository<Mentor, Long>{
             "LIMIT :perPage OFFSET :offset",
             nativeQuery = true)
     List<Map<String, Object>> findAllMentorsDetailedPaginatedDESC(@Param("perPage") Long perPage, @Param("offset") Long offset);
+
+    void deleteByUserId(Long userId);
+
+    @Transactional
+    @Modifying
+    @Query(value = "DELETE FROM favorite_mentor_student WHERE mentors_id = :mentorId", nativeQuery = true)
+    void deleteFavoriteByMentorId(@Param("mentorId") Long mentorId);
 
 }

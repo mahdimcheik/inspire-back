@@ -42,6 +42,8 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
 
     @Query("SELECT s FROM Slot s WHERE s.mentor.id = :mentorId  AND s.dateEnd BETWEEN :start AND :end")
     List<Slot> findAvailableSlotsByMentorIdAndDateRange(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    void deleteByMentorId(Long mentorId);
 }
 
 

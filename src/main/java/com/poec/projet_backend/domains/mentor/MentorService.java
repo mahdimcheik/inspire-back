@@ -6,6 +6,7 @@ import com.poec.projet_backend.user_app.UserAppRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
@@ -43,7 +44,7 @@ public class MentorService {
         mentorToUpdate.setFirstname(mentor.getFirstname());
         mentorToUpdate.setLastname(mentor.getLastname());
         mentorToUpdate.setTitle(mentor.getTitle());
-        mentorToUpdate.setBody(mentor.getDescription());
+        mentorToUpdate.setDescription(mentor.getDescription());
         mentorToUpdate.setImgUrl(mentor.getImgUrl());
         mentorToUpdate.setGithubUrl(mentor.getGithubUrl());
         mentorToUpdate.setLinkedinUrl(mentor.getLinkedinUrl());
@@ -57,6 +58,15 @@ public class MentorService {
         return repository.save(MentorDTO.fromDTO(mentor, user));
     }
 
+    @Transactional
+    public void deleteMentorByUserId(Long userId){
+        try{
+            repository.deleteByUserId(userId);
+        }
+        catch(Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
     public List<MentorDTO> getMentorsBySkills(List<String> skillNames) {
         List<Mentor> mentors = repository.findAll();
@@ -81,8 +91,6 @@ public class MentorService {
                 .collect(Collectors.toList());
         return mentorSkills.containsAll(skillNames);
     }
-
-
 
     public List<MentorDTO> getMentorsByAvailability(String period) {
         LocalDateTime now = LocalDateTime.now();
