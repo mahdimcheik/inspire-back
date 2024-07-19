@@ -1,6 +1,7 @@
 package com.poec.projet_backend.domains.administrator;
 
 import com.poec.projet_backend.domains.mentor.MentorService;
+import com.poec.projet_backend.domains.student.StudentDTO;
 import com.poec.projet_backend.domains.student.StudentService;
 import jakarta.websocket.server.PathParam;
 import lombok.Data;
@@ -74,5 +75,15 @@ public class AdminController {
             result.put("status", "Failed");
             return  result;
         }
+    }
+
+    @PutMapping("update/{userId}")
+    public ResponseUpdate updateUser(@PathVariable("userId") Long userId, @RequestBody ResponseUpdate request) throws Exception {
+        return adminService.updateUser(userId,request.getFirstname(),request.getLastname(), request.getEmail(), request.getRole());
+    }
+    @PutMapping("update/role/{userId}")
+    public Map<String ,String> updateUser(@PathVariable("userId") Long userId, @PathParam("role") String role) throws Exception {
+        System.out.println("change in controller");
+        return adminService.updateRole(userId,role);
     }
 }

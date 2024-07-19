@@ -98,5 +98,13 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Map<String, Object>> findReservationInfosByMentorIdHistory(Long mentorId, LocalDateTime timeNow, int offset, int limit);
 
 
+    @Query(
+            value = "DELETE FROM reservation "+
+            "WHERE IN "+
+            "(Select * from reservation rs JOIN slot sl on sl.id = rs.slotId WHERE sl.mentorId = :mentorId)",
+            nativeQuery = true
+    )
+    void  deleteReservationsByMentorId(@Param("mentorId") Long mentorId);
+
 }
 

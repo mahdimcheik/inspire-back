@@ -45,7 +45,7 @@ public class Student {
     @JsonIgnoreProperties("student")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "favorite_mentor_student"
     )
@@ -53,4 +53,16 @@ public class Student {
     @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
 
+    public static Mentor toMentor(Student student) {
+        return new Mentor().builder()
+                .description(student.getDescription())
+                .firstname(student.getFirstname())
+                .lastname(student.getLastname())
+                .imgUrl(student.getImgUrl())
+                .githubUrl(student.getGithubUrl())
+                .linkedinUrl(student.getLinkedinUrl())
+                .user(student.getUser())
+                .students(null)
+                .build();
+    }
 }
