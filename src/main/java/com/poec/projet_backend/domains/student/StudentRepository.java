@@ -34,4 +34,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             "LIMIT :perPage OFFSET :offset",
             nativeQuery = true)
     List<Map<String, Object>> findAllStudentsDetailedPaginatedDESC(@Param("perPage") Long perPage, @Param("offset") Long offset);
+
+    void deleteByUserId(Long userId);
 }

@@ -1,12 +1,21 @@
 package com.poec.projet_backend.domains.administrator;
 
+import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorDTO;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
+import com.poec.projet_backend.domains.mentor.MentorService;
+import com.poec.projet_backend.domains.slot.SlotRepository;
+import com.poec.projet_backend.domains.student.Student;
+import com.poec.projet_backend.domains.student.StudentDTO;
 import com.poec.projet_backend.domains.student.StudentRepository;
+import com.poec.projet_backend.user_app.UserAppRepository;
 import com.poec.projet_backend.user_app.UserAppService;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +25,10 @@ public class AdminService {
     private final UserAppService userAppService;
     private final MentorRepository mentorRepository;
     private final StudentRepository  studentRepository;
+    private final MentorService mentorService;
+    private final UserAppRepository userAppRepository;
+    private final SlotRepository   slotRepository;
+    private final EntityManager entityManager;
 
     public List<Map<String ,Object>> getAllMentors() {
         return mentorRepository.findAllMentorsDetailed();
@@ -38,5 +51,101 @@ public class AdminService {
 
     public List<Map<String ,Object>> getAllStudentsPaginatedDESC(Long perPage, Long offset) {
         return studentRepository.findAllStudentsDetailedPaginatedDESC(perPage, offset);
+    }
+
+    @Transactional
+    public ResponseUpdate updateMentor(Long userId, String firstName, String lastName, String email) throws Exception {
+        Mentor mentor = mentorRepository.findByUserId(userId);
+        if (mentor == null) {
+            throw new Exception("Not found ");
+        }
+
+        var user = mentor.getUser();
+        user.setEmail(email);
+        mentor.setFirstname(firstName);
+        mentor.setLastname(lastName);
+
+        var newMentor = mentorRepository.save(mentor);
+        return ResponseUpdate.fromMentor(newMentor);
+    }
+
+    public ResponseUpdate updateStudent(Long userId, String firstName, String lastName, String email) throws Exception {
+
+        Student student = studentRepository.findByUserId(userId);
+        if (student == null) {
+            throw new Exception("Not found ");
+        }
+
+        var user = student.getUser();
+        user.setEmail(email);
+        student.setFirstname(firstName);
+        student.setLastname(lastName);
+
+        var newStudent = studentRepository.save(student);
+        return ResponseUpdate.fromStudent(newStudent);
+    }
+
+    public ResponseUpdate updateUser(Long userId, String firstName, String lastName, String email, String role) throws Exception{
+        var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
+        if(user.getRole().equals("MENTOR")) {
+            return updateMentor(userId, firstName, lastName, email);
+        }
+        if(user.getRole().equals("STUDENT")) {
+            return updateStudent(userId, firstName, lastName, email);
+        }
+        else throw new Exception("Not found");
+    }
+
+    public void deleteFavorite(Long mentorId) throws Exception {
+        mentorRepository.deleteFavoriteByMentorId(mentorId);
+    }
+
+    public Map<String ,String> changeMentorRole(Long userId, String role) throws Exception{
+        var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
+        Mentor mentor = mentorRepository.findByUserId(userId);
+        // deleteFavorite(mentor.getId());
+
+        user.setRole(role);
+        Student newStudent = Mentor.toStudent(user.getMentor());
+        mentorRepository.deleteById(mentor.getId());
+        user.setMentor(null);
+        user.setStudent(newStudent);
+
+        userAppRepository.save(user);
+
+            Map<String ,String> response = new HashMap<>();
+            response.put("status", "success");
+            return response;
+        }
+
+    public Map<String ,String> changeStudentRole(Long userId, String role) throws Exception{
+        var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
+        Student student = studentRepository.findByUserId(userId);
+        // deleteFavorite(student.getId());
+
+        user.setRole(role);
+        Mentor newMentor = Student.toMentor(user.getStudent());
+        studentRepository.delete(student);
+        user.setMentor(null);
+        user.setMentor(newMentor);
+
+        userAppRepository.save(user);
+
+        Map<String ,String> response = new HashMap<>();
+        response.put("status", "success");
+        return response;
+    }
+
+    public Map<String ,String>  updateRole(Long userId, String role) throws Exception{
+        var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
+        if(user.getRole().equals("MENTOR")) {
+            return changeMentorRole(userId, role);
+        }
+        else if(user.getRole().equals("STUDENT")) {
+            return changeStudentRole(userId, role);
+        }
+        Map<String ,String> response = new HashMap<>();
+        response.put("status", "nothing");
+        return response;
     }
 }

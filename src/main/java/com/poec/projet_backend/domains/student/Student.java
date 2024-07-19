@@ -36,7 +36,7 @@ public class Student {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId")
     @JsonIgnoreProperties("student")
     private UserApp user;
@@ -45,7 +45,7 @@ public class Student {
     @JsonIgnoreProperties("student")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "favorite_mentor_student"
     )
@@ -53,11 +53,16 @@ public class Student {
     @JsonIgnore
     private List<Mentor> mentors = new ArrayList<>();
 
-    public StudentDTO toStudentDTO(){
-        List<Long> mentorIds = new ArrayList<>();
-        if(mentors != null){
-            mentorIds = mentors.stream().map(Mentor::getId).toList();
-        }
-        return  new StudentDTO(this.getId(), this.getFirstname(), this.getLastname(), this.getTitle(), this.getDescription(), this.getImgUrl(), this.getGithubUrl(), this.getLinkedinUrl(), this.getUser().getId(), mentorIds);
+    public static Mentor toMentor(Student student) {
+        return new Mentor().builder()
+                .description(student.getDescription())
+                .firstname(student.getFirstname())
+                .lastname(student.getLastname())
+                .imgUrl(student.getImgUrl())
+                .githubUrl(student.getGithubUrl())
+                .linkedinUrl(student.getLinkedinUrl())
+                .user(student.getUser())
+                .students(null)
+                .build();
     }
 }
