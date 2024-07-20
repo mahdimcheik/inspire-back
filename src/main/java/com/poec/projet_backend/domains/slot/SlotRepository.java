@@ -1,5 +1,6 @@
 package com.poec.projet_backend.domains.slot;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,6 +43,9 @@ public interface SlotRepository extends JpaRepository<Slot, Long> {
 
     @Query("SELECT s FROM Slot s WHERE s.mentor.id = :mentorId  AND s.dateEnd BETWEEN :start AND :end")
     List<Slot> findAvailableSlotsByMentorIdAndDateRange(@Param("mentorId") Long mentorId, @Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+
+    @Transactional
+    void deleteByMentorId(Long mentorId);
 }
 
 

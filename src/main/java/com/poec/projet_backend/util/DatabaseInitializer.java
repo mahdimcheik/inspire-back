@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -230,6 +231,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                         .email(email)
                         .password(passwordEncoder.encode(password))
                         .role(role.name())
+                        .createdAt(LocalDateTime.now())
                         .build();
 
                 this.userAppRepository.save(user1);

@@ -27,7 +27,18 @@ public class NotificationController {
     @GetMapping("/get/user/{userId}")
     public ResponseEntity<List<Map<String, Object>>> getUserNotifications(@PathVariable Long userId)  {
         try {
-            return new ResponseEntity<>( notificationService.getAll(userId, LocalDateTime.now()), HttpStatus.OK);
+            return new ResponseEntity<>( notificationService.getNewNotifications(userId, LocalDateTime.now()), HttpStatus.OK);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>( null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/get/user/old/{userId}")
+    public ResponseEntity<List<Map<String, Object>>> getUserOldNotifications(@PathVariable Long userId)  {
+        try {
+            return new ResponseEntity<>( notificationService.getOldNotifications(userId, LocalDateTime.now()), HttpStatus.OK);
         }
         catch (Exception e) {
             e.printStackTrace();

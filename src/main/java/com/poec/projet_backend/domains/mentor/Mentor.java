@@ -44,7 +44,7 @@ public class Mentor {
     @Column(name = "linkedinUrl")
     private String linkedinUrl;
 
-    @OneToOne
+    @OneToOne( cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "userId")
     @JsonIgnoreProperties("mentor")
     private UserApp user;
@@ -53,8 +53,22 @@ public class Mentor {
     @JsonIgnoreProperties("mentor")
     private List<Slot> slots = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "mentors")
+    @ManyToMany(mappedBy = "mentors", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JsonIgnoreProperties("mentors")
     @JsonIgnore
     private List<Student> students = new ArrayList<>();
+
+    public static Student toStudent(Mentor mentor) {
+        return new Student().builder()
+                .mentors(null)
+                .description(mentor.getDescription())
+                .firstname(mentor.getFirstname())
+                .lastname(mentor.getLastname())
+                .imgUrl(mentor.getImgUrl())
+                .githubUrl(mentor.getGithubUrl())
+                .linkedinUrl(mentor.getLinkedinUrl())
+                .user(mentor.getUser())
+                .mentors(null)
+                .build();
+    }
 }

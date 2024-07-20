@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,6 +47,7 @@ public class AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.MENTOR.name())
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             repository.save(user);
@@ -75,6 +77,7 @@ public class AuthService {
                     .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(Role.STUDENT.name())
+                    .createdAt(LocalDateTime.now())
                     .build();
 
             repository.save(user);
@@ -118,8 +121,7 @@ public class AuthService {
             if(user.getTimeSinceLastCheckNotifications() == null){
                 notificationService.resetUserApp(user.getId());
             }
-            SseEmitter emitter = new SseEmitter(6000000L);
-            sseService.addEmitter(emitter, user.getId());
+
             return AuthResponse.builder()
                     .token(jwtToken)
                     .message("Logged In")

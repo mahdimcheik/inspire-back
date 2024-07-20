@@ -4,6 +4,7 @@ import com.poec.projet_backend.domains.slot.Slot;
 import jakarta.persistence.SqlResultSetMapping;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -96,6 +97,16 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
             nativeQuery = true
     )
     List<Map<String, Object>> findReservationInfosByMentorIdHistory(Long mentorId, LocalDateTime timeNow, int offset, int limit);
+
+    @Transactional
+    @Modifying
+    @Query(
+            value = "DELETE FROM reservation WHERE slotId IN " +
+                    "(SELECT * FROM (SELECT rs.slotId FROM reservation rs JOIN slot sl ON sl.id = rs.slotId WHERE sl.mentorId = :mentorId) temp)",
+            nativeQuery = true
+    )
+    void deleteReservationsByMentorId(@Param("mentorId") Long mentorId);
+
 
 
 }

@@ -20,4 +20,13 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
             ,
             nativeQuery = true)
     List<Map<String, Object>> getNotificationsSinceLastSeen(@Param("userId") Long userId, @Param("lastSeen") LocalDateTime lastSeen);
+
+    @Query(value = "SELECT n.* FROM notification n " +
+            "JOIN user u ON n.userId = u.id " +
+            "WHERE  n.userId = :userId AND n.emittedAt < :lastSeen "+
+            "ORDER BY n.emittedAt ASC " +
+            "LIMIT 10"
+            ,
+            nativeQuery = true)
+    List<Map<String, Object>> getNotificationsBeforeLastSeen(@Param("userId") Long userId, @Param("lastSeen") LocalDateTime lastSeen);
 }
