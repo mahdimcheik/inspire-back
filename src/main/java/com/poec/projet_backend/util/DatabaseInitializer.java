@@ -67,6 +67,12 @@ public class DatabaseInitializer implements CommandLineRunner {
                 this.createUser("student4@gmail.com", "1234", Role.STUDENT);
                 this.createUser("student5@gmail.com", "1234", Role.STUDENT);
 
+                this.createUser("admin1@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin2@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin3@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin4@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin5@gmail.com", "1234", Role.ADMIN);
+
                 createLanguage("Francais");
                 createLanguage("Arabe");
                 createLanguage("Chinois");
