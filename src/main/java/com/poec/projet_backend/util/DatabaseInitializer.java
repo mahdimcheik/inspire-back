@@ -1,5 +1,7 @@
 package com.poec.projet_backend.util;
 
+import com.poec.projet_backend.domains.administrator.AdminDTO;
+import com.poec.projet_backend.domains.administrator.AdminService;
 import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.formation.ResponseFormation;
 import com.poec.projet_backend.domains.language.Language;
@@ -39,6 +41,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         private final StudentService studentService;
         private final UserLanguageService userLanguageService;
         private final UserSkillService userSkillService;
+        private final AdminService adminService;
 
         @Override
         @Transactional
@@ -157,6 +160,8 @@ public class DatabaseInitializer implements CommandLineRunner {
                 createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack",
                         "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 20L,
                         mentorids));
+
+                adminService.createAdmin(21L,  AdminDTO.builder().firstname("Marie").lastname("Deladministateur").build());
 
                 // addExperiencesForUser1();
                 // addExperiencesForUser2();

@@ -25,33 +25,64 @@ import java.util.Map;
 public class AdminService {
     private final UserAppService userAppService;
     private final MentorRepository mentorRepository;
-    private final StudentRepository  studentRepository;
+    private final StudentRepository studentRepository;
     private final MentorService mentorService;
     private final UserAppRepository userAppRepository;
-    private final SlotRepository   slotRepository;
+    private final SlotRepository slotRepository;
     private final EntityManager entityManager;
     private final ReservationRepository reservationRepository;
+    private final AdminRepository adminRepository;
 
-    public List<Map<String ,Object>> getAllMentors() {
+    public AdminDTO getProfile(Long id) throws Exception {
+        try {
+            var admin = adminRepository.findByUserId(id);
+            return AdminDTO.fromEntity(admin);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public AdminDTO createAdmin(Long userId, AdminDTO adminDTO) throws Exception {
+        try {
+            var user = userAppRepository.findById(userId).orElseThrow(() ->  new Exception("User not found"));
+            Admin admin = Admin.builder()
+                    .imgUrl(adminDTO.getImgUrl())
+                    .firstname(adminDTO.getFirstname())
+                    .lastname(adminDTO.getLastname())
+                    .user(user)
+                    .build();
+            var newAdmin = adminRepository.save(admin);
+            return AdminDTO.fromEntity(newAdmin);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception(e.getMessage());
+        }
+    }
+
+    public List<Map<String, Object>> getAllMentors() {
         return mentorRepository.findAllMentorsDetailed();
     }
 
-    public List<Map<String ,Object>> getAllStudents() {
+    public List<Map<String, Object>> getAllStudents() {
         return studentRepository.findAllStudentsDetailed();
     }
 
-    public List<Map<String ,Object>> getAllMentorsPaginatedASC(Long perPage, Long offset) {
+    public List<Map<String, Object>> getAllMentorsPaginatedASC(Long perPage, Long offset) {
         return mentorRepository.findAllMentorsDetailedPaginatedASC(perPage, offset);
     }
-    public List<Map<String ,Object>> getAllStudentsPaginatedASC(Long perPage, Long offset) {
+
+    public List<Map<String, Object>> getAllStudentsPaginatedASC(Long perPage, Long offset) {
         return studentRepository.findAllStudentsDetailedPaginatedASC(perPage, offset);
     }
 
-    public List<Map<String ,Object>> getAllMentorsPaginatedDESC(Long perPage, Long offset) {
+    public List<Map<String, Object>> getAllMentorsPaginatedDESC(Long perPage, Long offset) {
         return mentorRepository.findAllMentorsDetailedPaginatedDESC(perPage, offset);
     }
 
-    public List<Map<String ,Object>> getAllStudentsPaginatedDESC(Long perPage, Long offset) {
+    public List<Map<String, Object>> getAllStudentsPaginatedDESC(Long perPage, Long offset) {
         return studentRepository.findAllStudentsDetailedPaginatedDESC(perPage, offset);
     }
 
@@ -87,15 +118,14 @@ public class AdminService {
         return ResponseUpdate.fromStudent(newStudent);
     }
 
-    public ResponseUpdate updateUser(Long userId, String firstName, String lastName, String email, String role) throws Exception{
+    public ResponseUpdate updateUser(Long userId, String firstName, String lastName, String email, String role) throws Exception {
         var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
-        if(user.getRole().equals("MENTOR")) {
+        if (user.getRole().equals("MENTOR")) {
             return updateMentor(userId, firstName, lastName, email);
         }
-        if(user.getRole().equals("STUDENT")) {
+        if (user.getRole().equals("STUDENT")) {
             return updateStudent(userId, firstName, lastName, email);
-        }
-        else throw new Exception("Not found");
+        } else throw new Exception("Not found");
     }
 
     @Transactional
@@ -178,15 +208,14 @@ public class AdminService {
 //        return response;
 //    }
 
-    public Map<String ,String>  updateRole(Long userId, String role) throws Exception{
+    public Map<String, String> updateRole(Long userId, String role) throws Exception {
         var user = userAppRepository.findById(userId).orElseThrow(() -> new Exception("Not found"));
-        if(user.getRole().equals("MENTOR")) {
+        if (user.getRole().equals("MENTOR")) {
             return changeMentorRole(userId, role);
-        }
-        else if(user.getRole().equals("STUDENT")) {
+        } else if (user.getRole().equals("STUDENT")) {
             return changeStudentRole(userId, role);
         }
-        Map<String ,String> response = new HashMap<>();
+        Map<String, String> response = new HashMap<>();
         response.put("status", "nothing");
         return response;
     }

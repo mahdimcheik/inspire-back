@@ -19,6 +19,10 @@ public class AdminController {
     private final MentorService mentorService;
     private final StudentService studentService;
 
+    @GetMapping("/get/profile/{id}")
+    public AdminDTO getProfile(@PathVariable("id") Long id) throws Exception {
+        return adminService.getProfile(id);
+    }
     @GetMapping("/get/mentors")
     public List<Map<String, Object>> getMentors() {
         return adminService.getAllMentors();
