@@ -9,6 +9,7 @@ import com.poec.projet_backend.domains.language.Language;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.student.Student;
+import com.poec.projet_backend.domains.superAdmin.SuperAdmin;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -76,6 +77,9 @@ public class UserApp implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Admin admin;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private SuperAdmin superAdmin;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
