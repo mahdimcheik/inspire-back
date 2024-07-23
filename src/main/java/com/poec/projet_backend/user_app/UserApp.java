@@ -2,10 +2,10 @@ package com.poec.projet_backend.user_app;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.poec.projet_backend.domains.administrator.Admin;
 import com.poec.projet_backend.domains.experience.Experience;
 import com.poec.projet_backend.domains.formation.Formation;
 import com.poec.projet_backend.domains.language.Language;
-import com.poec.projet_backend.domains.mail.Mail;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.skill.Skill;
 import com.poec.projet_backend.domains.student.Student;
@@ -73,6 +73,9 @@ public class UserApp implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Student student;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Admin admin;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

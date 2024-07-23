@@ -19,6 +19,10 @@ public class AdminController {
     private final MentorService mentorService;
     private final StudentService studentService;
 
+    @GetMapping("/get/profile/{id}")
+    public AdminDTO getProfile(@PathVariable("id") Long id) throws Exception {
+        return adminService.getProfile(id);
+    }
     @GetMapping("/get/mentors")
     public List<Map<String, Object>> getMentors() {
         return adminService.getAllMentors();
@@ -85,5 +89,13 @@ public class AdminController {
     public Map<String ,String> updateUser(@PathVariable("userId") Long userId, @PathParam("role") String role) throws Exception {
         System.out.println("change in controller");
         return adminService.updateRole(userId,role);
+    }
+
+    @DeleteMapping("delete/reservations/{mentorId}")
+    public Map<String, String> deleteReservation(@PathVariable("mentorId") Long mentorId) throws Exception {
+        adminService.deleteReservationsByMentorId(mentorId);
+        Map<String, String> result =  new HashMap<>();
+        result.put("status", "success");
+        return  result;
     }
 }

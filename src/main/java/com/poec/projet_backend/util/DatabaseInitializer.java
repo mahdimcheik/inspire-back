@@ -1,5 +1,7 @@
 package com.poec.projet_backend.util;
 
+import com.poec.projet_backend.domains.administrator.AdminDTO;
+import com.poec.projet_backend.domains.administrator.AdminService;
 import com.poec.projet_backend.domains.formation.FormationDTO;
 import com.poec.projet_backend.domains.formation.ResponseFormation;
 import com.poec.projet_backend.domains.language.Language;
@@ -39,6 +41,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         private final StudentService studentService;
         private final UserLanguageService userLanguageService;
         private final UserSkillService userSkillService;
+        private final AdminService adminService;
 
         @Override
         @Transactional
@@ -66,6 +69,12 @@ public class DatabaseInitializer implements CommandLineRunner {
                 this.createUser("student3@gmail.com", "1234", Role.STUDENT);
                 this.createUser("student4@gmail.com", "1234", Role.STUDENT);
                 this.createUser("student5@gmail.com", "1234", Role.STUDENT);
+
+                this.createUser("admin1@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin2@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin3@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin4@gmail.com", "1234", Role.ADMIN);
+                this.createUser("admin5@gmail.com", "1234", Role.ADMIN);
 
                 createLanguage("Francais");
                 createLanguage("Arabe");
@@ -151,6 +160,10 @@ public class DatabaseInitializer implements CommandLineRunner {
                 createStudent(new StudentDTO(5L, "Sophie", "Leblanc", "Fullstack Developer", "Génie du Fullstack",
                         "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 20L,
                         mentorids));
+
+                adminService.createAdmin(21L,  AdminDTO.builder().firstname("Marie").lastname("Deladministateur")
+                                .imgUrl("http://localhost:8080/user/upload/marieD.webp")
+                        .build());
 
                 // addExperiencesForUser1();
                 // addExperiencesForUser2();
