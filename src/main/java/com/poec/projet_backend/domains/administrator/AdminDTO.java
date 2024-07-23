@@ -14,6 +14,7 @@ public class AdminDTO {
         return AdminDTO.builder()
                 .firstname(admin.getFirstname())
                 .lastname(admin.getLastname())
+                .imgUrl(admin.getImgUrl())
                 .build();
     }
 }

@@ -161,7 +161,9 @@ public class DatabaseInitializer implements CommandLineRunner {
                         "https://picsum.photos/200", "github/sophieleblanc", "linkedin/sophieleblanc", 20L,
                         mentorids));
 
-                adminService.createAdmin(21L,  AdminDTO.builder().firstname("Marie").lastname("Deladministateur").build());
+                adminService.createAdmin(21L,  AdminDTO.builder().firstname("Marie").lastname("Deladministateur")
+                                .imgUrl("http://localhost:8080/user/upload/marieD.webp")
+                        .build());
 
                 // addExperiencesForUser1();
                 // addExperiencesForUser2();
