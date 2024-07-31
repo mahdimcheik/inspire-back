@@ -1,5 +1,8 @@
 package com.poec.projet_backend.auth;
 
+import com.poec.projet_backend.domains.administrator.Admin;
+import com.poec.projet_backend.domains.administrator.AdminRepository;
+import com.poec.projet_backend.domains.administrator.AdminService;
 import com.poec.projet_backend.domains.mentor.Mentor;
 import com.poec.projet_backend.domains.mentor.MentorRepository;
 import com.poec.projet_backend.domains.notification.NotificationService;
@@ -39,6 +42,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final NotificationService notificationService;
     private final SseService sseService;
+    private final AdminRepository adminRepository;
 
     public Map<String, String> registerMentor(RegisterRequest request, HttpServletRequest httpRequest) throws UsernameAlreadyTakenException {
 
@@ -62,6 +66,35 @@ public class AuthService {
 
             Map<String, String> body = new HashMap<>();
             body.put("message", "Account successfully created as user and mentor");
+            return body;
+
+        } else {
+            throw new UsernameAlreadyTakenException("Username already taken");
+        }
+
+    }
+
+    public Map<String, String> registerAdmin(RegisterRequest request, HttpServletRequest httpRequest) throws UsernameAlreadyTakenException {
+
+        if (!repository.findByEmail(request.getEmail()).isPresent()) {
+            var user = UserApp.builder()
+                    .email(request.getEmail())
+                    .password(passwordEncoder.encode(request.getPassword()))
+                    .role(Role.ADMIN.name())
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            repository.save(user);
+            var admin = Admin.builder()
+                    .user(user)
+                    .firstname(request.getFirstname())
+                    .lastname(request.getLastname())
+                    .build();
+            adminRepository.save(admin);
+
+
+            Map<String, String> body = new HashMap<>();
+            body.put("message", "Account successfully created ");
             return body;
 
         } else {

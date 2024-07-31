@@ -14,6 +14,8 @@ import com.poec.projet_backend.domains.skill.SkillRepository;
 import com.poec.projet_backend.domains.skill.UserSkillService;
 import com.poec.projet_backend.domains.student.StudentDTO;
 import com.poec.projet_backend.domains.student.StudentService;
+import com.poec.projet_backend.domains.superAdmin.SuperAdminDTO;
+import com.poec.projet_backend.domains.superAdmin.SuperAdminService;
 import com.poec.projet_backend.user_app.Role;
 import com.poec.projet_backend.user_app.UserApp;
 import com.poec.projet_backend.user_app.UserAppRepository;
@@ -42,6 +44,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         private final UserLanguageService userLanguageService;
         private final UserSkillService userSkillService;
         private final AdminService adminService;
+        private final SuperAdminService superAdminService;
 
         @Override
         @Transactional
@@ -71,10 +74,7 @@ public class DatabaseInitializer implements CommandLineRunner {
                 this.createUser("student5@gmail.com", "1234", Role.STUDENT);
 
                 this.createUser("admin1@gmail.com", "1234", Role.ADMIN);
-                this.createUser("admin2@gmail.com", "1234", Role.ADMIN);
-                this.createUser("admin3@gmail.com", "1234", Role.ADMIN);
-                this.createUser("admin4@gmail.com", "1234", Role.ADMIN);
-                this.createUser("admin5@gmail.com", "1234", Role.ADMIN);
+                this.createUser("superadmin@gmail.com", "1234", Role.SUPER_ADMIN);
 
                 createLanguage("Francais");
                 createLanguage("Arabe");
@@ -163,6 +163,9 @@ public class DatabaseInitializer implements CommandLineRunner {
 
                 adminService.createAdmin(21L,  AdminDTO.builder().firstname("Marie").lastname("Deladministateur")
                                 .imgUrl("http://localhost:8080/user/upload/marieD.webp")
+                        .build());
+                superAdminService.createSuperAdmin(22L,  SuperAdminDTO.builder().firstname("Marie").lastname("Deladministateur")
+                        .imgUrl("http://localhost:8080/user/upload/marieD.webp")
                         .build());
 
                 // addExperiencesForUser1();

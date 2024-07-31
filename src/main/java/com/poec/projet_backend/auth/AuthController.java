@@ -23,6 +23,12 @@ public class AuthController {
         return ResponseEntity.ok(service.registerMentor(request, httpRequest));
     }
 
+    @PostMapping("/register/admin")
+    public ResponseEntity<Map<String, String>> registerAdmin(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
+        System.out.println(request.toString());
+        return ResponseEntity.ok(service.registerAdmin(request, httpRequest));
+    }
+
     @PostMapping("/register/student")
     public ResponseEntity<Map<String, String>> registerStudent(@RequestBody RegisterRequest request, HttpServletRequest httpRequest) throws Exception {
         System.out.println(request.toString());
